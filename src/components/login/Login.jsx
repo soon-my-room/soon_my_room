@@ -2,6 +2,7 @@ import React from 'react';
 import LoginCard from './LoginCard';
 import styled from 'styled-components';
 import logoImg from '../../assets/symbol-logo-W.png';
+import Splash from '../splash/Splash';
 
 const LoginContainer = styled.main`
   width: 100%;
@@ -24,6 +25,7 @@ export default function Login() {
       <LoginContainer>
         <LoginLogoImg src={logoImg} />
         <LoginCard />
+        <Splash />
       </LoginContainer>
     </>
   );
