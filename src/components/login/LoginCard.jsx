@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import EmailIcon from '../../assets/icon/icon-email.svg';
-import SignUpIcon from '../../assets/icon/icon-signup.svg';
+import emailIcon from '../../assets/icon/icon-email.svg';
+import signUpIcon from '../../assets/icon/icon-signup.svg';
 
 const LoginBtn = styled.button`
   position: relative;
@@ -22,7 +22,7 @@ const LoginBtn = styled.button`
     width: 24px;
     height: 24px;
     transform: translateY(-50%);
-    background-image: ${(props) => (props.name === 'email' ? `url(${EmailIcon})` : `url(${SignUpIcon})`)};
+    background-image: ${(props) => (props.name === 'email' ? `url(${emailIcon})` : `url(${signUpIcon})`)};
     background-repeat: no-repeat;
     background-position: center;
     background-size: 24px 24px;
@@ -34,7 +34,6 @@ const LoginItem = styled.li`
 `;
 
 const LoginList = styled.ul`
-  bottom: -14rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
