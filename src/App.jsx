@@ -1,9 +1,9 @@
-import Splash from './components/splash/Splash';
+import LoginPage from './pages/LoginPags';
 
 function App() {
   return (
     <>
-      <Splash />
+      <LoginPage />
     </>
   );
 }
