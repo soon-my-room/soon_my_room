@@ -1,10 +1,10 @@
 import React from 'react';
-import SplashLogoImg from '../../assets/full-logo.svg';
+import splashLogo from '../../assets/full-logo.svg';
 import styled, { keyframes } from 'styled-components';
 
 const ImageFadeOut = keyframes`
   from {
-    opacity: 1
+    opacity: 1;
   }
   to {
     opacity: 0;
@@ -30,14 +30,14 @@ const AniSplash = styled.div`
   height: 100%;
   background-color: var(--bg-color);
   animation: 0.5s ease-in-out ${ImageFadeOut} forwards;
-  animation-delay: 1.5s;
+  animation-delay: 0.5s;
 `;
 
 export default function Splash() {
   return (
     <AniSplash>
       <FlexCenter>
-        <SplashImg src={SplashLogoImg} />
+        <SplashImg src={splashLogo} />
       </FlexCenter>
     </AniSplash>
   );
