@@ -1,5 +1,11 @@
+import Splash from './components/splash/Splash';
+
 function App() {
-  return <div></div>;
+  return (
+    <>
+      <Splash />
+    </>
+  );
 }
 
 export default App;
