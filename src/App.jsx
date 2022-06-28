@@ -1,9 +1,16 @@
-import LoginPage from './pages/LoginPage';
+import { Route, Switch } from 'react-router-dom';
+import Login from './components/login/Login';
 
 function App() {
   return (
     <>
-      <LoginPage />
+      <Switch>
+        <Route path='/' exact component={Login} />
+        <Route path='/emailLogin' exact component={EmailLoginPage} />
+        <Route path='/join' exact component={EmailJoinPage} />
+        <Route path='/profileSet' exact component={ProfileSet} />
+        <Route path='/feed' exact component={FeedHome} />
+      </Switch>
     </>
   );
 }
