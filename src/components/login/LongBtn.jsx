@@ -36,4 +36,4 @@ export default function LongBtn({ children, nextPage }) {
     return <DisabledBtn>{children}</DisabledBtn>;
   }
 }
-//  버튼이 활성화 되는 경우엔 <LongBtn isAbled='abled'> 로 컴포넌트 를 써줍니다.
+//  활성화된 버튼엔 <LongBtn nextPage='경로이름'> 로 컴포넌트 를 써줍니다.
