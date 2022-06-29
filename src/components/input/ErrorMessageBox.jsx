@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const ErrorMessage = styled.div`
-  margin-top: -10px 0 16px 0;
+  margin: -10px 0 16px;
   font-family: 'Spoqa Han Sans Neo';
   font-style: normal;
   font-weight: 400;
