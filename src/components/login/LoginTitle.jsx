@@ -24,13 +24,11 @@ const SubTxt = styled.p`
 `;
 
 export default function LoginTitle({ children, subTxt }) {
-  if (subTxt === 'subTxt') {
-    return (
-      <>
-        <StyledTitle>{children}</StyledTitle>
-        <SubTxt>나중에 언제든지 변경할 수 있습니다.</SubTxt>
-      </>
-    );
-  } else return <StyledTitle>{children}</StyledTitle>;
+  return (
+    <>
+      <StyledTitle>{children}</StyledTitle>
+      {subTxt && <SubTxt>나중에 언제든지 변경할 수 있습니다.</SubTxt>}
+    </>
+  );
 }
-//  프로필 설정 페이지에선 <LoginTitle subTxt='subTxt'> 로 컴포넌트 를 써줍니다.
+//  프로필 설정 페이지에선 <LoginTitle subTxt> 로 컴포넌트 를 써줍니다.
