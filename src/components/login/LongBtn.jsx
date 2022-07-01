@@ -5,12 +5,10 @@ import { Link } from 'react-router-dom';
 const DisabledBtn = styled(Link)`
   display: block;
   position: relative;
-  padding-top: 13px;
   text-align: center;
   top: 266px;
   margin: 0 auto;
   width: 322px;
-  height: 44px;
   border-radius: 44px;
   background-color: var(--main-disabled-color);
   color: var(--disabled-text-color);
@@ -18,7 +16,7 @@ const DisabledBtn = styled(Link)`
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
-  line-height: 18px;
+  line-height: 44px;
 `;
 
 const AbledBtn = styled(DisabledBtn)`
