@@ -1,9 +1,12 @@
-import LoginPage from './pages/LoginPage';
+import { Route, Switch } from 'react-router-dom';
+import Login from './components/login/Login';
 
 function App() {
   return (
     <>
-      <LoginPage />
+      <Switch>
+        <Route path='/' exact component={Login} />
+      </Switch>
     </>
   );
 }
