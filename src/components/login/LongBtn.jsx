@@ -24,14 +24,10 @@ const AbledBtn = styled(DisabledBtn)`
 `;
 
 export default function LongBtn({ children, nextPage }) {
-  if (nextPage === 'join') {
-    return <AbledBtn to='/join'>{children}</AbledBtn>;
-  } else if (nextPage === 'profileSet') {
-    return <AbledBtn to='/profileSet'>{children}</AbledBtn>;
-  } else if (nextPage === 'feed') {
-    return <AbledBtn to='/feed'>{children}</AbledBtn>;
+  if (nextPage) {
+    return <AbledBtn to={nextPage}>{children}</AbledBtn>;
   } else {
     return <DisabledBtn>{children}</DisabledBtn>;
   }
 }
-//  활성화된 버튼엔 <LongBtn nextPage='경로이름'> 로 컴포넌트 를 써줍니다.
+//  활성화된 버튼엔 <LongBtn nextPage='login'> 로 컴포넌트 를 써줍니다.
