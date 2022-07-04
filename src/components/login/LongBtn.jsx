@@ -1,13 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 
-const DisabledBtn = styled(Link)`
+const DisabledBtn = styled.button`
   display: block;
-  position: relative;
   text-align: center;
-  top: 266px;
-  margin: 0 auto;
+  margin: 14px auto 0;
   width: 322px;
   border-radius: 44px;
   background-color: var(--main-disabled-color);
@@ -17,17 +14,22 @@ const DisabledBtn = styled(Link)`
   font-weight: 500;
   font-size: 14px;
   line-height: 44px;
+  cursor: not-allowed;
 `;
 
 const AbledBtn = styled(DisabledBtn)`
   background-color: var(--main-color);
+  cursor: pointer;
 `;
 
-export default function LongBtn({ children, nextPage }) {
-  if (nextPage) {
-    return <AbledBtn to={nextPage}>{children}</AbledBtn>;
-  } else {
-    return <DisabledBtn>{children}</DisabledBtn>;
-  }
+export default function LongBtn({ children, onClick, disabled }) {
+  return (
+    <>
+      {disabled ? (
+        <DisabledBtn disabled> {children} </DisabledBtn>
+      ) : (
+        <AbledBtn onClick={onClick}>{children}</AbledBtn>
+      )}
+    </>
+  );
 }
-//  활성화된 버튼엔 <LongBtn nextPage='login'> 로 컴포넌트 를 써줍니다.
