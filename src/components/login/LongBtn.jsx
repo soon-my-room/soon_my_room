@@ -23,5 +23,13 @@ const AbledBtn = styled(DisabledBtn)`
 `;
 
 export default function LongBtn({ children, onClick, disabled }) {
-  return <>{disabled ? <DisabledBtn disabled> {children} </DisabledBtn> : <AbledBtn onClick={onClick}>{children}</AbledBtn>}</>;
+  return (
+    <>
+      {disabled ? (
+        <DisabledBtn disabled> {children} </DisabledBtn>
+      ) : (
+        <AbledBtn onClick={onClick}>{children}</AbledBtn>
+      )}
+    </>
+  );
 }
