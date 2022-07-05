@@ -3,18 +3,10 @@ import basicProfile from '../../assets/basic-profile.png';
 import uploadFile from '../../assets/upload-file.png';
 import styled from 'styled-components';
 
-const ProfileContainer = styled.div`
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
 const ProfileImageContainer = styled.div`
   width: 110px;
   height: 110px;
-  margin-bottom: 30px;
+  margin: 30px auto;
   position: relative;
 `;
 
@@ -48,15 +40,13 @@ export default function ProfileImg() {
   };
   return (
     <>
-      <ProfileContainer>
-        <ProfileImageContainer>
-          <Input type='file' name='file' ref={imageInput} />
-          <ProfileImage src={basicProfile} />
-          <UploadFileImageContainer>
-            <UploadFileImage src={uploadFile} onClick={onClickImageUpload} />
-          </UploadFileImageContainer>
-        </ProfileImageContainer>
-      </ProfileContainer>
+      <ProfileImageContainer>
+        <Input type='file' name='file' ref={imageInput} />
+        <ProfileImage src={basicProfile} />
+        <UploadFileImageContainer>
+          <UploadFileImage src={uploadFile} onClick={onClickImageUpload} />
+        </UploadFileImageContainer>
+      </ProfileImageContainer>
     </>
   );
 }
