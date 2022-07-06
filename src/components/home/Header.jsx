@@ -12,7 +12,7 @@ const Title = styled.header`
   line-height: 22px;
 `;
 
-export default function Header(props) {
+export default function Header() {
   return (
     <div>
       <Title>감귤마켓 피드</Title>
