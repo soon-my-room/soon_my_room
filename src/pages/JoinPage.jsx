@@ -62,6 +62,7 @@ export default function JoinPage(props) {
         setEmailValidMessage('');
         setEmailValid(true);
       }
+      return json;
     } catch (err) {
       console.error(err);
     }
@@ -83,14 +84,13 @@ export default function JoinPage(props) {
 
     const { message } = await emailValidCheck();
 
-    if (message === '잘못된 접근입니다.') {
-      setEmailValidMessage('*잘못된 접근입니다.');
-      return;
-    } else {
+    if (message === '사용 가능한 이메일 입니다.') {
+      setEmailValidMessage('');
       props.history.push('/profile-setting', {
         userEmail: emailRef.current.value,
         userPw: passwordRef.current.value,
       });
+      return;
     }
   };
 
