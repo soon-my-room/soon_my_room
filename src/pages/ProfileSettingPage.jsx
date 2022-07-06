@@ -12,8 +12,8 @@ const Form = styled.form`
 `;
 
 export default function ProfileSettingPage(props) {
-  const [userNameValidMassage, setUserNameValidMassage] = useState('');
-  const [userIdValidMassage, setUserIdValidMassage] = useState('');
+  const [userNameValidMessage, setUserNameValidMessage] = useState('');
+  const [userIdValidMessage, setUserIdValidMessage] = useState('');
   const [userIntroduceValidMessage, setUserIntroduceValidMessage] =
     useState('');
 
@@ -26,12 +26,12 @@ export default function ProfileSettingPage(props) {
   const handleUserNameValidCheck = ({ target }) => {
     const userNameLength = target.value.length;
     if (userNameLength < 2 || userNameLength > 10) {
-      setUserNameValidMassage('*2~10자 이내여야 합니다.');
+      setUserNameValidMessage('*2~10자 이내여야 합니다.');
       setUserNameValid(false);
       return;
     }
 
-    setUserNameValidMassage('');
+    setUserNameValidMessage('');
     setUserNameValid(true);
   };
 
@@ -40,18 +40,18 @@ export default function ProfileSettingPage(props) {
     const validCheck = /^[a-zA-Z0-9._]*$/;
 
     if (!userId) {
-      setUserIdValidMassage('*계정 ID를 입력해 주세요.');
+      setUserIdValidMessage('*계정 ID를 입력해 주세요.');
       setUserIdValid(false);
       return;
     }
 
     if (!validCheck.test(userId)) {
-      setUserIdValidMassage('*영문, 숫자, 특수문자(.),(_)만 사용 가능합니다.');
+      setUserIdValidMessage('*영문, 숫자, 특수문자(.),(_)만 사용 가능합니다.');
       setUserIdValid(false);
       return;
     }
 
-    setUserIdValidMassage('');
+    setUserIdValidMessage('');
     setUserIdValid(true);
   };
 
@@ -95,22 +95,25 @@ export default function ProfileSettingPage(props) {
     const { message } = await userIdValidCheck();
 
     if (message === '이미 가입된 계정ID 입니다.') {
-      setUserIdValidMassage('*이미 가입된 계정ID 입니다.');
+      setUserIdValidMessage('*이미 가입된 계정ID 입니다.');
       userIdRef.current.focus();
       return;
     }
 
     if (message === '잘못된 접근입니다.') {
-      setUserIdValidMassage('*잘못된 접근입니다.');
+      setUserIdValidMessage('*잘못된 접근입니다.');
       return;
     }
 
     if (!message) {
-      setUserIdValidMassage('*관리자에게 문의해주세요.');
+      setUserIdValidMessage('*관리자에게 문의해주세요.');
       return;
     } else {
       // 모든 유효성 검사 통과 후 feed 페이지로 이동
-      props.history.push('/feed');
+      props.history.push('/profile-setting', {
+        userEmail: userIdRef.current.value,
+        userPw: userIdRef.current.value,
+      });
     }
   };
 
@@ -125,8 +128,8 @@ export default function ProfileSettingPage(props) {
           labelText='사용자 이름'
           placeholder='2~10자 이내여야 합니다.'
         />
-        {userNameValidMassage && (
-          <ErrorMessageBox>{userNameValidMassage}</ErrorMessageBox>
+        {userNameValidMessage && (
+          <ErrorMessageBox>{userNameValidMessage}</ErrorMessageBox>
         )}
         <InputBox
           useRef={userIdRef}
@@ -135,8 +138,8 @@ export default function ProfileSettingPage(props) {
           labelText='계정 ID'
           placeholder='영문, 숫자, 특수문자(.),(_)만 사용 가능합니다.'
         />
-        {userIdValidMassage && (
-          <ErrorMessageBox>{userIdValidMassage}</ErrorMessageBox>
+        {userIdValidMessage && (
+          <ErrorMessageBox>{userIdValidMessage}</ErrorMessageBox>
         )}
         <InputBox
           onChange={handleUserIntroduceValidCheck}
