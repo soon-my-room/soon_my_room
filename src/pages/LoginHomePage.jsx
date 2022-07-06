@@ -1,8 +1,8 @@
 import React from 'react';
-import LoginCard from './LoginCard';
 import styled from 'styled-components';
-import logoImg from '../../assets/symbol-logo-W.png';
-import Splash from '../splash/Splash';
+import logoImg from '../assets/symbol-logo-W.png';
+import LoginCard from '../components/login/LoginCard';
+import Splash from '../components/splash/Splash';
 
 const LoginContainer = styled.main`
   width: 100%;
@@ -19,7 +19,8 @@ const LoginLogoImg = styled.img`
   height: 144px;
   margin-bottom: 177px;
 `;
-export default function Login() {
+
+export default function LoginHomePage() {
   return (
     <>
       <LoginContainer>

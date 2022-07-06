@@ -4,7 +4,8 @@ import styled from 'styled-components';
 import emailIcon from '../../assets/icon/icon-email.svg';
 import signUpIcon from '../../assets/icon/icon-signup.svg';
 
-const LoginBtn = styled.button`
+const LoginBtn = styled(Link)`
+  display: block;
   position: relative;
   width: 322px;
   height: 44px;
@@ -13,6 +14,8 @@ const LoginBtn = styled.button`
   font-size: 14px;
   cursor: pointer;
   border-radius: 44px;
+  text-align: center;
+  line-height: 44px;
   &::before {
     position: absolute;
     left: 16px;
@@ -22,7 +25,8 @@ const LoginBtn = styled.button`
     width: 24px;
     height: 24px;
     transform: translateY(-50%);
-    background-image: ${(props) => (props.name === 'email' ? `url(${emailIcon})` : `url(${signUpIcon})`)};
+    background-image: ${(props) =>
+      props.to === '/login' ? `url(${emailIcon})` : `url(${signUpIcon})`};
     background-repeat: no-repeat;
     background-position: center;
     background-size: 24px 24px;
@@ -45,12 +49,10 @@ export default function LoginCard() {
     <>
       <LoginList>
         <LoginItem>
-          <Link to='/login'>
-            <LoginBtn name='email'>이메일로 로그인</LoginBtn>
-          </Link>
+          <LoginBtn to='/login'>이메일로 로그인</LoginBtn>
         </LoginItem>
         <LoginItem>
-          <LoginBtn name='signUp'>회원가입</LoginBtn>
+          <LoginBtn to='/join'>회원가입</LoginBtn>
         </LoginItem>
       </LoginList>
     </>
