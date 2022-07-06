@@ -38,27 +38,48 @@ export default function ProfileImg() {
   const imageInput = useRef();
   const [imageSrc, setImageSrc] = useState(basicProfile);
 
+  //이미지업로드 버튼을 클릭했을 때 input이 실행
   const onClickImageUpload = () => {
     imageInput.current.click();
   };
 
-  const onLoadFile = async (e) => {
-    const file = e.target.files;
-    const formData = new FormData();
-    const url = 'https://mandarin.api.weniv.co.kr';
-    formData.append('image', file[0]);
-    try {
-      const response = await fetch(url + '/image/uploadfile', {
-        method: 'POST',
-        body: formData,
-      });
-      const data = await response.json();
-      const uploadImageUrl = url + '/' + data.filename;
-      setImageSrc(uploadImageUrl);
-    } catch (err) {
-      console.error(err);
-    }
+  //input창 변화가 감지되었을 때, 사용자가 입력한 File 객체를 인자로 넣어주고 base64로 인코딩 해주는 함수
+  const encodeFileToBase64 = (fileBlob) => {
+    //FileReader함수를 사용하여 인코딩
+    const reader = new FileReader();
+    //readAsDataUrl은 File을 읽은 뒤 base64로 인코딩한 문자열을 FileReader 인스턴스의 result라는 속성에 담아줌
+    reader.readAsDataURL(fileBlob);
+    console.log(fileBlob);
+    //reader가 인코딩 성공했다면 reader.result 안에 담긴 문자열을 imageSrc로 세팅
+    return new Promise((resolve) => {
+      reader.onload = () => {
+        setImageSrc(reader.result);
+        console.log(reader.result);
+        resolve();
+      };
+    });
   };
+
+  // const onLoadFile = async (e) => {
+  //   const file = e.target.files;
+  //   const formData = new FormData();
+  //   const url = 'https://mandarin.api.weniv.co.kr';
+  //   formData.append('image', file[0]);
+  //   console.log(formData);
+  //   try {
+  //     const response = await fetch(url + '/image/uploadfile', {
+  //       method: 'POST',
+  //       body: formData,
+  //     });
+  //     console.log(response);
+  //     const data = await response.json();
+  //     console.log(data);
+  //     const uploadImageUrl = url + '/' + data.filename;
+  //     setImageSrc(uploadImageUrl);
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
 
   return (
     <>
@@ -66,8 +87,11 @@ export default function ProfileImg() {
         <Input
           type='file'
           id='imgUpload'
-          accept='img/*'
-          onChange={onLoadFile}
+          accept='image/*'
+          onChange={(e) => {
+            encodeFileToBase64(e.target.files[0]);
+            // onLoadFile(e);
+          }}
           name='file'
           ref={imageInput}
         />
