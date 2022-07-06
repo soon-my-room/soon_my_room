@@ -31,26 +31,11 @@ const Input = styled.input`
   }
 `;
 
-export default function InputBox({
-  id,
-  labelText,
-  type = 'text',
-  placeholder,
-  onChange,
-  onBlur,
-  useRef,
-}) {
+export default function InputBox({ id, labelText, type, placeholder, onChange }) {
   return (
     <InputContainer>
       <Label htmlFor={id}>{labelText}</Label>
-      <Input
-        type={type}
-        onChange={onChange}
-        onBlur={onBlur}
-        ref={useRef}
-        id={id}
-        placeholder={placeholder}
-      />
+      <Input onChange={onChange} type={type} id={id} placeholder={placeholder} />
     </InputContainer>
   );
 }
