@@ -29,6 +29,10 @@ const Input = styled.input`
   &:focus {
     border-bottom: 1px solid var(--main-color);
   }
+
+  &::placeholder {
+    color: var(--border-gray);
+  }
 `;
 
 export default function InputBox({
