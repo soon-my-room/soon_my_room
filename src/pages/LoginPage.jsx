@@ -38,17 +38,15 @@ export default function LoginPage(props) {
     setEmailValid(true);
   };
 
-  const onSubmit = (event) => {
-    event.preventDefault();
-  };
-
   const onPassword = ({ target }) => {
     const passwordValue = target.value;
     setPassword(passwordValue);
     setErrorMessage('');
   };
 
-  async function login() {
+  async function login(e) {
+    e.preventDefault();
+
     const url = 'https://mandarin.api.weniv.co.kr';
     const reqPath = '/user/login';
     const userData = {
@@ -69,7 +67,7 @@ export default function LoginPage(props) {
       if (resData.message === '이메일 또는 비밀번호가 일치하지 않습니다.') {
         setErrorMessage('*이메일 또는 비밀번호가 일치하지 않습니다.');
       } else {
-        window.localStorage.setItem('userInfo', JSON.stringify(resData.user));
+        localStorage.setItem('userInfo', JSON.stringify(resData));
         props.history.push('/feed');
       }
     } catch (err) {
@@ -79,22 +77,24 @@ export default function LoginPage(props) {
 
   return (
     <>
-      <LoginForm method='POST' onSubmit={onSubmit}>
+      <LoginForm>
         <LoginTitle>로그인</LoginTitle>
         <InputBox
-          id={'email'}
-          labelText={'이메일'}
-          type={'text'}
+          id='email'
+          labelText='이메일'
+          type='text'
           onChange={emailValidCheck}
+          placeholder='이메일을 입력해주세요.'
         />
         {emailErrorMessage && (
           <ErrorMessageBox>{emailErrorMessage}</ErrorMessageBox>
         )}
         <InputBox
-          id={'pw'}
-          labelText={'비밀번호'}
-          type={'password'}
+          id='pw'
+          labelText='비밀번호'
+          type='password'
           onChange={onPassword}
+          placeholder='비밀번호를 입력해주세요.'
         />
         {errorMessage && <ErrorMessageBox>{errorMessage}</ErrorMessageBox>}
         <LongBtn disabled={!(emailValid && password)} onClick={login}>
