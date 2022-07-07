@@ -69,7 +69,7 @@ export default function LoginPage(props) {
       if (resData.message === '이메일 또는 비밀번호가 일치하지 않습니다.') {
         setErrorMessage('*이메일 또는 비밀번호가 일치하지 않습니다.');
       } else {
-        window.localStorage.setItem('user', JSON.stringify(resData.user));
+        window.localStorage.setItem('userInfo', JSON.stringify(resData.user));
         props.history.push('/feed');
       }
     } catch (err) {
