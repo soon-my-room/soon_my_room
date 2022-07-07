@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Logo from '../../assets/symbol-logo-gray.png';
+import { useHistory } from 'react-router';
 
 const FeedContainer = styled.div`
   display: flex;
@@ -44,6 +45,7 @@ const SearchBigBtn = styled.button`
 `;
 
 export default function BasicFeed() {
+  const history = useHistory();
   return (
     <div>
       <FeedContainer>
@@ -51,7 +53,13 @@ export default function BasicFeed() {
           <LogoImg src={Logo} />
         </LogoContainer>
         <BasicTxt>유저를 검색해 팔로우 해보세요!</BasicTxt>
-        <SearchBigBtn>검색하기</SearchBigBtn>
+        <SearchBigBtn
+          onClick={() => {
+            history.push('/search');
+          }}
+        >
+          검색하기
+        </SearchBigBtn>
       </FeedContainer>
     </div>
   );

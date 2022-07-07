@@ -16,7 +16,7 @@ export default function SearchBtn() {
   return (
     <div>
       <SearchBtnContainer>
-        <Link to='#'>
+        <Link to='/search'>
           <SearchBtnImg src={searchIcon} />
         </Link>
       </SearchBtnContainer>

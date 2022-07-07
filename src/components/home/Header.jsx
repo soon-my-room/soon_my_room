@@ -15,7 +15,7 @@ const Title = styled.header`
 export default function Header() {
   return (
     <div>
-      <Title>감귤마켓 피드</Title>
+      <Title>재능마켓 피드</Title>
     </div>
   );
 }
