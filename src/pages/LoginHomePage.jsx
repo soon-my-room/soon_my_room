@@ -22,7 +22,7 @@ const LoginLogoImg = styled.img`
 `;
 
 export default function LoginHomePage(props) {
-  const [isLoding, setIsLoding] = useState(false);
+  const [isLoginToken, setIsLoginToken] = useState(false);
 
   useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem('userInfo'));
@@ -30,20 +30,18 @@ export default function LoginHomePage(props) {
       setTimeout(() => {
         props.history.push('/feed');
       }, 1000);
-      setIsLoding(true);
+      setIsLoginToken(true);
     }
   }, [props.history]);
 
   return (
     <>
       <Splash />
-      {!isLoding && (
-        <>
-          <LoginContainer>
-            <LoginLogoImg src={logoImg} />
-            <LoginCard />
-          </LoginContainer>
-        </>
+      {!isLoginToken && (
+        <LoginContainer>
+          <LoginLogoImg src={logoImg} />
+          <LoginCard />
+        </LoginContainer>
       )}
     </>
   );
