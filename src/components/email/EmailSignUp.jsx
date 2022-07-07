@@ -12,7 +12,7 @@ const EmailSignUpLink = styled(Link)`
 `;
 
 function EmailSignUp() {
-  return <EmailSignUpLink to='email'>이메일로 회원가입</EmailSignUpLink>;
+  return <EmailSignUpLink to='join'>이메일로 회원가입</EmailSignUpLink>;
 }
 
 export default EmailSignUp;
