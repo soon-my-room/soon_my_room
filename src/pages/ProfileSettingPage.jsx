@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import LoginTitle from '../components/login/LoginTitle';
 import InputBox from '../components/input/InputBox';
 import styled from 'styled-components';
-import LongBtn from '../components/login/LongBtn';
+import LongBtn from '../components/common/button/LongBtn';
 import ErrorMessageBox from '../components/input/ErrorMessageBox';
 import Profile from '../components/profileImg/Profile';
 
