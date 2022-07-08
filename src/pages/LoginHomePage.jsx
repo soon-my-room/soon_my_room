@@ -32,7 +32,7 @@ export default function LoginHomePage(props) {
       }, 1000);
       setIsLoginToken(true);
     }
-  }, [props.history]);
+  }, []);
 
   return (
     <>
