@@ -1,9 +1,9 @@
 import React, { useRef, useState, useEffect } from 'react';
-import LoginTitle from '../components/login/LoginTitle';
-import InputBox from '../components/input/InputBox';
 import styled from 'styled-components';
+import InputBox from '../components/common/input/InputBox';
+import ErrorMessageBox from '../components/common/input/ErrorMessageBox';
 import LongButton from '../components/common/button/LongButton';
-import ErrorMessageBox from '../components/input/ErrorMessageBox';
+import LoginTitle from '../components/login/LoginTitle';
 import Profile from '../components/profileImg/Profile';
 
 const Form = styled.form`

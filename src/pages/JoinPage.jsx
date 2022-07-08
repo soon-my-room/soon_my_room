@@ -3,8 +3,8 @@ import { useState, useRef } from 'react';
 import styled from 'styled-components';
 import LoginTitle from '../components/login/LoginTitle';
 import LongButton from '../components/common/button/LongButton';
-import InputBox from '../components/input/InputBox';
-import ErrorMessageBox from '../components/input/ErrorMessageBox';
+import InputBox from '../components/common/input/InputBox';
+import ErrorMessageBox from '../components/common/input/ErrorMessageBox';
 
 const Form = styled.form`
   width: 322px;
