@@ -143,6 +143,25 @@ export default function ProfileSettingPage(props) {
   };
 
   const saveUserImage = async () => {
+    const url = 'https://mandarin.api.weniv.co.kr';
+    const file = document.getElementById('imgUpload').files;
+    const formData = new FormData();
+    formData.append('image', file[0]);
+    try {
+      const path = '/image/uploadfile';
+      const response = await fetch(`${url}${path}`, {
+        method: 'POST',
+        body: formData,
+      });
+
+      const saveImageResult = await response.json();
+      return saveImageResult;
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const getUserImageUrl = async () => {
     const file = document.getElementById('imgUpload').files;
 
     const url = 'https://mandarin.api.weniv.co.kr';
@@ -152,25 +171,14 @@ export default function ProfileSettingPage(props) {
       return defaultImageUrl;
     }
 
-    const formData = new FormData();
-    formData.append('image', file[0]);
-    try {
-      const path = '/image/uploadfile';
-      const response = await fetch(`${url}${path}`, {
-        method: 'POST',
-        body: formData,
-      });
-      const data = await response.json();
-      const uploadImageUrl = `${url}/${data.filename}`;
-      return uploadImageUrl;
-    } catch (err) {
-      console.error(err);
-    }
+    const saveImageResult = await saveUserImage();
+
+    return `${url}/${saveImageResult.filename}`;
   };
 
   const join = async () => {
     const url = 'https://mandarin.api.weniv.co.kr';
-    const imageUrl = await saveUserImage();
+    const imageUrl = await getUserImageUrl();
 
     try {
       const path = '/user';
