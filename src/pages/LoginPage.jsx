@@ -5,64 +5,64 @@ import InputBox from '../components/input/InputBox';
 import ErrorMessageBox from '../components/input/ErrorMessageBox';
 import LongBtn from '../components/login/LongBtn';
 import EmailSignUp from '../components/email/EmailSignUp';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 const LoginForm = styled.form`
   width: 322px;
   margin: 0 auto;
   text-align: center;
 `;
+
 export default function LoginPage(props) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const userEmailRef = useRef('');
+  const userPasswordRef = useRef('');
 
   const [errorMessage, setErrorMessage] = useState('');
   const [emailErrorMessage, setEmailErrorMessage] = useState('');
 
-  const [emailValid, setEmailValid] = useState(false);
+  const [loginlValid, setLoginValid] = useState(false);
 
-  const emailValidCheck = ({ target }) => {
-    const emailValue = target.value;
-    setEmail(emailValue);
-    const emailRegex =
-      /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+  const hendleUserEmailVaildCheck = () => {
+    const userEmail = userEmailRef.current.value;
+    const emailRegex = /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
 
-    if (!emailRegex.test(emailValue)) {
+    if (!emailRegex.test(userEmail)) {
       setEmailErrorMessage('*잘못된 이메일 형식입니다.');
-      if (!emailValue.length) {
-        setEmailErrorMessage('*필수 입력사항입니다.');
-      }
-      setEmailValid(false);
+      setLoginValid(false);
+      return;
+    }
+    if (!userEmail.length) {
+      setEmailErrorMessage('*필수 입력사항입니다.');
       return;
     }
     setEmailErrorMessage('');
     setErrorMessage('');
-    setEmailValid(true);
+    setLoginValid(true);
   };
 
-  const onPassword = ({ target }) => {
-    const passwordValue = target.value;
-    if (!passwordValue.length) {
+  const hendleUserPasswordVaildCheck = () => {
+    const userPassword = userPasswordRef.current.value;
+
+    if (!userPassword.length) {
       setErrorMessage('*필수 입력사항입니다.');
       return;
     }
-    if (passwordValue.length < 6) {
+    if (userPassword.length < 6) {
       setErrorMessage('*비밀번호는 6자 이상이어야 합니다.');
       return;
     }
-    setPassword(passwordValue);
     setErrorMessage('');
   };
 
-  async function login(e) {
+  async function hendleLoginSubmit(e) {
     e.preventDefault();
 
     const url = 'https://mandarin.api.weniv.co.kr';
     const reqPath = '/user/login';
     const userData = {
       user: {
-        email: email,
-        password: password,
+        email: userEmailRef.current.value,
+        password: userPasswordRef.current.value,
       },
     };
     try {
@@ -87,14 +87,15 @@ export default function LoginPage(props) {
 
   return (
     <>
+      <LoginTitle>로그인</LoginTitle>
       <LoginForm>
-        <LoginTitle>로그인</LoginTitle>
         <InputBox
           id='email'
           labelText='이메일'
           type='text'
-          onChange={emailValidCheck}
+          onChange={hendleUserEmailVaildCheck}
           placeholder='이메일을 입력해주세요.'
+          useRef={userEmailRef}
         />
         {emailErrorMessage && (
           <ErrorMessageBox>{emailErrorMessage}</ErrorMessageBox>
@@ -103,11 +104,15 @@ export default function LoginPage(props) {
           id='pw'
           labelText='비밀번호'
           type='password'
-          onChange={onPassword}
+          onChange={hendleUserPasswordVaildCheck}
           placeholder='비밀번호를 입력해주세요.'
+          useRef={userPasswordRef}
         />
         {errorMessage && <ErrorMessageBox>{errorMessage}</ErrorMessageBox>}
-        <LongBtn disabled={!(emailValid && password)} onClick={login}>
+        <LongBtn
+          disabled={!(loginlValid && userPasswordRef.current.value)}
+          onClick={hendleLoginSubmit}
+        >
           로그인
         </LongBtn>
         <EmailSignUp />
