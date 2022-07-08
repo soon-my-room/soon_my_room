@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import LoginTitle from '../components/login/LoginTitle';
 import InputBox from '../components/input/InputBox';
 import styled from 'styled-components';
-import LongBtn from '../components/common/button/LongBtn';
+import LongButton from '../components/common/button/LongButton';
 import ErrorMessageBox from '../components/input/ErrorMessageBox';
 import Profile from '../components/profileImg/Profile';
 
@@ -267,7 +267,7 @@ export default function ProfileSettingPage(props) {
         {manageUserIntro.errorMessage && (
           <ErrorMessageBox>{manageUserIntro.errorMessage}</ErrorMessageBox>
         )}
-        <LongBtn
+        <LongButton
           disabled={
             !(
               manageUserName.isValid &&
@@ -278,7 +278,7 @@ export default function ProfileSettingPage(props) {
           onClick={handleStartMarketClick}
         >
           감귤마켓 시작하기
-        </LongBtn>
+        </LongButton>
       </Form>
     </>
   );
