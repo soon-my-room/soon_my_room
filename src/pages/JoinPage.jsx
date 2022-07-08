@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, useRef } from 'react';
 import styled from 'styled-components';
 import LoginTitle from '../components/login/LoginTitle';
-import LongBtn from '../components/common/button/LongBtn';
+import LongButton from '../components/common/button/LongButton';
 import InputBox from '../components/input/InputBox';
 import ErrorMessageBox from '../components/input/ErrorMessageBox';
 
@@ -120,12 +120,12 @@ export default function JoinPage(props) {
           <ErrorMessageBox>{passwordValidMessage}</ErrorMessageBox>
         )}
       </Form>
-      <LongBtn
+      <LongButton
         disabled={!(emailValid && passwordValid)}
         onClick={handleToNextPage}
       >
         다음
-      </LongBtn>
+      </LongButton>
     </>
   );
 }

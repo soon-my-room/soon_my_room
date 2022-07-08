@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import LoginTitle from '../components/login/LoginTitle';
 import InputBox from '../components/input/InputBox';
 import ErrorMessageBox from '../components/input/ErrorMessageBox';
-import LongBtn from '../components/common/button/LongBtn';
+import LongButton from '../components/common/button/LongButton';
 import EmailSignUp from '../components/email/EmailSignUp';
 import { useState, useRef } from 'react';
 
@@ -111,12 +111,12 @@ export default function LoginPage(props) {
           useRef={userPasswordRef}
         />
         {errorMessage && <ErrorMessageBox>{errorMessage}</ErrorMessageBox>}
-        <LongBtn
+        <LongButton
           disabled={!(loginlValid && userPasswordRef.current.value)}
           onClick={hendleLoginSubmit}
         >
           로그인
-        </LongBtn>
+        </LongButton>
         <EmailSignUp />
       </LoginForm>
     </>
