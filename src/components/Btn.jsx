@@ -3,7 +3,6 @@ import styled, { css } from 'styled-components';
 
 const BtnStyled = styled.button`
   width: 120px;
-  line-height: 34px;
   display: block;
   background-color: var(--main-color);
   color: var(--disabled-text-color);
@@ -29,20 +28,22 @@ const BtnStyled = styled.button`
   ${(props) =>
     props.large &&
     css`
-      width: 120px;
+      line-height: 44px;
+      border-radius: 44px;
+    `}
+
+  ${(props) =>
+    props.medium &&
+    css`
+      line-height: 34px;
     `}
   ${(props) =>
     props.medium100 &&
     css`
       width: 100px;
+      line-height: 34px;
     `}
-  ${(props) => {
-    props.medium120 &&
-      css`
-        line-height: 44px;
-        border-radius: 44px;
-      `;
-  }}
+
   ${(props) =>
     props.small &&
     css`
