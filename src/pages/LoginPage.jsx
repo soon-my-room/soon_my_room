@@ -22,25 +22,27 @@ export default function LoginPage(props) {
 
   const [loginlValid, setLoginValid] = useState(false);
 
-  const hendleUserEmailVaildCheck = () => {
+  const handleUserEmailValidCheck = () => {
     const userEmail = userEmailRef.current.value;
     const emailRegex = /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+
+    if (!userEmail.length) {
+      setEmailErrorMessage('*필수 입력사항입니다.');
+      return;
+    }
 
     if (!emailRegex.test(userEmail)) {
       setEmailErrorMessage('*잘못된 이메일 형식입니다.');
       setLoginValid(false);
       return;
     }
-    if (!userEmail.length) {
-      setEmailErrorMessage('*필수 입력사항입니다.');
-      return;
-    }
+
     setEmailErrorMessage('');
     setErrorMessage('');
     setLoginValid(true);
   };
 
-  const hendleUserPasswordVaildCheck = () => {
+  const handleUserPasswordValidCheck = () => {
     const userPassword = userPasswordRef.current.value;
 
     if (!userPassword.length) {
@@ -93,7 +95,7 @@ export default function LoginPage(props) {
           id='email'
           labelText='이메일'
           type='text'
-          onChange={hendleUserEmailVaildCheck}
+          onChange={handleUserEmailValidCheck}
           placeholder='이메일을 입력해주세요.'
           useRef={userEmailRef}
         />
@@ -104,7 +106,7 @@ export default function LoginPage(props) {
           id='pw'
           labelText='비밀번호'
           type='password'
-          onChange={hendleUserPasswordVaildCheck}
+          onChange={handleUserPasswordValidCheck}
           placeholder='비밀번호를 입력해주세요.'
           useRef={userPasswordRef}
         />
