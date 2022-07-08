@@ -12,27 +12,39 @@ const Form = styled.form`
 `;
 
 export default function ProfileSettingPage(props) {
-  const [userNameValidMessage, setUserNameValidMessage] = useState('');
+  const [manageUserName, setManageUserName] = useState({
+    errorMessage: '',
+    isValid: false,
+  });
+
   const [userIdValidMessage, setUserIdValidMessage] = useState('');
   const [userIntroduceValidMessage, setUserIntroduceValidMessage] =
     useState('');
 
-  const [userNameValid, setUserNameValid] = useState(false);
   const [userIdValid, setUserIdValid] = useState(false);
   const [userIntroduceValid, setUserIntroduceValid] = useState(false);
 
+  const userNameRef = useRef('');
   const userIdRef = useRef('');
+  const userIntroduceRef = useRef('');
+
+  const [userEmail, setUserEmail] = useState('');
+  const [userPw, setUserPw] = useState('');
 
   const handleUserNameValidCheck = ({ target }) => {
     const userNameLength = target.value.length;
     if (userNameLength < 2 || userNameLength > 10) {
-      setUserNameValidMessage('*2~10자 이내여야 합니다.');
-      setUserNameValid(false);
+      setManageUserName({
+        errorMessage: '*2~10자 이내여야 합니다.',
+        isValid: false,
+      });
       return;
     }
 
-    setUserNameValidMessage('');
-    setUserNameValid(true);
+    setManageUserName({
+      errorMessage: '',
+      isValid: true,
+    });
   };
 
   const handleUserIdValidCheck = ({ target }) => {
@@ -71,7 +83,8 @@ export default function ProfileSettingPage(props) {
     const url = 'https://mandarin.api.weniv.co.kr';
 
     try {
-      const res = await fetch(url + '/user/accountnamevalid', {
+      const path = '/user/accountnamevalid';
+      const res = await fetch(`${url}${path}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -83,7 +96,81 @@ export default function ProfileSettingPage(props) {
         }),
       });
 
-      return await res.json();
+      const { message } = await res.json();
+
+      if (message === '이미 가입된 계정ID 입니다.') {
+        setUserIdValidMessage('*이미 가입된 계정ID 입니다.');
+        userIdRef.current.focus();
+        return;
+      }
+
+      if (message === '잘못된 접근입니다.') {
+        setUserIdValidMessage('*잘못된 접근입니다.');
+        return;
+      }
+
+      if (!message) {
+        setUserIdValidMessage('*관리자에게 문의해주세요.');
+        return;
+      }
+
+      return true;
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const saveUserImage = async () => {
+    const file = document.getElementById('imgUpload').files;
+
+    const url = 'https://mandarin.api.weniv.co.kr';
+
+    if (!file.length) {
+      const defaultImageUrl = `${url}/1657196670849.png`;
+      return defaultImageUrl;
+    }
+
+    const formData = new FormData();
+    formData.append('image', file[0]);
+    try {
+      const path = '/image/uploadfile';
+      const response = await fetch(`${url}${path}`, {
+        method: 'POST',
+        body: formData,
+      });
+      const data = await response.json();
+      const uploadImageUrl = `${url}/${data.filename}`;
+      return uploadImageUrl;
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const join = async () => {
+    const url = 'https://mandarin.api.weniv.co.kr';
+    const imageUrl = await saveUserImage();
+
+    try {
+      const path = '/user';
+      const res = await fetch(`${url}${path}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          user: {
+            username: userNameRef.current.value,
+            email: userEmail,
+            password: userPw,
+            accountname: userIdRef.current.value,
+            intro: userIntroduceRef.current.value,
+            image: imageUrl,
+          },
+        }),
+      });
+
+      const joinResult = await res.json();
+      return joinResult;
     } catch (err) {
       console.error(err);
     }
@@ -92,30 +179,28 @@ export default function ProfileSettingPage(props) {
   const handleStartMarketClick = async (e) => {
     e.preventDefault();
 
-    const { message } = await userIdValidCheck();
-
-    if (message === '이미 가입된 계정ID 입니다.') {
-      setUserIdValidMessage('*이미 가입된 계정ID 입니다.');
-      userIdRef.current.focus();
+    const userIdValidResult = await userIdValidCheck();
+    if (!userIdValidResult) {
       return;
     }
 
-    if (message === '잘못된 접근입니다.') {
-      setUserIdValidMessage('*잘못된 접근입니다.');
-      return;
-    }
-
-    if (!message) {
-      setUserIdValidMessage('*관리자에게 문의해주세요.');
-      return;
+    const joinResult = await join();
+    if (joinResult.message === '회원가입 성공') {
+      props.history.push('/login');
     } else {
-      // 모든 유효성 검사 통과 후 feed 페이지로 이동
-      props.history.push('/profile-setting', {
-        userEmail: userIdRef.current.value,
-        userPw: userIdRef.current.value,
-      });
+      alert(joinResult.message);
     }
   };
+
+  useEffect(() => {
+    if (props?.location?.state) {
+      const { userEmail, userPw } = props.location.state;
+      setUserEmail(userEmail);
+      setUserPw(userPw);
+    } else {
+      props.history.push('join');
+    }
+  }, []);
 
   return (
     <>
@@ -123,13 +208,14 @@ export default function ProfileSettingPage(props) {
       <Form>
         <Profile />
         <InputBox
+          useRef={userNameRef}
           onChange={handleUserNameValidCheck}
           id='userName'
           labelText='사용자 이름'
           placeholder='2~10자 이내여야 합니다.'
         />
-        {userNameValidMessage && (
-          <ErrorMessageBox>{userNameValidMessage}</ErrorMessageBox>
+        {manageUserName.errorMessage && (
+          <ErrorMessageBox>{manageUserName.errorMessage}</ErrorMessageBox>
         )}
         <InputBox
           useRef={userIdRef}
@@ -142,6 +228,7 @@ export default function ProfileSettingPage(props) {
           <ErrorMessageBox>{userIdValidMessage}</ErrorMessageBox>
         )}
         <InputBox
+          useRef={userIntroduceRef}
           onChange={handleUserIntroduceValidCheck}
           id='userIntroduce'
           labelText='소개'
@@ -151,7 +238,9 @@ export default function ProfileSettingPage(props) {
           <ErrorMessageBox>{userIntroduceValidMessage}</ErrorMessageBox>
         )}
         <LongBtn
-          disabled={!(userNameValid && userIdValid && userIntroduceValid)}
+          disabled={
+            !(manageUserName.isValid && userIdValid && userIntroduceValid)
+          }
           onClick={handleStartMarketClick}
         >
           감귤마켓 시작하기
