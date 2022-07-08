@@ -46,7 +46,10 @@ export default function LoginPage(props) {
       setErrorMessage('*필수 입력사항입니다.');
       return;
     }
-
+    if (passwordValue.length < 6) {
+      setErrorMessage('*비밀번호는 6자 이상이어야 합니다.');
+      return;
+    }
     setPassword(passwordValue);
     setErrorMessage('');
   };
