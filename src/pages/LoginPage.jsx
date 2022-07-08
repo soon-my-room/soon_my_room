@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import LoginTitle from '../components/login/LoginTitle';
 import InputBox from '../components/input/InputBox';
 import ErrorMessageBox from '../components/input/ErrorMessageBox';
-import LongBtn from '../components/login/LongBtn';
+import LongBtn from '../components/common/button/LongBtn';
 import EmailSignUp from '../components/email/EmailSignUp';
 import { useState, useRef } from 'react';
 
