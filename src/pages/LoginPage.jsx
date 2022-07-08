@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import LoginTitle from '../components/login/LoginTitle';
-import InputBox from '../components/input/InputBox';
-import ErrorMessageBox from '../components/input/ErrorMessageBox';
 import LongButton from '../components/common/button/LongButton';
+import InputBox from '../components/common/input/InputBox';
+import ErrorMessageBox from '../components/common/input/ErrorMessageBox';
 import EmailSignUp from '../components/email/EmailSignUp';
-import { useState, useRef } from 'react';
 
 const LoginForm = styled.form`
   width: 322px;
