@@ -1,4 +1,5 @@
 import React from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import logoImg from '../assets/symbol-logo-W.png';
 import LoginCard from '../components/login/LoginCard';
@@ -20,14 +21,28 @@ const LoginLogoImg = styled.img`
   margin-bottom: 177px;
 `;
 
-export default function LoginHomePage() {
+export default function LoginHomePage(props) {
+  const [isLoginToken, setIsLoginToken] = useState(false);
+
+  useEffect(() => {
+    const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    if (userInfo?.user.token) {
+      setTimeout(() => {
+        props.history.push('/feed');
+      }, 1000);
+      setIsLoginToken(true);
+    }
+  }, [props.history]);
+
   return (
     <>
-      <LoginContainer>
-        <LoginLogoImg src={logoImg} />
-        <LoginCard />
-        <Splash />
-      </LoginContainer>
+      <Splash />
+      {!isLoginToken && (
+        <LoginContainer>
+          <LoginLogoImg src={logoImg} />
+          <LoginCard />
+        </LoginContainer>
+      )}
     </>
   );
 }
