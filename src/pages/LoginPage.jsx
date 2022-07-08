@@ -12,7 +12,6 @@ const LoginForm = styled.form`
   margin: 0 auto;
   text-align: center;
 `;
-
 export default function LoginPage(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -30,6 +29,9 @@ export default function LoginPage(props) {
 
     if (!emailRegex.test(emailValue)) {
       setEmailErrorMessage('*잘못된 이메일 형식입니다.');
+      if (emailValue.length < 1) {
+        setEmailErrorMessage('*필수 입력사항입니다.');
+      }
       setEmailValid(false);
       return;
     }
@@ -40,6 +42,10 @@ export default function LoginPage(props) {
 
   const onPassword = ({ target }) => {
     const passwordValue = target.value;
+    if (passwordValue.length < 1) {
+      setErrorMessage('*필수 입력사항입니다.');
+      return;
+    }
     setPassword(passwordValue);
     setErrorMessage('');
   };
