@@ -22,10 +22,10 @@ export default function ProfileSettingPage(props) {
     isValid: false,
   });
 
-  const [userIntroduceValidMessage, setUserIntroduceValidMessage] =
-    useState('');
-
-  const [userIntroduceValid, setUserIntroduceValid] = useState(false);
+  const [manageUserIntro, setManageUserIntro] = useState({
+    errorMessage: '',
+    isValid: false,
+  });
 
   const userNameRef = useRef('');
   const userIdRef = useRef('');
@@ -77,15 +77,19 @@ export default function ProfileSettingPage(props) {
   };
 
   const handleUserIntroduceValidCheck = ({ target }) => {
-    const userIntroduce = target.value;
-    if (!userIntroduce) {
-      setUserIntroduceValidMessage('*소개를 입력해 주세요.');
-      setUserIntroduceValid(false);
+    const userIntro = target.value;
+    if (!userIntro) {
+      setManageUserIntro({
+        errorMessage: '*소개를 입력해 주세요.',
+        isValid: false,
+      });
       return;
     }
 
-    setUserIntroduceValidMessage('');
-    setUserIntroduceValid(true);
+    setManageUserIntro({
+      errorMessage: '',
+      isValid: true,
+    });
   };
 
   const userIdValidCheck = async () => {
@@ -252,15 +256,15 @@ export default function ProfileSettingPage(props) {
           labelText='소개'
           placeholder='자신과 판매할 상품에 대해 소개해 주세요!'
         />
-        {userIntroduceValidMessage && (
-          <ErrorMessageBox>{userIntroduceValidMessage}</ErrorMessageBox>
+        {manageUserIntro.errorMessage && (
+          <ErrorMessageBox>{manageUserIntro.errorMessage}</ErrorMessageBox>
         )}
         <LongBtn
           disabled={
             !(
               manageUserName.isValid &&
               manageUserId.isValid &&
-              userIntroduceValid
+              manageUserIntro.isValid
             )
           }
           onClick={handleStartMarketClick}
