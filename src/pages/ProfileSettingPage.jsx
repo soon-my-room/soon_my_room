@@ -17,11 +17,14 @@ export default function ProfileSettingPage(props) {
     isValid: false,
   });
 
-  const [userIdValidMessage, setUserIdValidMessage] = useState('');
+  const [manageUserId, setManageUserId] = useState({
+    errorMessage: '',
+    isValid: false,
+  });
+
   const [userIntroduceValidMessage, setUserIntroduceValidMessage] =
     useState('');
 
-  const [userIdValid, setUserIdValid] = useState(false);
   const [userIntroduceValid, setUserIntroduceValid] = useState(false);
 
   const userNameRef = useRef('');
@@ -52,19 +55,25 @@ export default function ProfileSettingPage(props) {
     const validCheck = /^[a-zA-Z0-9._]*$/;
 
     if (!userId) {
-      setUserIdValidMessage('*계정 ID를 입력해 주세요.');
-      setUserIdValid(false);
+      setManageUserId({
+        errorMessage: '*계정 ID를 입력해 주세요.',
+        isValid: false,
+      });
       return;
     }
 
     if (!validCheck.test(userId)) {
-      setUserIdValidMessage('*영문, 숫자, 특수문자(.),(_)만 사용 가능합니다.');
-      setUserIdValid(false);
+      setManageUserId({
+        errorMessage: '*영문, 숫자, 특수문자(.),(_)만 사용 가능합니다.',
+        isValid: false,
+      });
       return;
     }
 
-    setUserIdValidMessage('');
-    setUserIdValid(true);
+    setManageUserId({
+      errorMessage: '',
+      isValid: true,
+    });
   };
 
   const handleUserIntroduceValidCheck = ({ target }) => {
@@ -99,18 +108,27 @@ export default function ProfileSettingPage(props) {
       const { message } = await res.json();
 
       if (message === '이미 가입된 계정ID 입니다.') {
-        setUserIdValidMessage('*이미 가입된 계정ID 입니다.');
+        setManageUserId({
+          errorMessage: '*이미 가입된 계정ID 입니다.',
+          isValid: false,
+        });
         userIdRef.current.focus();
         return;
       }
 
       if (message === '잘못된 접근입니다.') {
-        setUserIdValidMessage('*잘못된 접근입니다.');
+        setManageUserId({
+          errorMessage: '*잘못된 접근입니다.',
+          isValid: false,
+        });
         return;
       }
 
       if (!message) {
-        setUserIdValidMessage('*관리자에게 문의해주세요.');
+        setManageUserId({
+          errorMessage: '*관리자에게 문의해주세요.',
+          isValid: false,
+        });
         return;
       }
 
@@ -224,8 +242,8 @@ export default function ProfileSettingPage(props) {
           labelText='계정 ID'
           placeholder='영문, 숫자, 특수문자(.),(_)만 사용 가능합니다.'
         />
-        {userIdValidMessage && (
-          <ErrorMessageBox>{userIdValidMessage}</ErrorMessageBox>
+        {manageUserId.errorMessage && (
+          <ErrorMessageBox>{manageUserId.errorMessage}</ErrorMessageBox>
         )}
         <InputBox
           useRef={userIntroduceRef}
@@ -239,7 +257,11 @@ export default function ProfileSettingPage(props) {
         )}
         <LongBtn
           disabled={
-            !(manageUserName.isValid && userIdValid && userIntroduceValid)
+            !(
+              manageUserName.isValid &&
+              manageUserId.isValid &&
+              userIntroduceValid
+            )
           }
           onClick={handleStartMarketClick}
         >
