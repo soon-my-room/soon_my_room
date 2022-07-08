@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 
-const BtnStyled = styled.button`
+const StyledButton = styled.button`
   width: 120px;
   display: block;
   background-color: var(--main-color);
@@ -61,10 +61,12 @@ const BtnStyled = styled.button`
       font-size: 12px;
     `}
 `;
-export default function Btn({ onClick, children, ...props }) {
+
+// 사용방법: https://github.com/lion-13/share_talent/issues/37
+export default function Button({ onClick, children, ...props }) {
   return (
-    <BtnStyled onClick={onClick} {...props}>
+    <StyledButton onClick={onClick} {...props}>
       {children}
-    </BtnStyled>
+    </StyledButton>
   );
 }
