@@ -43,13 +43,13 @@ const Title = styled.h1`
   overflow: hidden;
 `;
 
-export default function TopNavBasic({ title, onClick }) {
+export default function TopNavBasic({ title, onClick, viewMore }) {
   return (
     <>
       <Container>
         <BackLink to='../' />
         {title && <Title>{title}</Title>}
-        <OpenModal onClick={onClick} />
+        {viewMore && <OpenModal onClick={onClick} />}
       </Container>
     </>
   );
