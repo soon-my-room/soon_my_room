@@ -7,12 +7,11 @@ const ProductContainer = styled.li`
 `;
 
 const ItemImage = styled.img`
+  margin: 0 10px 6px 0;
   width: 140px;
   height: 90px;
-  border: 0.5px solid #dbdbdb;
+  border: 0.5px solid var(--border-gray);
   border-radius: 8px;
-  margin-bottom: 6px;
-  margin-right: 10px;
 `;
 
 const ItemName = styled.span`
