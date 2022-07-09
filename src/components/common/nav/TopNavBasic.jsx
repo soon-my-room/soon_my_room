@@ -4,10 +4,11 @@ import styled from 'styled-components';
 import iconArrowLeft from '../../../assets/icon/icon-arrow-left.svg';
 import iconMore from '../../../assets/icon/icon-more-vertical.svg';
 
-const Container = styled.nav`
+const Navigation = styled.nav`
   padding: 12px 12px 12px 16px;
   width: 100%;
   height: 48px;
+  border-bottom: 1px solid var(--border-gray);
 
   &::after {
     content: '';
@@ -46,11 +47,11 @@ const Title = styled.h1`
 export default function TopNavBasic({ title, onClick, viewMore }) {
   return (
     <>
-      <Container>
+      <Navigation>
         <BackLink to='../' />
         {title && <Title>{title}</Title>}
         {viewMore && <OpenModal onClick={onClick} />}
-      </Container>
+      </Navigation>
     </>
   );
 }
