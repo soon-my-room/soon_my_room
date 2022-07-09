@@ -14,12 +14,12 @@ const SearchBtnImg = styled.img`
 
 export default function SearchBtn() {
   return (
-    <div>
+    <>
       <SearchBtnContainer>
         <Link to='/search'>
           <SearchBtnImg src={searchIcon} />
         </Link>
       </SearchBtnContainer>
-    </div>
+    </>
   );
 }

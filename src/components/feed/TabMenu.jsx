@@ -11,6 +11,9 @@ import userIconFill from '../../assets/icon/icon-user-fill.svg';
 import { useHistory } from 'react-router';
 
 const MenuList = styled.ul`
+  position: fixed;
+  left: 0;
+  bottom: 0;
   width: 100vw;
   display: flex;
   flex-direction: row;
@@ -54,7 +57,9 @@ export default function TabMenu() {
             }}
           >
             <MenuIcon src={activeNav === 1 ? homeIconFill : homeIcon} />
-            <MenuTitle color={activeNav === 1 ? ' #EA7F42' : '#767676'}>홈</MenuTitle>
+            <MenuTitle color={activeNav === 1 ? ' #EA7F42' : '#767676'}>
+              홈
+            </MenuTitle>
           </MenuBtn>
         </MenuItem>
         <MenuItem>
@@ -65,7 +70,9 @@ export default function TabMenu() {
             }}
           >
             <MenuIcon src={activeNav === 2 ? messageIconFill : messageIcon} />
-            <MenuTitle color={activeNav === 2 ? ' #EA7F42' : '#767676'}>채팅</MenuTitle>
+            <MenuTitle color={activeNav === 2 ? ' #EA7F42' : '#767676'}>
+              채팅
+            </MenuTitle>
           </MenuBtn>
         </MenuItem>
         <MenuItem>
@@ -86,7 +93,9 @@ export default function TabMenu() {
             }}
           >
             <MenuIcon src={activeNav === 4 ? userIconFill : userIcon} />
-            <MenuTitle color={activeNav === 4 ? ' #EA7F42' : '#767676'}>프로필</MenuTitle>
+            <MenuTitle color={activeNav === 4 ? ' #EA7F42' : '#767676'}>
+              프로필
+            </MenuTitle>
           </MenuBtn>
         </MenuItem>
       </MenuList>

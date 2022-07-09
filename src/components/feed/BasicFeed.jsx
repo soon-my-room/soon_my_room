@@ -16,10 +16,7 @@ const LogoContainer = styled.div`
   height: 100px;
 `;
 
-const LogoImg = styled.img`
-  width: 100px;
-  height: 100px;
-`;
+const LogoImg = styled.img``;
 
 const BasicTxt = styled.p`
   color: var(--subtitle-text);
@@ -32,7 +29,7 @@ const BasicTxt = styled.p`
 
 const SearchBigBtn = styled.button`
   width: 120px;
-  height: 44px;
+  /* height: 44px; */
   border-radius: 44px;
   background-color: var(--main-color);
   color: var(--disabled-text-color);
@@ -40,7 +37,7 @@ const SearchBigBtn = styled.button`
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
-  line-height: 17.54px;
+  line-height: 44px;
   cursor: pointer;
 `;
 
