@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import styled from 'styled-components';
 import homeIcon from '../../assets/icon/icon-home.svg';
 import homeIconFill from '../../assets/icon/icon-home-fill.svg';
@@ -7,8 +6,7 @@ import messageIconFill from '../../assets/icon/icon-message-circle-fill.svg';
 import editIcon from '../../assets/icon/icon-edit.svg';
 import userIcon from '../../assets/icon/icon-user.svg';
 import userIconFill from '../../assets/icon/icon-user-fill.svg';
-
-import { useHistory } from 'react-router';
+import { Link } from 'react-router-dom';
 
 const MenuList = styled.ul`
   position: fixed;
@@ -42,61 +40,53 @@ const MenuIcon = styled.img`
   height: 24px;
 `;
 
-export default function TabMenu() {
-  const history = useHistory();
-  const [activeNav, setActiveNav] = useState(1);
-
+export default function TabMenu(props) {
   return (
     <>
       <MenuList>
         <MenuItem>
-          <MenuBtn
-            onClick={() => {
-              setActiveNav(1);
-              history.push('/home');
-            }}
-          >
-            <MenuIcon src={activeNav === 1 ? homeIconFill : homeIcon} />
-            <MenuTitle color={activeNav === 1 ? ' #EA7F42' : '#767676'}>
-              홈
-            </MenuTitle>
-          </MenuBtn>
+          <Link to='/feed'>
+            <MenuBtn>
+              <MenuIcon src={props.type === 'feed' ? homeIconFill : homeIcon} />
+              <MenuTitle color={props.type === 'feed' ? '#EA7F42' : '#767676'}>
+                홈
+              </MenuTitle>
+            </MenuBtn>
+          </Link>
         </MenuItem>
         <MenuItem>
-          <MenuBtn
-            onClick={() => {
-              setActiveNav(2);
-              history.push('/chat/list');
-            }}
-          >
-            <MenuIcon src={activeNav === 2 ? messageIconFill : messageIcon} />
-            <MenuTitle color={activeNav === 2 ? ' #EA7F42' : '#767676'}>
-              채팅
-            </MenuTitle>
-          </MenuBtn>
+          <Link to='#'>
+            <MenuBtn>
+              <MenuIcon
+                src={props.type === 'chat' ? messageIconFill : messageIcon}
+              />
+              <MenuTitle color={props.type === 'chat' ? '#EA7F42' : '#767676'}>
+                채팅
+              </MenuTitle>
+            </MenuBtn>
+          </Link>
         </MenuItem>
         <MenuItem>
-          <MenuBtn
-            onClick={() => {
-              history.push('/post/upload');
-            }}
-          >
-            <MenuIcon src={editIcon} />
-            <MenuTitle color={'#767676'}>게시물 작성</MenuTitle>
-          </MenuBtn>
+          <Link to='/post/upload'>
+            <MenuBtn>
+              <MenuIcon src={editIcon} />
+              <MenuTitle>게시물 작성</MenuTitle>
+            </MenuBtn>
+          </Link>
         </MenuItem>
         <MenuItem>
-          <MenuBtn
-            onClick={() => {
-              setActiveNav(4);
-              history.push('/profile');
-            }}
-          >
-            <MenuIcon src={activeNav === 4 ? userIconFill : userIcon} />
-            <MenuTitle color={activeNav === 4 ? ' #EA7F42' : '#767676'}>
-              프로필
-            </MenuTitle>
-          </MenuBtn>
+          <Link to='/profile'>
+            <MenuBtn>
+              <MenuIcon
+                src={props.type === 'profile' ? userIconFill : userIcon}
+              />
+              <MenuTitle
+                color={props.type === 'profile' ? '#EA7F42' : '#767676'}
+              >
+                프로필
+              </MenuTitle>
+            </MenuBtn>
+          </Link>
         </MenuItem>
       </MenuList>
     </>

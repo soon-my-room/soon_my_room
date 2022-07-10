@@ -26,14 +26,12 @@ const NavContainer = styled.div`
 
 export default function FeedPage() {
   return (
-    <>
-      <HomeContainer>
-        <NavContainer>
-          <Header />
-        </NavContainer>
-        <BasicFeed />
-        <TabMenu />
-      </HomeContainer>
-    </>
+    <HomeContainer>
+      <NavContainer>
+        <Header />
+      </NavContainer>
+      <BasicFeed />
+      <TabMenu type='feed' />
+    </HomeContainer>
   );
 }

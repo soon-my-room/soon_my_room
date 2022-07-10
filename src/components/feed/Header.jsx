@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import SearchBtn from './SearchBtn';
+import SearchButton from './SearchButton';
 
 const Title = styled.h1`
   margin: 13px 0px 13px 16px;
@@ -17,7 +17,7 @@ export default function Header() {
   return (
     <>
       <Title>재능마켓 피드</Title>
-      <SearchBtn />
+      <SearchButton />
     </>
   );
 }

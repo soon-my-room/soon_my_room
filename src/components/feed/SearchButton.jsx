@@ -12,14 +12,12 @@ const SearchBtnImg = styled.img`
   height: 24px;
 `;
 
-export default function SearchBtn() {
+export default function SearchButton() {
   return (
-    <>
-      <SearchBtnContainer>
-        <Link to='/search'>
-          <SearchBtnImg src={searchIcon} />
-        </Link>
-      </SearchBtnContainer>
-    </>
+    <SearchBtnContainer>
+      <Link to='/search'>
+        <SearchBtnImg src={searchIcon} />
+      </Link>
+    </SearchBtnContainer>
   );
 }

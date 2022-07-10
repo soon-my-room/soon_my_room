@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Logo from '../../assets/symbol-logo-gray.png';
-import { useHistory } from 'react-router';
+import { Link } from 'react-router-dom';
 
 const FeedContainer = styled.div`
   display: flex;
@@ -29,7 +29,6 @@ const BasicTxt = styled.p`
 
 const SearchBigBtn = styled.button`
   width: 120px;
-  /* height: 44px; */
   border-radius: 44px;
   background-color: var(--main-color);
   color: var(--disabled-text-color);
@@ -42,22 +41,15 @@ const SearchBigBtn = styled.button`
 `;
 
 export default function BasicFeed() {
-  const history = useHistory();
   return (
-    <div>
-      <FeedContainer>
-        <LogoContainer>
-          <LogoImg src={Logo} />
-        </LogoContainer>
-        <BasicTxt>유저를 검색해 팔로우 해보세요!</BasicTxt>
-        <SearchBigBtn
-          onClick={() => {
-            history.push('/search');
-          }}
-        >
-          검색하기
-        </SearchBigBtn>
-      </FeedContainer>
-    </div>
+    <FeedContainer>
+      <LogoContainer>
+        <LogoImg src={Logo} />
+      </LogoContainer>
+      <BasicTxt>유저를 검색해 팔로우 해보세요!</BasicTxt>
+      <Link to='/search'>
+        <SearchBigBtn>검색하기</SearchBigBtn>
+      </Link>
+    </FeedContainer>
   );
 }

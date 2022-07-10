@@ -22,7 +22,7 @@ const AbledBtn = styled(DisabledBtn)`
   cursor: pointer;
 `;
 
-export default function LongBtn({ children, onClick, disabled }) {
+export default function LongButton({ children, onClick, disabled }) {
   return (
     <>
       {disabled ? (

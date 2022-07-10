@@ -29,28 +29,17 @@ const Input = styled.input`
   &:focus {
     border-bottom: 1px solid var(--main-color);
   }
+
+  &::placeholder {
+    color: var(--border-gray);
+  }
 `;
 
-export default function InputBox({
-  id,
-  labelText,
-  type = 'text',
-  placeholder,
-  onChange,
-  onBlur,
-  useRef,
-}) {
+export default function InputBox({ type = 'text', useRef, ...props }) {
   return (
     <InputContainer>
-      <Label htmlFor={id}>{labelText}</Label>
-      <Input
-        type={type}
-        onChange={onChange}
-        onBlur={onBlur}
-        ref={useRef}
-        id={id}
-        placeholder={placeholder}
-      />
+      <Label htmlFor={props.id}>{props.labelText}</Label>
+      <Input type={type} ref={useRef} {...props} />
     </InputContainer>
   );
 }
