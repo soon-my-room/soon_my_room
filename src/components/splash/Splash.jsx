@@ -31,6 +31,7 @@ const AniSplash = styled.div`
   background-color: var(--bg-color);
   animation: 0.5s ease-in-out ${ImageFadeOut} forwards;
   animation-delay: 0.5s;
+  z-index: 10;
 `;
 
 export default function Splash() {

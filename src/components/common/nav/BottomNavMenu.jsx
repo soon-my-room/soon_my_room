@@ -1,11 +1,11 @@
 import styled from 'styled-components';
-import homeIcon from '../../assets/icon/icon-home.svg';
-import homeIconFill from '../../assets/icon/icon-home-fill.svg';
-import messageIcon from '../../assets/icon/icon-message-circle.svg';
-import messageIconFill from '../../assets/icon/icon-message-circle-fill.svg';
-import editIcon from '../../assets/icon/icon-edit.svg';
-import userIcon from '../../assets/icon/icon-user.svg';
-import userIconFill from '../../assets/icon/icon-user-fill.svg';
+import homeIcon from '../../../assets/icon/icon-home.svg';
+import homeIconFill from '../../../assets/icon/icon-home-fill.svg';
+import messageIcon from '../../../assets/icon/icon-message-circle.svg';
+import messageIconFill from '../../../assets/icon/icon-message-circle-fill.svg';
+import editIcon from '../../../assets/icon/icon-edit.svg';
+import userIcon from '../../../assets/icon/icon-user.svg';
+import userIconFill from '../../../assets/icon/icon-user-fill.svg';
 import { Link } from 'react-router-dom';
 
 const MenuList = styled.ul`

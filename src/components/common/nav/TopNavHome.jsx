@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import SearchButton from './SearchButton';
+// import SearchButton from '../../feed/SearchButton';
+import searchIcon from '../../../assets/icon/icon-search.svg';
+import { Link } from 'react-router-dom';
 
 const Title = styled.h1`
   margin: 13px 0px 13px 16px;
@@ -13,11 +15,19 @@ const Title = styled.h1`
   line-height: 22px;
 `;
 
+const SearchBtnImg = styled.img`
+  margin: 12px 16px 12px 0px;
+  width: 24px;
+  height: 24px;
+`;
+
 export default function Header() {
   return (
     <>
       <Title>재능마켓 피드</Title>
-      <SearchButton />
+      <Link to='/search'>
+        <SearchBtnImg src={searchIcon} />
+      </Link>
     </>
   );
 }

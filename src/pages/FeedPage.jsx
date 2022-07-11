@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import Header from '../components/feed/Header';
+import TopNavHome from '../components/common/nav/TopNavHome';
 import BasicFeed from '../components/feed/BasicFeed';
-import TabMenu from '../components/feed/TabMenu';
+import BottomNavMenu from '../components/common/nav/BottomNavMenu';
 
 const HomeContainer = styled.main`
   width: 100%;
@@ -28,10 +28,10 @@ export default function FeedPage() {
   return (
     <HomeContainer>
       <NavContainer>
-        <Header />
+        <TopNavHome />
       </NavContainer>
       <BasicFeed />
-      <TabMenu type='feed' />
+      <BottomNavMenu type='feed' />
     </HomeContainer>
   );
 }
