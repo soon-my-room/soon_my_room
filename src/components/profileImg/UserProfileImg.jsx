@@ -27,6 +27,7 @@ const TinyProfileImage = styled.img`
 `;
 
 export default function UserProfile(props) {
+  //프로필 이미지 사이즈 별로 사용시 UserProfile의 props.size에 해당 값을 전달하여 사용
   if (props.size === 'tiny') {
     return <TinyProfileImage src={basicProfile} />;
   } else if (props.size === 'small') {
