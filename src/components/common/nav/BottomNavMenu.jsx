@@ -40,7 +40,7 @@ const MenuIcon = styled.img`
   height: 24px;
 `;
 
-export default function TabMenu(props) {
+export default function BottomNavMenu(props) {
   return (
     <>
       <MenuList>

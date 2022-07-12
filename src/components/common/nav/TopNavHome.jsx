@@ -21,7 +21,7 @@ const SearchBtnImg = styled.img`
   height: 24px;
 `;
 
-export default function Header() {
+export default function TopNavHome() {
   return (
     <>
       <Title>재능마켓 피드</Title>
