@@ -10,20 +10,21 @@ const ModalStyled = styled.ul`
   border-top-right-radius: 10px;
   background-color: white;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
-`;
-
-const LineDiv = styled.div`
-  width: 50px;
-  height: 4px;
-  margin: 0 auto 16px;
-  background: var(--border-gray);
-  border-radius: 5px;
+  &::before {
+    content: '';
+    width: 50px;
+    height: 4px;
+    display: block;
+    margin: 0 auto 16px;
+    background: var(--border-gray);
+    border-radius: 5px;
+  }
 `;
 
 export default function ModalContainer({ children }) {
   return (
     <ModalStyled>
-      <LineDiv />
+      {/* <LineDiv /> */}
       {children}
     </ModalStyled>
   );
