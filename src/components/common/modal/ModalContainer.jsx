@@ -22,10 +22,5 @@ const ModalStyled = styled.ul`
 `;
 
 export default function ModalContainer({ children }) {
-  return (
-    <ModalStyled>
-      {/* <LineDiv /> */}
-      {children}
-    </ModalStyled>
-  );
+  return <ModalStyled>{children}</ModalStyled>;
 }

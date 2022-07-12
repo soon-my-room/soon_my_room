@@ -4,7 +4,6 @@ import styled from 'styled-components';
 const ModalLi = styled.li`
   padding: 0 26px;
   margin: 0 10px;
-
   &:hover {
     background-color: var(--border-gray);
     border-radius: 15px;
