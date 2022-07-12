@@ -3,6 +3,7 @@ import ProfileSettingPage from './pages/ProfileSettingPage';
 import LoginHomePage from './pages/LoginHomePage';
 import LoginPage from './pages/LoginPage';
 import JoinPage from './pages/JoinPage';
+import FeedPage from './pages/FeedPage';
 import FollowPage from './pages/FollowPage';
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
           exact
           render={(props) => <FollowPage title='Followings' {...props} />}
         />
+        <Route path='/feed' exact component={FeedPage} />
       </Switch>
     </>
   );
