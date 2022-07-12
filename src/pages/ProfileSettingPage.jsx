@@ -4,11 +4,17 @@ import InputBox from '../components/common/input/InputBox';
 import ErrorMessageBox from '../components/common/input/ErrorMessageBox';
 import LongButton from '../components/common/button/LongButton';
 import LoginTitle from '../components/login/LoginTitle';
-import Profile from '../components/profileImg/Profile';
+import ProfileImg from '../components/profileImg/ProfileImg';
 
 const Form = styled.form`
   width: 322px;
   margin: 0 auto;
+`;
+
+const ProfileWrapper = styled.div`
+  width: 110px;
+  height: 110px;
+  margin: 30px auto;
 `;
 
 export default function ProfileSettingPage(props) {
@@ -236,7 +242,9 @@ export default function ProfileSettingPage(props) {
     <>
       <LoginTitle subTxt>프로필 설정</LoginTitle>
       <Form>
-        <Profile />
+        <ProfileWrapper>
+          <ProfileImg />
+        </ProfileWrapper>
         <InputBox
           useRef={userNameRef}
           onChange={handleUserNameValidCheck}
