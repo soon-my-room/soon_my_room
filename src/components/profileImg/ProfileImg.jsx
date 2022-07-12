@@ -6,13 +6,10 @@ import styled from 'styled-components';
 const ProfileImageContainer = styled.div`
   width: 110px;
   height: 110px;
-  margin: 30px auto;
   position: relative;
 `;
 
 const ProfileImage = styled.img`
-  width: 110px;
-  height: 110px;
   border-radius: 50%;
 `;
 
@@ -60,27 +57,6 @@ export default function ProfileImg() {
     });
   };
 
-  // const onLoadFile = async (e) => {
-  //   const file = e.target.files;
-  //   const formData = new FormData();
-  //   const url = 'https://mandarin.api.weniv.co.kr';
-  //   formData.append('image', file[0]);
-  //   console.log(formData);
-  //   try {
-  //     const response = await fetch(url + '/image/uploadfile', {
-  //       method: 'POST',
-  //       body: formData,
-  //     });
-  //     console.log(response);
-  //     const data = await response.json();
-  //     console.log(data);
-  //     const uploadImageUrl = url + '/' + data.filename;
-  //     setImageSrc(uploadImageUrl);
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // };
-
   return (
     <>
       <ProfileImageContainer>
@@ -90,7 +66,6 @@ export default function ProfileImg() {
           accept='image/*'
           onChange={(e) => {
             encodeFileToBase64(e.target.files[0]);
-            // onLoadFile(e);
           }}
           name='file'
           ref={imageInput}
