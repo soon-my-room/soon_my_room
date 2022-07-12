@@ -1,14 +1,9 @@
 import React from 'react';
-import styled from 'styled-components';
+import BasicProfile from '../profileImg/BasicProfile';
+import Button from '../common/button/Button';
 import { Link } from 'react-router-dom';
-import BasicProfile from '../components/profileImg/BasicProfile';
-import Button from './common/button/Button';
+import styled from 'styled-components';
 
-const ProfileWrap = styled.section`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
 const ProfileFollowWrap = styled.div`
   width: 100%;
   display: flex;
@@ -20,7 +15,8 @@ const ButtonWrap = styled.div`
   display: flex;
   justify-content: center;
   gap: 10px;
-  margin: 0 auto; ;
+  margin: 0 auto;
+  text-align: center;
 `;
 
 const FollowersLink = styled(Link)`
@@ -64,21 +60,19 @@ const FollowingLink = styled(FollowersLink)`
   color: var(--subtitle-text);
 `;
 
-export default function ProfileContainer() {
-  const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-  const { username, accountname, intro, image, token } = userInfo.user;
-
+export default function ProfileDataCard(props) {
+  const { followerCount, followingCount, username, intro, accountname } =
+    props?.userData.profile;
   return (
-    <ProfileWrap>
-      <h3 className='ir'>프로필</h3>
+    <>
       <ProfileFollowWrap>
-        <FollowersLink to='#none'>
-          <span>2950</span>
+        <FollowersLink to='/follower'>
+          <span>{followerCount}</span>
           <span>followers</span>
         </FollowersLink>
         <BasicProfile />
-        <FollowingLink to='#none'>
-          <span>128</span>
+        <FollowingLink to='/following'>
+          <span>{followingCount}</span>
           <span>followings</span>
         </FollowingLink>
       </ProfileFollowWrap>
@@ -89,13 +83,13 @@ export default function ProfileContainer() {
         <UserIntro>{intro}</UserIntro>
       </ProfileDescriptionWrap>
       <ButtonWrap>
-        <Button medium white>
+        <Button as={Link} to='/프로필수정페이지' medium white>
           프로필 수정
         </Button>
-        <Button medium100 white>
+        <Button as={Link} to='/상품등록페이지' medium100 white>
           상품 등록
         </Button>
       </ButtonWrap>
-    </ProfileWrap>
+    </>
   );
 }
