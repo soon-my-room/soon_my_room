@@ -8,6 +8,7 @@ const Container = styled.nav`
   padding: 8px 16px;
   width: 100%;
   height: 48px;
+  border-bottom: 0.5px solid var(--border-gray);
 
   &::after {
     content: '';
