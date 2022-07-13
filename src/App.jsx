@@ -6,7 +6,7 @@ import JoinPage from './pages/JoinPage';
 import FeedPage from './pages/FeedPage';
 import FollowPage from './pages/FollowPage';
 import ProfileEditPage from './pages/ProfileEditPage';
-import ProductUploadPage from './pages/ProductUploadPage';
+import ProductAddPage from './pages/ProductAddPage';
 
 function App() {
   return (
@@ -28,7 +28,7 @@ function App() {
         />
         <Route path='/feed' exact component={FeedPage} />
         <Route path='/profile/edit' exact component={ProfileEditPage} />
-        <Route path='/product/upload' exact component={ProductUploadPage} />
+        <Route path='/product/add' exact component={ProductAddPage} />
       </Switch>
     </>
   );
