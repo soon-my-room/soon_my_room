@@ -1,5 +1,5 @@
 import React from 'react';
-import BasicProfile from '../profileImg/BasicProfile';
+import UserProfileImg from '../profileImg/UserProfileImg';
 import Button from '../common/button/Button';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
@@ -9,6 +9,7 @@ const ProfileFollowWrap = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-around;
+  margin-top: 30px;
 `;
 
 const ButtonWrap = styled.div`
@@ -22,15 +23,19 @@ const ButtonWrap = styled.div`
 const FollowersLink = styled(Link)`
   display: flex;
   flex-direction: column;
+  text-align: center;
+`;
+
+const FollowText = styled.span`
+  font-weight: 400;
+  font-size: 10px;
+  margin-top: 6px;
+  color: var(--subtitle-text);
+`;
+
+const Count = styled.span`
   font-weight: 700;
   font-size: 18px;
-  text-align: center;
-
-  & span:last-child {
-    font-weight: 400;
-    font-size: 10px;
-    color: var(--subtitle-text);
-  }
 `;
 
 const ProfileDescriptionWrap = styled.div`
@@ -67,13 +72,13 @@ export default function ProfileDataCard(props) {
     <>
       <ProfileFollowWrap>
         <FollowersLink to='/follower'>
-          <span>{followerCount}</span>
-          <span>followers</span>
+          <Count>{followerCount}</Count>
+          <FollowText>followers</FollowText>
         </FollowersLink>
-        <BasicProfile />
-        <FollowingLink to='/following'>
-          <span>{followingCount}</span>
-          <span>followings</span>
+        <UserProfileImg />
+        <FollowingLink to='/ollowing'>
+          <Count>{followingCount}</Count>
+          <FollowText>followings</FollowText>
         </FollowingLink>
       </ProfileFollowWrap>
 
