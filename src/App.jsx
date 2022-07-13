@@ -7,6 +7,7 @@ import FeedPage from './pages/FeedPage';
 import FollowPage from './pages/FollowPage';
 import ProfileEditPage from './pages/ProfileEditPage';
 import ProductAddPage from './pages/ProductAddPage';
+import ProductEditPage from './pages/ProductEditPage';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
         <Route path='/feed' exact component={FeedPage} />
         <Route path='/profile/edit' exact component={ProfileEditPage} />
         <Route path='/product/add' exact component={ProductAddPage} />
+        <Route path='/product/edit' exact component={ProductEditPage} />
       </Switch>
     </>
   );

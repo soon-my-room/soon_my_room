@@ -8,7 +8,7 @@ const ProfileEditWrap = styled.div`
   margin: 0 auto;
 `;
 
-export default function ProductAddPage() {
+export default function ProductEditPage() {
   return (
     <ProfileEditWrap>
       <TopUploadNav buttonText='저장' buttonDisabled />
