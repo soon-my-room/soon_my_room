@@ -5,6 +5,7 @@ import LoginPage from './pages/LoginPage';
 import JoinPage from './pages/JoinPage';
 import FeedPage from './pages/FeedPage';
 import FollowPage from './pages/FollowPage';
+import ProfileEditPage from './pages/ProfileEditPage';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           render={(props) => <FollowPage title='Followings' {...props} />}
         />
         <Route path='/feed' exact component={FeedPage} />
+        <Route path='/profile/edit' exact component={ProfileEditPage} />
       </Switch>
     </>
   );
