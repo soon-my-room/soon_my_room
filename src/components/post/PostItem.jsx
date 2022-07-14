@@ -56,7 +56,7 @@ const Text = styled.p`
   font-size: 14px;
   line-height: 18px;
   margin-bottom: 16px;
-  word-break: keep-all;
+  word-break: break-all;
 `;
 
 const PostImg = styled.img``;
