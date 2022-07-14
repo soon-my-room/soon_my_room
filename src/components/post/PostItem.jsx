@@ -6,7 +6,7 @@ import postUploadImg from '../../assets/icon/post-upload-Img.svg';
 import comment from '../../assets/icon/icon-comment.svg';
 import more from '../../assets/icon/s-icon-more-vertical.svg';
 
-const PostWrap = styled.section`
+const PostWrap = styled.li`
   display: flex;
   flex-direction: column;
 `;
