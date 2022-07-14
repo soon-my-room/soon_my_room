@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 import basicProfile from '../../assets/basic-profile.png';
 import viewMore from '../../assets/icon/icon-more-vertical.svg';
 
-const Font = css`
+const FontFamily = css`
   font-family: 'Spoqa Han Sans Neo';
 `;
 
@@ -23,14 +23,14 @@ const UserProfile = styled.img`
 
 const UserName = styled.p`
   display: inline-block;
-  ${Font}
+  ${FontFamily}
   font-size: 14px;
   font-weight: 500;
   margin: 6px 6px 16px 0;
 `;
 
-const StyledSpan = styled.span`
-  ${Font}
+const CreatedTime = styled.span`
+  ${FontFamily}
   font-weight: 400;
   font-size: 10px;
   color: var(--subtitle-text);
@@ -47,7 +47,7 @@ const ViewMore = styled.img`
 `;
 
 const Comment = styled.p`
-  ${Font}
+  ${FontFamily}
   font-weight:400;
   font-size: 14px;
   line-height: 18px;
@@ -61,7 +61,7 @@ export default function CommentItem() {
       <UserWrap>
         <UserProfile src={basicProfile} alt='댓글 작성자 프로필 이미지' />
         <UserName>서귀포시 무슨 농장</UserName>
-        <StyledSpan>5분 전</StyledSpan>
+        <CreatedTime>5분 전</CreatedTime>
         <ViewMoreBtn>
           <ViewMore src={viewMore} alt='더 보기' />
         </ViewMoreBtn>
