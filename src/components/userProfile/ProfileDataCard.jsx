@@ -88,10 +88,10 @@ export default function ProfileDataCard(props) {
         <UserIntro>{intro}</UserIntro>
       </ProfileDescriptionWrap>
       <ButtonWrap>
-        <Button as={Link} to='/프로필수정페이지' medium white>
+        <Button as={Link} to='/프로필수정페이지' medium='true' white='true'>
           프로필 수정
         </Button>
-        <Button as={Link} to='/상품등록페이지' medium100 white>
+        <Button as={Link} to='/상품등록페이지' medium100='true' white='true'>
           상품 등록
         </Button>
       </ButtonWrap>
