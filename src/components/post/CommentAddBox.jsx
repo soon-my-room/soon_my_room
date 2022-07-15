@@ -6,7 +6,6 @@ const Wrap = styled.div`
   width: 100%;
   position: fixed;
   bottom: 0;
-  //   padding: 13px 16px 12px;
   border-top: 0.5px solid var(--border-gray);
   background-color: white;
 `;
@@ -31,6 +30,7 @@ const CommentInput = styled.input`
     color: var(--border-gray);
   }
 `;
+
 const AddBtn = styled.button`
   padding: 23px 16px 20px;
   font-family: 'Spoqa Han Sans Neo';
