@@ -2,7 +2,7 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import postAlbumOff from '../../../assets/icon/icon-post-album-off.svg';
 import postAlbumOn from '../../../assets/icon/icon-post-album-on.svg';
-import postListOff from '../../../assets/icon/icon-post-list-on.svg';
+import postListOff from '../../../assets/icon/icon-post-list-off.svg';
 import postListOn from '../../../assets/icon/icon-post-list-on.svg';
 
 const Button = css`
