@@ -9,7 +9,6 @@ const ProfileFollowWrap = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-around;
-  margin-top: 30px;
 `;
 
 const ButtonWrap = styled.div`

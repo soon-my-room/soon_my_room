@@ -8,6 +8,7 @@ const ProfileWrap = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 30px 0 26px;
 `;
 
 export default function ProfileContainer(props) {
@@ -42,7 +43,6 @@ export default function ProfileContainer(props) {
     const { accountname, token } = userInfo.user;
     const UserProfileData = GetUserProfileData(accountname, token);
     UserProfileData.then((userData) => {
-      console.log('userData', userData);
       setUserData(userData);
     });
   }, []);
