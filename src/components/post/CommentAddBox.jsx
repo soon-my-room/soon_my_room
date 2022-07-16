@@ -29,6 +29,10 @@ const CommentInput = styled.input`
   &::placeholder {
     color: var(--border-gray);
   }
+  &:valid + button {
+    color: var(--main-color);
+    cursor: pointer;
+  }
 `;
 
 const AddBtn = styled.button`
@@ -36,18 +40,25 @@ const AddBtn = styled.button`
   font-family: 'Spoqa Han Sans Neo';
   font-weight: 500;
   font-size: 14px;
-  color: ${(props) => props.color};
+  color: var(--border-gray);
+  cursor: not-allowed;
   float: right;
 `;
 
-export default function CommentAddBox({ ...props }) {
+export default function CommentAddBox() {
   const inputRef = useRef();
+  //   const [addBtnAble, setAddBtnAble] = useState(true);
 
   return (
     <Wrap>
       <AuthorProfile src={basicProfile} alt='작성자 프로필 이미지' />
-      <CommentInput placeholder='댓글 입력하기' size='75' ref={inputRef} />
-      <AddBtn {...props}>게시</AddBtn>
+      <CommentInput
+        placeholder='댓글 입력하기'
+        size='75'
+        useRef={inputRef}
+        required='required'
+      />
+      <AddBtn>게시</AddBtn>
     </Wrap>
   );
 }
