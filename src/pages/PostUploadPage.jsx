@@ -4,8 +4,9 @@ import uploadFile from '../assets/upload-file.png';
 import basicProfile from '../assets/basic-profile.png';
 import TopNavUpload from '../components/common/nav/TopNavUpload';
 
-const TextAreaWrap = styled.section`
-  text-align: center;
+const Container = styled.section`
+  width: 390px;
+  margin: 0 auto;
 `;
 
 const AuthorProfile = styled.img`
@@ -14,29 +15,27 @@ const AuthorProfile = styled.img`
   vertical-align: top;
 `;
 
-const Form = styled.form`
+const TextArea = styled.form`
   display: inline-block;
-  margin: 32px 0 0 13px;
+  margin-top: 32px;
+  margin-left: 13px;
 `;
-const TextArea = styled.textarea`
+const Input = styled.div`
   font-family: 'Spoqa Han Sans Neo';
+  font-style: normal;
   font-weight: 400;
   font-size: 14px;
-  color: var(--main-title-color);
+  line-height: 18px;
+  color: #000000;
   outline: none;
   cursor: text;
-  &::placeholder {
+  max-width: 304px;
+  /* overflow: hidden; */
+  overflow-y: hidden;
+  &:empty:before {
+    content: attr(placeholder);
     color: var(--border-gray);
   }
-`;
-
-const HiddenImgBox = styled.div`
-  top: 16px;
-  width: 304px;
-  height: 228px;
-  border: 0.5px solid var(--border-gray);
-  border-radius: 10px;
-  display: none;
 `;
 const UploadFileImage = styled.img`
   width: 50px;
@@ -45,29 +44,30 @@ const UploadFileImage = styled.img`
   bottom: 16px;
   right: 16px;
 `;
-const HiddenUploadFileInput = styled.input`
+const HiddenInput = styled.input`
   display: none;
 `;
+
 export default function PostUploadPage() {
   const imgInputRef = useRef();
   const textAreaRef = useRef();
   return (
     <>
-      <TopNavUpload buttonText='업로드' buttonDisabled onClick />
-      <TextAreaWrap>
+      <TopNavUpload buttonText='업로드' buttonDisabled onClick>
+        업로드
+      </TopNavUpload>
+      <Container>
         <AuthorProfile src={basicProfile} alt='작성자 프로필 이미지' />
-        <Form name='post-upload'>
-          <TextArea
-            rows='80'
-            cols='50'
+        <TextArea name='post-upload'>
+          <Input
             placeholder='게시글 입력하기...'
+            contentEditable='true'
             ref={textAreaRef}
           />
-          <HiddenImgBox />
           <label htmlFor='imgUpload'></label>
-          <HiddenUploadFileInput type='file' id='imgUpload' ref={imgInputRef} />
-        </Form>
-      </TextAreaWrap>
+          <HiddenInput type='file' id='imgUpload' ref={imgInputRef} />
+        </TextArea>
+      </Container>
 
       <UploadFileImage src={uploadFile} alt='파일 업로드' onClick />
     </>
