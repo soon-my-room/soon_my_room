@@ -74,6 +74,7 @@ const GlobalStyle = createGlobalStyle`
     --main-title-color: #000000;
     --subtitle-text: #767676;
     --disabled-text-color: #FFFFFF;
+    --paragraph-text-color: #000000;
     --border-gray: #DBDBDB;
     --warning-color: #EB5757;
     --bg-color: #FFFFFF;
