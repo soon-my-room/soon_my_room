@@ -10,7 +10,7 @@ const ModalBackground = styled.div`
   background: rgba(0, 0, 0, 0.8);
 `;
 
-const ModalStyled = styled.ul`
+const ModalWrap = styled.ul`
   width: 100%;
   position: fixed;
   bottom: 0;
@@ -33,7 +33,7 @@ const ModalStyled = styled.ul`
 export default function ModalContainer({ children }) {
   return (
     <ModalBackground>
-      <ModalStyled>{children}</ModalStyled>;
+      <ModalWrap>{children}</ModalWrap>;
     </ModalBackground>
   );
 }
