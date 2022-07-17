@@ -37,12 +37,10 @@ export default function PostList() {
   }, []);
 
   return (
-    <>
-      <PostItemUl>
-        {posts.map((post) => (
-          <PostItem key={post.id} post={post} />
-        ))}
-      </PostItemUl>
-    </>
+    <PostItemUl>
+      {posts.map((post) => (
+        <PostItem key={post.id} post={post} />
+      ))}
+    </PostItemUl>
   );
 }
