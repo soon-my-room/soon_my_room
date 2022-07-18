@@ -92,18 +92,25 @@ const CreatedDate = styled.span`
 `;
 
 export default function PostItem({ post }) {
-  const postDate = new Date(post.createdAt);
-  const year = postDate.getFullYear();
-  const month = postDate.getMonth() + 1;
-  const day = postDate.getDate();
+  console.log(post);
+  function parseDate(dateString) {
+    const postDate = new Date(dateString);
+    postDate.setHours(postDate.getHours() - 9);
+    const year = postDate.getFullYear();
+    const month = postDate.getMonth() + 1;
+    const day = postDate.getDate();
+    console.log(postDate);
+    return [year, month, day];
+  }
+  const [year, month, day] = parseDate(post.createdAt);
 
   return (
     <PostWrap>
       <PostAuthorWrap>
-        <UserProfile size='tiny' />
+        <UserProfile size='tiny' src={post.author.image} />
         <UserWrap>
-          <UserName>{post.author.accountname}</UserName>
-          <UserId>{post.author.username}</UserId>
+          <UserName>{post.author.username}</UserName>
+          <UserId>@ {post.author.accountname}</UserId>
         </UserWrap>
         <MoreButton />
       </PostAuthorWrap>
