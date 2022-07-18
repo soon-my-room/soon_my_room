@@ -9,7 +9,7 @@ const ProfileEditWrap = styled.div`
   margin: 0 auto;
 `;
 
-export default function ProductAddPage() {
+export default function ProductAddPage(props) {
   const [storable, setStorable] = useState(false);
   const [formInfo, setFormInfo] = useState({});
 
@@ -52,7 +52,6 @@ export default function ProductAddPage() {
         }),
       });
 
-      debugger;
       const saveImageResult = await response.json();
       return saveImageResult;
     } catch (err) {
@@ -64,7 +63,12 @@ export default function ProductAddPage() {
     const getUserImageUrl = await saveProductImage();
     const { filename } = getUserImageUrl;
     const message = await saveProduct(formInfo, filename);
-    console.log(message);
+
+    if (message?.product) {
+      props.history.push('/profile');
+    } else {
+      alert('에러가 발생했습니다. 관리자에게 문의해주세요.');
+    }
   };
 
   return (
