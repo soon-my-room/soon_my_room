@@ -94,7 +94,6 @@ const CreatedDate = styled.span`
 export default function PostItem({ post }) {
   function parseDate(dateString) {
     const postDate = new Date(dateString);
-    postDate.setHours(postDate.getHours() - 9);
     const year = postDate.getFullYear();
     const month = postDate.getMonth() + 1;
     const day = postDate.getDate();
