@@ -1,8 +1,9 @@
 import React, { useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import uploadFile from '../assets/upload-file.png';
 import TopNavUpload from '../components/common/nav/TopNavUpload';
+import uploadFile from '../assets/upload-file.png';
+import defaultImg from '../assets/symbol-logo-gray.png';
 import deleteBtnImg from '../assets/icon/x.svg';
 
 const FormAreaWrap = styled.section`
@@ -39,7 +40,6 @@ const UploadedImgArea = styled.figure`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  display: none;
 `;
 
 const UploadedImg = styled.img`
@@ -77,6 +77,23 @@ export default function PostAddPage({ ...props }) {
   const textAreaRef = useRef();
 
   const [textAreaValid, setTextAreaValid] = useState(false);
+  const [img, setImg] = useState([]);
+
+  const handleImgUpload = (e) => {
+    setImg([...img, URL.createObjectURL(e.target.files[0])]);
+    if (img.length > 2) {
+      setImg(img.slice(0, 3));
+    }
+  };
+
+  const handleImgDelete = (e) => {
+    const s = img.filter((item, index) => index !== e);
+    setImg(s);
+  };
+
+  const handleDefaultImg = (e) => {
+    e.target.src = defaultImg;
+  };
 
   const handletextAreaValid = ({ target }) => {
     const textLength = target.value.length;
@@ -143,12 +160,22 @@ export default function PostAddPage({ ...props }) {
             ref={textAreaRef}
             onChange={handletextAreaValid}
           ></TextArea>
-          <UploadedImgArea>
-            <UploadedImg src='업로드 이미지' alt='업로드 이미지' />
-            <ImgDeleteBtn type='button'>
-              <img src={deleteBtnImg} alt='이미지 삭제 버튼' />
-            </ImgDeleteBtn>
-          </UploadedImgArea>
+          {img.length > 0 &&
+            img.map((item, index) => (
+              <UploadedImgArea key={item}>
+                <UploadedImg
+                  src={item}
+                  onError={handleDefaultImg}
+                  alt={`${item}-${index}`}
+                />
+                <ImgDeleteBtn
+                  type='button'
+                  onClick={() => handleImgDelete(index)}
+                >
+                  <img src={deleteBtnImg} alt='이미지 삭제 버튼' />
+                </ImgDeleteBtn>
+              </UploadedImgArea>
+            ))}
           <label htmlFor='imgUpload' title='이미지 파일 업로드'>
             <UploadFileImage src={uploadFile} alt='이미지 파일 업로드' />
           </label>
@@ -158,6 +185,7 @@ export default function PostAddPage({ ...props }) {
             accept='image/*'
             id='imgUpload'
             ref={imgInputRef}
+            onChange={handleImgUpload}
           />
         </Form>
       </FormAreaWrap>
