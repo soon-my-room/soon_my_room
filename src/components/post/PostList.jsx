@@ -1,5 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import PostItem from './PostItem';
 
@@ -12,12 +13,13 @@ const PostItemUl = styled.ul`
 
 export default function PostList() {
   const [posts, setPosts] = useState([]);
+  const params = useParams();
 
   useEffect(() => {
     async function userPostGet() {
       const userInfo = JSON.parse(localStorage.getItem('userInfo')).user;
       const url = 'https://mandarin.api.weniv.co.kr';
-      const reqPath = `/post/${userInfo.accountname}/userpost`;
+      const reqPath = `/post/${params.userId}/userpost`;
 
       try {
         const res = await fetch(url + reqPath, {
