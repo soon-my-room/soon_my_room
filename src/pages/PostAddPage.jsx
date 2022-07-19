@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import TopNavUpload from '../components/common/nav/TopNavUpload';
-import basicProfile from '../assets/basic-profile.png';
+import UserProfile from '../components/profileImg/UserProfileImg';
 import symbolLogoGray from '../assets/symbol-logo-gray.png';
 import uploadFile from '../assets/upload-file.png';
 import deleteBtnImg from '../assets/icon/x.svg';
@@ -11,8 +11,7 @@ const FormAreaWrap = styled.section`
   text-align: center;
 `;
 
-const AuthorProfile = styled.img`
-  width: 42px;
+const AuthorProfile = styled(UserProfile)`
   vertical-align: top;
 `;
 
@@ -80,7 +79,7 @@ const HiddenUploadFileInput = styled.input`
   display: none;
 `;
 
-export default function PostAddPage() {
+export default function PostAddPage({ ...props }) {
   const [textAreaValid, setTextAreaValid] = useState(false);
 
   const handleTextAreaValid = ({ target }) => {
@@ -93,12 +92,25 @@ export default function PostAddPage() {
     return;
   };
 
+  const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+  if (!userInfo) {
+    console.log('로그인을 먼저 해주세요.');
+    props.history.push('/login');
+    return;
+  }
+
+  const AuthorProfileImg = userInfo.user.image;
+
   return (
     <>
       <TopNavUpload buttonText='업로드' buttonDisabled={!textAreaValid} />
       <FormAreaWrap>
         <form>
-          <AuthorProfile src={basicProfile} alt='글 작성자 프로필 이미지' />
+          <AuthorProfile
+            size='tiny'
+            src={AuthorProfileImg}
+            alt='글 작성자 프로필 이미지'
+          />
           <TextArea
             placeholder='게시글 입력하기...'
             cols='50'
