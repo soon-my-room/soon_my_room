@@ -95,7 +95,7 @@ export default function ProfileDataCard(props) {
           <FollowText>followers</FollowText>
         </FollowersLink>
         <UserProfileImg />
-        <FollowingLink to='/ollowing'>
+        <FollowingLink to='/following'>
           <Count>{followingCount}</Count>
           <FollowText>followings</FollowText>
         </FollowingLink>
