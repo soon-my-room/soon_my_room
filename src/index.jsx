@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
-import { createGlobalStyle } from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 import reset from 'styled-reset';
 import App from './App';
 
@@ -80,12 +80,19 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
+const AppFixedWrap = styled.div`
+  width: 390px;
+  margin: 0 auto;
+`;
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <>
     <GlobalStyle />
     <BrowserRouter>
-      <App />
+      <AppFixedWrap>
+        <App />
+      </AppFixedWrap>
     </BrowserRouter>
   </>,
 );
