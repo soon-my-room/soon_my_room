@@ -37,7 +37,7 @@ export default function PostList({ userId, ...props }) {
   }, []);
 
   return (
-    <PostItemUl>
+    <PostItemUl className={props.className}>
       {posts.map((post) => (
         <PostItem key={post.id} post={post} />
       ))}
