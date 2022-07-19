@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import UserProfile from '../../components/profileImg/UserProfileImg';
 import heart from '../../assets/icon/icon-heart.svg';
-import postUploadImg from '../../assets/icon/post-upload-Img.svg';
 import comment from '../../assets/icon/icon-comment.svg';
 import more from '../../assets/icon/s-icon-more-vertical.svg';
 
@@ -85,36 +84,43 @@ const CommentButton = styled(HeartButton)`
   }
 `;
 
-const Date = styled.span`
+const CreatedDate = styled.span`
   font-weight: 400;
   font-size: 10px;
   line-height: 12px;
   color: var(--subtitle-text);
 `;
 
-export default function PostItem() {
+export default function PostItem({ post }) {
+  function parseDate(dateString) {
+    const postDate = new Date(dateString);
+    const year = postDate.getFullYear();
+    const month = postDate.getMonth() + 1;
+    const day = postDate.getDate();
+    return [year, month, day];
+  }
+  const [year, month, day] = parseDate(post.createdAt);
+
   return (
     <PostWrap>
       <PostAuthorWrap>
-        <UserProfile size='tiny' />
+        <UserProfile size='tiny' src={post.author.image} />
         <UserWrap>
-          <UserName>애월읍 위니브 감귤농장</UserName>
-          <UserId>@ weniv_Mandarin</UserId>
+          <UserName>{post.author.username}</UserName>
+          <UserId>@ {post.author.accountname}</UserId>
         </UserWrap>
         <MoreButton />
       </PostAuthorWrap>
       <PostContentWrap>
-        <Text>
-          옷을 인생을 그러므로 없으면 것은 이상은 것은 우리의 위하여, 뿐이다.
-          이상의 청춘의 뼈 따뜻한 그들의 그와 악동하다. 대고, 못할 넣는 풍부하게
-          뛰노는 인생의 힘있다.
-        </Text>
-        <PostImg src={postUploadImg} alt='게시글상품사진' />
+        <Text>{post.content}</Text>
+        {post.image === '' ? null : (
+          <PostImg src={post.image} alt='게시글상품사진' />
+        )}
         <ButtonWrap>
-          <HeartButton>58</HeartButton>
-          <CommentButton>12</CommentButton>
+          <HeartButton>{post.heartCount}</HeartButton>
+          <CommentButton>{post.commentCount}</CommentButton>
         </ButtonWrap>
-        <Date>2020년 10월 21일</Date>
+        <CreatedDate>{`${year}년 ${month}월 ${day}일`}</CreatedDate>
       </PostContentWrap>
     </PostWrap>
   );

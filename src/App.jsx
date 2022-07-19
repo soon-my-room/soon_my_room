@@ -9,6 +9,8 @@ import ProfileEditPage from './pages/ProfileEditPage';
 import ProductAddPage from './pages/ProductAddPage';
 import ProductEditPage from './pages/ProductEditPage';
 import PostAddPage from './pages/PostAddPage';
+import ProfilePage from './pages/ProfilePage';
+
 function App() {
   return (
     <>
@@ -32,6 +34,7 @@ function App() {
         <Route path='/product/add' exact component={ProductAddPage} />
         <Route path='/product/edit' exact component={ProductEditPage} />
         <Route path='/post/add' exact component={PostAddPage} />
+        <Route path='/profile/:userId' exact component={ProfilePage} />
       </Switch>
     </>
   );

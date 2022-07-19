@@ -1,7 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const ModalStyled = styled.ul`
+const ModalBackground = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.8);
+`;
+
+const ModalWrap = styled.ul`
   width: 100%;
   position: fixed;
   bottom: 0;
@@ -22,5 +31,9 @@ const ModalStyled = styled.ul`
 `;
 
 export default function ModalContainer({ children }) {
-  return <ModalStyled>{children}</ModalStyled>;
+  return (
+    <ModalBackground>
+      <ModalWrap>{children}</ModalWrap>;
+    </ModalBackground>
+  );
 }

@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import basicProfile from '../../assets/basic-profile.png';
 import viewMore from '../../assets/icon/icon-more-vertical.svg';
+import ModalContainer from '../common/modal/ModalContainer';
+import ModalList from '../common/modal/ModalList';
 
 const FontFamily = css`
   font-family: 'Spoqa Han Sans Neo';
@@ -56,21 +58,32 @@ const Comment = styled.p`
 `;
 
 export default function CommentItem() {
+  const [modalOpen, setModalOpen] = useState(false);
+  const handleModalOpen = () => {
+    setModalOpen(!modalOpen);
+  };
   return (
-    <CommentItemWrap>
-      <UserWrap>
-        <UserProfile src={basicProfile} alt='댓글 작성자 프로필 이미지' />
-        <UserName>서귀포시 무슨 농장</UserName>
-        <CreatedTime>5분 전</CreatedTime>
-        <ViewMoreBtn>
-          <ViewMore src={viewMore} alt='더 보기' />
-        </ViewMoreBtn>
-      </UserWrap>
-      <Comment>
-        안녕하세요. 사진이 너무 멋있어요. 한라봉 언제 먹을 수 있나요? 기다리기
-        지쳤어요 땡뻘땡뻘...안녕하세요. 사진이 너무 멋있어요. 한라봉 언제 먹을
-        수 있나요? 기다리기 지쳤어요 땡뻘땡뻘...
-      </Comment>
-    </CommentItemWrap>
+    <>
+      <CommentItemWrap>
+        <UserWrap>
+          <UserProfile src={basicProfile} alt='댓글 작성자 프로필 이미지' />
+          <UserName>서귀포시 무슨 농장</UserName>
+          <CreatedTime>5분 전</CreatedTime>
+          <ViewMoreBtn onClick={handleModalOpen}>
+            <ViewMore src={viewMore} alt='더 보기' />
+          </ViewMoreBtn>
+        </UserWrap>
+        <Comment>
+          안녕하세요. 사진이 너무 멋있어요. 한라봉 언제 먹을 수 있나요? 기다리기
+          지쳤어요 땡뻘땡뻘...안녕하세요. 사진이 너무 멋있어요. 한라봉 언제 먹을
+          수 있나요? 기다리기 지쳤어요 땡뻘땡뻘...
+        </Comment>
+      </CommentItemWrap>
+      {modalOpen && (
+        <ModalContainer>
+          <ModalList>신고하기</ModalList>
+        </ModalContainer>
+      )}
+    </>
   );
 }
