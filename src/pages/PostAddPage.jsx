@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import TopNavUpload from '../components/common/nav/TopNavUpload';
 import basicProfile from '../assets/basic-profile.png';
@@ -81,13 +81,29 @@ const HiddenUploadFileInput = styled.input`
 `;
 
 export default function PostAddPage() {
+  const [textAreaValid, setTextAreaValid] = useState(false);
+
+  const handleTextAreaValid = ({ target }) => {
+    const textAreaLength = target.value.length;
+    if (textAreaLength > 0) {
+      setTextAreaValid(true);
+    } else {
+      setTextAreaValid(false);
+    }
+    return;
+  };
+
   return (
     <>
-      <TopNavUpload buttonText='업로드' buttonDisabled />
+      <TopNavUpload buttonText='업로드' buttonDisabled={!textAreaValid} />
       <FormAreaWrap>
         <form>
           <AuthorProfile src={basicProfile} alt='글 작성자 프로필 이미지' />
-          <TextArea placeholder='게시글 입력하기...' cols='50' />
+          <TextArea
+            placeholder='게시글 입력하기...'
+            cols='50'
+            onChange={handleTextAreaValid}
+          />
           <UploadedImgListWrap>
             <UploadedImgList>
               <UploadedImg src={symbolLogoGray} alt='업로드된 이미지' />
