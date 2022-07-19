@@ -83,7 +83,7 @@ const ShareLink = styled(MessageLink)`
 
 export default function ProfileDataCard(props) {
   console.log(props);
-  const { followerCount, followingCount, username, intro, accountname } =
+  const { followerCount, followingCount, username, intro, accountname, image } =
     props?.userData.profile;
   const myAccount = JSON.parse(localStorage.getItem('userInfo')).user
     .accountname;
@@ -95,7 +95,7 @@ export default function ProfileDataCard(props) {
           <Count>{followerCount}</Count>
           <FollowText>followers</FollowText>
         </FollowersLink>
-        <UserProfileImg />
+        <UserProfileImg src={image} />
         <FollowingLink to='/following'>
           <Count>{followingCount}</Count>
           <FollowText>followings</FollowText>
