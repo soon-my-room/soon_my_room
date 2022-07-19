@@ -3,6 +3,8 @@ import UserProfileImg from '../profileImg/UserProfileImg';
 import Button from '../common/button/Button';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import messageCircle from '../../assets/icon/icon-comment.svg';
+import share from '../../assets/icon/icon-share.svg';
 
 const ProfileFollowWrap = styled.div`
   width: 100%;
@@ -64,9 +66,28 @@ const FollowingLink = styled(FollowersLink)`
   color: var(--subtitle-text);
 `;
 
+const MessageLink = styled(Link)`
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--border-gray);
+  background-image: url(${messageCircle});
+  background-position: center;
+  background-size: 20px 20px;
+  background-repeat: no-repeat;
+`;
+
+const ShareLink = styled(MessageLink)`
+  background-image: url(${share});
+`;
+
 export default function ProfileDataCard(props) {
-  const { followerCount, followingCount, username, intro, accountname } =
+  console.log(props);
+  const { followerCount, followingCount, username, intro, accountname, image } =
     props?.userData.profile;
+  const myAccount = JSON.parse(localStorage.getItem('userInfo')).user
+    .accountname;
+
   return (
     <>
       <ProfileFollowWrap>
@@ -74,25 +95,43 @@ export default function ProfileDataCard(props) {
           <Count>{followerCount}</Count>
           <FollowText>followers</FollowText>
         </FollowersLink>
-        <UserProfileImg />
-        <FollowingLink to='/ollowing'>
+        <UserProfileImg src={image} />
+        <FollowingLink to='/following'>
           <Count>{followingCount}</Count>
           <FollowText>followings</FollowText>
         </FollowingLink>
       </ProfileFollowWrap>
 
       <ProfileDescriptionWrap>
-        <UserName>{accountname}</UserName>
-        <UserId>{username}</UserId>
+        <UserName>{username}</UserName>
+        <UserId>@ {accountname}</UserId>
         <UserIntro>{intro}</UserIntro>
       </ProfileDescriptionWrap>
       <ButtonWrap>
-        <Button as={Link} to='/프로필수정페이지' medium='true' white='true'>
-          프로필 수정
-        </Button>
-        <Button as={Link} to='/상품등록페이지' medium100='true' white='true'>
-          상품 등록
-        </Button>
+        {myAccount !== accountname ? (
+          <>
+            <MessageLink to='#none'></MessageLink>
+            <Button medium='true'>팔로우</Button>
+            <Button medium='true' white='true'>
+              언팔로우
+            </Button>
+            <ShareLink to='#none'></ShareLink>
+          </>
+        ) : (
+          <>
+            <Button as={Link} to='/프로필수정페이지' medium='true' white='true'>
+              프로필 수정
+            </Button>
+            <Button
+              as={Link}
+              to='/상품등록페이지'
+              medium100='true'
+              white='true'
+            >
+              상품 등록
+            </Button>
+          </>
+        )}
       </ButtonWrap>
     </>
   );
