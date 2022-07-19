@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import TopNavUpload from '../components/common/nav/TopNavUpload';
 import basicProfile from '../assets/basic-profile.png';
-import postExampleImg from '../assets/post-example-img.png';
+import symbolLogoGray from '../assets/symbol-logo-gray.png';
 import uploadFile from '../assets/upload-file.png';
 import deleteBtnImg from '../assets/icon/x.svg';
 
@@ -14,10 +14,6 @@ const FormAreaWrap = styled.section`
 const AuthorProfile = styled.img`
   width: 42px;
   vertical-align: top;
-`;
-
-const Form = styled.form`
-  height: auto;
 `;
 
 const TextArea = styled.textarea`
@@ -89,18 +85,18 @@ export default function PostAddPage() {
     <>
       <TopNavUpload buttonText='업로드' buttonDisabled />
       <FormAreaWrap>
-        <Form>
+        <form>
           <AuthorProfile src={basicProfile} alt='글 작성자 프로필 이미지' />
           <TextArea placeholder='게시글 입력하기...' cols='50' />
           <UploadedImgListWrap>
             <UploadedImgList>
-              <UploadedImg src={postExampleImg} alt='업로드된 이미지' />
+              <UploadedImg src={symbolLogoGray} alt='업로드된 이미지' />
               <ImgDeleteBtn type='button'>
                 <img src={deleteBtnImg} alt='이미지 삭제 버튼' />
               </ImgDeleteBtn>
             </UploadedImgList>
           </UploadedImgListWrap>
-        </Form>
+        </form>
         <label htmlFor='imgUpload' title='이미지 파일 업로드'>
           <UploadFileImage src={uploadFile} alt='이미지 파일 업로드' />
         </label>
