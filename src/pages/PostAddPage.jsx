@@ -17,7 +17,7 @@ const AuthorProfile = styled.img`
 `;
 
 const Form = styled.form`
-  display: inline-block;
+  height: auto;
 `;
 
 const TextArea = styled.textarea`
@@ -26,10 +26,21 @@ const TextArea = styled.textarea`
   font-weight: 400;
   font-size: 14px;
   color: var(--paragraph-text-color);
-  outline: none;
+  height: 280px;
   cursor: text;
   &::placeholder {
     color: var(--border-gray);
+  }
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: var(--border-gray);
+    border-radius: 10px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--main-color);
+    border-radius: 10px;
   }
 `;
 
@@ -78,24 +89,23 @@ export default function PostAddPage() {
     <>
       <TopNavUpload buttonText='업로드' buttonDisabled />
       <FormAreaWrap>
-        <AuthorProfile src={basicProfile} alt='글 작성자 프로필 이미지' />
         <Form>
-          <TextArea cols='50' placeholder='게시글 입력하기...' />
+          <AuthorProfile src={basicProfile} alt='글 작성자 프로필 이미지' />
+          <TextArea placeholder='게시글 입력하기...' cols='50' />
+          <UploadedImgListWrap>
+            <UploadedImgList>
+              <UploadedImg src={postExampleImg} alt='업로드된 이미지' />
+              <ImgDeleteBtn type='button'>
+                <img src={deleteBtnImg} alt='이미지 삭제 버튼' />
+              </ImgDeleteBtn>
+            </UploadedImgList>
+          </UploadedImgListWrap>
         </Form>
-        <UploadedImgListWrap>
-          <UploadedImgList>
-            <UploadedImg src={postExampleImg} alt='업로드된 이미지' />
-            <ImgDeleteBtn type='button'>
-              <img src={deleteBtnImg} alt='이미지 삭제 버튼' />
-            </ImgDeleteBtn>
-          </UploadedImgList>
-        </UploadedImgListWrap>
         <label htmlFor='imgUpload' title='이미지 파일 업로드'>
           <UploadFileImage src={uploadFile} alt='이미지 파일 업로드' />
         </label>
         <HiddenUploadFileInput type='file' accept='image/*' id='imgUpload' />
       </FormAreaWrap>
-      ''
     </>
   );
 }
