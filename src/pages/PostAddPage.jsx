@@ -8,7 +8,6 @@ import deleteBtnImg from '../assets/icon/x.svg';
 
 const FormAreaWrap = styled.section`
   margin: 20px 16px 0;
-  text-align: center;
 `;
 
 const AuthorProfile = styled(UserProfile)`
@@ -42,6 +41,12 @@ const TextArea = styled.textarea`
 //이미지 업로드 시 뜨는 프리뷰 창 ol > li > img, button
 const UploadedImgListWrap = styled.ol`
   margin-top: 16px;
+  white-space: nowrap;
+  overflow-y: hidden;
+  overflow-x: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const UploadedImgList = styled.li`
@@ -107,13 +112,13 @@ export default function PostAddPage({ ...props }) {
       <FormAreaWrap>
         <form>
           <AuthorProfile
-            size='tiny'
+            size='small'
             src={AuthorProfileImg}
             alt='글 작성자 프로필 이미지'
           />
           <TextArea
             placeholder='게시글 입력하기...'
-            cols='50'
+            cols='40'
             onChange={handleTextAreaValid}
           />
           <UploadedImgListWrap>
@@ -128,7 +133,12 @@ export default function PostAddPage({ ...props }) {
         <label htmlFor='imgUpload' title='이미지 파일 업로드'>
           <UploadFileImage src={uploadFile} alt='이미지 파일 업로드' />
         </label>
-        <HiddenUploadFileInput type='file' accept='image/*' id='imgUpload' />
+        <HiddenUploadFileInput
+          type='file'
+          multiple
+          accept='.jpg, .gif, .png, .jpeg, .bmp, .tif, .heic'
+          id='imgUpload'
+        />
       </FormAreaWrap>
     </>
   );
