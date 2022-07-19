@@ -78,7 +78,7 @@ export default function InputImageUploadBox({
         onChange={handleEncodeFileToBase64}
         setImageData={setImageData}
         ref={useRef}
-        accept='image/*'
+        accept='*.jpg, *.gif, *.png, *.jpeg, *.bmp, *.tif, *.heic'
         imageSrc={imageSrc} // props로 background를 변경해 주기 위해 사용
       />
     </>
