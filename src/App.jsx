@@ -35,6 +35,7 @@ function App() {
         <Route path='/product/edit' exact component={ProductEditPage} />
         <Route path='/search' exact component={SearchPage} />
         <Route path='/profile/:userId' exact component={ProfilePage} />
+        <Route path='/profile' exact component={ProfilePage} />
       </Switch>
     </>
   );
