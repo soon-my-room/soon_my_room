@@ -3,8 +3,7 @@ import styled from 'styled-components';
 import ProductOnSales from './ProductOnSales';
 
 const Wrapper = styled.section`
-  padding: 20px 16px 0;
-  height: 200px;
+  padding: 20px 16px;
   overflow-x: scroll;
 
   &::-webkit-scrollbar {
@@ -25,9 +24,9 @@ const ProductList = styled.ul`
   display: flex;
 `;
 
-export default function ProductListOnSales({ title, products }) {
+export default function ProductListOnSales({ title, products, ...props }) {
   return (
-    <Wrapper>
+    <Wrapper className={props.className}>
       <Title>{title}</Title>
       <ProductList>
         {products.map((product) => (
