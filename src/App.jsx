@@ -8,6 +8,7 @@ import FollowPage from './pages/FollowPage';
 import ProfileEditPage from './pages/ProfileEditPage';
 import ProductAddPage from './pages/ProductAddPage';
 import ProductEditPage from './pages/ProductEditPage';
+import SearchPage from './pages/SearchPage';
 import ProfilePage from './pages/ProfilePage';
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
         <Route path='/profile/edit' exact component={ProfileEditPage} />
         <Route path='/product/add' exact component={ProductAddPage} />
         <Route path='/product/edit' exact component={ProductEditPage} />
+        <Route path='/search' exact component={SearchPage} />
         <Route path='/profile/:userId' exact component={ProfilePage} />
       </Switch>
     </>
