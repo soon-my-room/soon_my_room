@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import TopNavUpload from '../components/common/nav/TopNavUpload';
 import UserProfile from '../components/profileImg/UserProfileImg';
-import symbolLogoGray from '../assets/symbol-logo-gray.png';
+import defaultImg from '../assets/symbol-logo-gray.png';
 import uploadFile from '../assets/upload-file.png';
 import deleteBtnImg from '../assets/icon/x.svg';
 
@@ -86,6 +86,7 @@ const HiddenUploadFileInput = styled.input`
 
 export default function PostAddPage({ ...props }) {
   const [textAreaValid, setTextAreaValid] = useState(false);
+  const [imgFile, setImgFile] = useState([]);
 
   const handleTextAreaValid = ({ target }) => {
     const textAreaLength = target.value.length;
@@ -106,6 +107,25 @@ export default function PostAddPage({ ...props }) {
 
   const AuthorProfileImg = userInfo.user.image;
 
+  //해당 파일의 전체 내용을 URL 텍스트로 변환하여 이미지 프리뷰 3장까지만 업로드
+  const handleImgUpload = (e) => {
+    setImgFile([...imgFile, URL.createObjectURL(e.target.files[0])]);
+    e.target.value = '';
+    if (imgFile.length > 2) {
+      setImgFile(imgFile.slice(0, 3));
+    }
+  };
+
+  //이미지 프리뷰 삭제. 클릭한 요소가 아닌 요소들만 모은 배열을 반환하여 ImgFile에 저장하는 방식.
+  const handleImgDelete = (e) => {
+    setImgFile(imgFile.filter((item, index) => index !== e));
+  };
+
+  //img를 load하는 과정에서 error가 발생하면 defaultImg 표시
+  const handleDefaultImg = (e) => {
+    e.target.src = defaultImg;
+  };
+
   return (
     <>
       <TopNavUpload buttonText='업로드' buttonDisabled={!textAreaValid} />
@@ -122,12 +142,22 @@ export default function PostAddPage({ ...props }) {
             onChange={handleTextAreaValid}
           />
           <UploadedImgListWrap>
-            <UploadedImgList>
-              <UploadedImg src={symbolLogoGray} alt='업로드된 이미지' />
-              <ImgDeleteBtn type='button'>
-                <img src={deleteBtnImg} alt='이미지 삭제 버튼' />
-              </ImgDeleteBtn>
-            </UploadedImgList>
+            {imgFile.length > 0 &&
+              imgFile.map((image, index) => (
+                <UploadedImgList key={index}>
+                  <UploadedImg
+                    src={image}
+                    onError={handleDefaultImg}
+                    alt={`${image}=${index}`}
+                  />
+                  <ImgDeleteBtn
+                    type='button'
+                    onClick={() => handleImgDelete(index)}
+                  >
+                    <img src={deleteBtnImg} alt='이미지 삭제 버튼' />
+                  </ImgDeleteBtn>
+                </UploadedImgList>
+              ))}
           </UploadedImgListWrap>
         </form>
         <label htmlFor='imgUpload' title='이미지 파일 업로드'>
@@ -138,6 +168,7 @@ export default function PostAddPage({ ...props }) {
           multiple
           accept='.jpg, .gif, .png, .jpeg, .bmp, .tif, .heic'
           id='imgUpload'
+          onChange={handleImgUpload}
         />
       </FormAreaWrap>
     </>
