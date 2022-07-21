@@ -32,10 +32,15 @@ const ItemPrice = styled.span`
   color: #f26e22;
 `;
 
-export default function ProductOnSales({ name, price, src }) {
+export default function ProductOnSales({ name, price, src, ...props }) {
+  const handleProductClick = () => {
+    // 모달창 open
+    props.setShowProductListOnSalesModal(true);
+  };
+
   return (
     <>
-      <ProductContainer>
+      <ProductContainer onClick={handleProductClick}>
         <ItemImage src={src} />
         <ItemName>{name}</ItemName>
         <ItemPrice>{price}원</ItemPrice>
