@@ -35,6 +35,8 @@ export default function ProductListOnSales({ title, products, ...props }) {
             name={product.itemName}
             price={product.price}
             src={product.itemImage}
+            link={product.link}
+            {...props}
           ></ProductOnSales>
         ))}
       </ProductList>

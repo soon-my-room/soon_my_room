@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import TopNavBasic from '../components/common/nav/TopNavBasic';
 import ProfileContainer from '../components/userProfile/ProfileContainer';
 import ProductListOnSales from '../components/product/ProductListOnSales';
@@ -6,6 +6,8 @@ import BottomNavMenu from '../components/common/nav/BottomNavMenu';
 import PostViewChangeNav from '../components/common/nav/PostViewChangeNav';
 import styled from 'styled-components';
 import PostList from '../components/post/PostList';
+import ModalContainer from '../components/common/modal/ModalContainer';
+import ModalList from '../components/common/modal/ModalList';
 
 const ProductListOnSalesWrap = styled(ProductListOnSales)`
   border-top: 6px solid #e0e0e0;
@@ -39,6 +41,12 @@ async function getProductListOnSales(userId, token) {
 export default function ProfilePage(props) {
   const [isLoding, setIsLoding] = useState(false);
   const [productListOnSalesData, setProductListOnSalesData] = useState([]);
+  const [showProductListOnSalesModal, setShowProductListOnSalesModal] =
+    useState(false);
+
+  const [selectedProduct, setSelectedProduct] = useState({});
+
+  const modalRef = useRef();
 
   useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem('userInfo'));
@@ -61,6 +69,24 @@ export default function ProfilePage(props) {
     setIsLoding(true);
   }, []);
 
+  useEffect(() => {
+    const checkClickModalOutside = (event) => {
+      // 모달이 켜져있고 클릭한곳이 모달을 포함하고있지 않으면 모달 끄기
+      if (
+        showProductListOnSalesModal &&
+        !modalRef.current.contains(event.target)
+      ) {
+        setShowProductListOnSalesModal(false);
+      }
+    };
+
+    document.addEventListener('mousedown', checkClickModalOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', checkClickModalOutside);
+    };
+  }, [showProductListOnSalesModal]);
+
   return (
     isLoding && (
       <>
@@ -69,11 +95,26 @@ export default function ProfilePage(props) {
         <ProductListOnSalesWrap
           title='판매 중인 상품'
           products={productListOnSalesData}
+          setShowProductListOnSalesModal={setShowProductListOnSalesModal}
+          setSelectedProduct={setSelectedProduct}
           {...props}
         />
         <PostViewChangeNav />
         <PostListWrap userId={props.match.params.userId} />
         <BottomNavMenu type='profile' />
+        {showProductListOnSalesModal && (
+          <ModalContainer useRef={modalRef}>
+            <ModalList>삭제</ModalList>
+            <ModalList
+              onClick={(e) => {
+                props.history.push('/product/edit', selectedProduct);
+              }}
+            >
+              수정
+            </ModalList>
+            <ModalList>웹사이트에서 상품 보기</ModalList>
+          </ModalContainer>
+        )}
       </>
     )
   );
