@@ -58,7 +58,17 @@ const Text = styled.p`
   word-break: break-all;
 `;
 
-const PostImg = styled.img``;
+const PostImg = styled.img`
+  width: 304px;
+  height: 228px;
+  border-radius: 10px;
+  object-fit: contain;
+`;
+
+const PostImages = styled.div`
+  display: flex;
+  overflow-x: auto;
+`;
 
 const ButtonWrap = styled.div`
   margin: 12px 0 16px;
@@ -101,6 +111,24 @@ export default function PostItem({ post }) {
   }
   const [year, month, day] = parseDate(post.createdAt);
 
+  function postListViewCheck(image) {
+    const URL = 'https://mandarin.api.weniv.co.kr';
+
+    if (!image) {
+      return false;
+    } else if (!image.includes(URL)) {
+      return <PostImg src='' alt='이미지 파일을 불러올 수 없습니다.' />;
+    } else {
+      return (
+        <PostImages>
+          {image.split(',').map((postImg, index) => (
+            <PostImg key={index} src={postImg} alt='게시글상품사진' />
+          ))}
+        </PostImages>
+      );
+    }
+  }
+
   return (
     <PostWrap>
       <PostAuthorWrap>
@@ -113,9 +141,7 @@ export default function PostItem({ post }) {
       </PostAuthorWrap>
       <PostContentWrap>
         <Text>{post.content}</Text>
-        {post.image === '' ? null : (
-          <PostImg src={post.image} alt='게시글상품사진' />
-        )}
+        {postListViewCheck(post.image)}
         <ButtonWrap>
           <HeartButton>{post.heartCount}</HeartButton>
           <CommentButton>{post.commentCount}</CommentButton>
