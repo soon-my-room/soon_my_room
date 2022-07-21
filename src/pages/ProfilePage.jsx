@@ -110,7 +110,17 @@ export default function ProfilePage(props) {
             >
               수정
             </ModalList>
-            <ModalList>웹사이트에서 상품 보기</ModalList>
+            <ModalList
+              onClick={() => {
+                window.open(
+                  selectedProduct.link,
+                  '_blank',
+                  'noopener,noreferrer',
+                );
+              }}
+            >
+              웹사이트에서 상품 보기
+            </ModalList>
           </ModalContainer>
         )}
       </>
