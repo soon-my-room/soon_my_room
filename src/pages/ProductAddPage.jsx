@@ -77,6 +77,7 @@ export default function ProductAddPage(props) {
         buttonText='저장'
         buttonDisabled={!storable ? 'buttonDisabled' : null}
         onClick={handleAddProduct}
+        {...props}
       />
       <ProductForm setStorable={setStorable} setFormInfo={setFormInfo} />
     </ProfileEditWrap>

@@ -30,11 +30,16 @@ const SaveButton = styled(Button)`
   float: right;
 `;
 
-export default function TopUploadNav({ onClick, buttonText, buttonDisabled }) {
+export default function TopUploadNav({
+  onClick,
+  buttonText,
+  buttonDisabled,
+  history,
+}) {
   return (
     <>
       <Container>
-        <BackLink to='../' />
+        <BackLink to='#' onClick={() => history.goBack()} />
         <SaveButton small disabled={buttonDisabled} onClick={onClick}>
           {buttonText}
         </SaveButton>

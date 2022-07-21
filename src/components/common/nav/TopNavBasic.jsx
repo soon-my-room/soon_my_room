@@ -44,11 +44,11 @@ const Title = styled.h1`
   overflow: hidden;
 `;
 
-export default function TopNavBasic({ title, onClick, viewMore }) {
+export default function TopNavBasic({ title, onClick, viewMore, history }) {
   return (
     <>
       <Navigation>
-        <BackLink to='../' />
+        <BackLink to='#' onClick={() => history.goBack()} />
         {title && <Title>{title}</Title>}
         {viewMore && <OpenModal onClick={onClick} />}
       </Navigation>
