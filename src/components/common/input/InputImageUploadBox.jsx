@@ -30,6 +30,15 @@ const ImageUploadInput = styled.input`
           background-color: #f2f2f2;
         `}
 
+  ${({ EditImageUrl }) =>
+    EditImageUrl &&
+    css`
+      background-image: url(${EditImageUrl});
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: center;
+    `}        
+
   border: 0.5px solid var(--border-gray);
   border-radius: 10px;
   cursor: pointer;
