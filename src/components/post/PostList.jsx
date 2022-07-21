@@ -65,19 +65,22 @@ export default function PostList({ userId, ...props }) {
     const URL = 'https://mandarin.api.weniv.co.kr';
 
     return posts.map((post, index) => {
-      console.log(post.id);
       if (!post.image.includes(URL) || !post.image) {
         return false;
       } else if (post.image.includes(',')) {
         return (
           <MultiImgLi key={index}>
-            <img src={post.image.split(',')[0]} alt='게시글상품사진' />
+            <Link to={`/post/${post.id}`}>
+              <img src={post.image.split(',')[0]} alt='게시글상품사진' />
+            </Link>
           </MultiImgLi>
         );
       } else {
         return (
           <li key={index}>
-            <img src={post.image} alt='게시글상품사진' />
+            <Link to={`/post/${post.id}`}>
+              <img src={post.image} alt='게시글상품사진' />
+            </Link>
           </li>
         );
       }
