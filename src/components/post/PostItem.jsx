@@ -37,7 +37,7 @@ const UserId = styled.span`
 `;
 
 const MoreButton = styled.button`
-  padding: 10px;
+  padding: 7px;
   background-image: url(${more});
   background-position: center;
   background-repeat: no-repeat;

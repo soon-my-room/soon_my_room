@@ -1,6 +1,6 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import React, { useState, useEffect } from 'react';
+import styled, { css } from 'styled-components';
+import PostViewChangeNav from '../common/nav/PostViewChangeNav';
 import PostItem from './PostItem';
 
 const PostItemUl = styled.ul`
@@ -8,6 +8,13 @@ const PostItemUl = styled.ul`
   & > li + li {
     margin-top: 16px;
   }
+  ${(props) =>
+    props.isPostView &&
+    css`
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    `}
 `;
 
 export default function PostList({ userId, ...props }) {
@@ -35,12 +42,36 @@ export default function PostList({ userId, ...props }) {
     }
     userPostGet();
   }, []);
+  const [isPostView, setIsPostView] = useState(true);
+  function ChangePostView() {
+    setIsPostView((current) => !current);
+  }
 
   return (
-    <PostItemUl className={props.className}>
-      {posts.map((post) => (
-        <PostItem key={post.id} post={post} />
-      ))}
-    </PostItemUl>
+    <>
+      <PostViewChangeNav
+        onClick={ChangePostView}
+        disabled={isPostView}
+        isPostListView={isPostView}
+        isPostAlbumView={!isPostView}
+      />
+      <PostItemUl className={props.className} isPostView={!isPostView}>
+        {isPostView ? (
+          <>
+            {posts.map((post) => (
+              <PostItem key={post.id} post={post} />
+            ))}
+          </>
+        ) : (
+          <>
+            {posts.map((post) => (
+              <li key={post.id}>
+                <img src={post.image} alt='게시글상품사진' />
+              </li>
+            ))}
+          </>
+        )}
+      </PostItemUl>
+    </>
   );
 }
