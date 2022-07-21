@@ -44,6 +44,8 @@ export default function ProfilePage(props) {
   const [showProductListOnSalesModal, setShowProductListOnSalesModal] =
     useState(false);
 
+  const [selectedProduct, setSelectedProduct] = useState({});
+
   const modalRef = useRef();
 
   useEffect(() => {
@@ -94,6 +96,7 @@ export default function ProfilePage(props) {
           title='판매 중인 상품'
           products={productListOnSalesData}
           setShowProductListOnSalesModal={setShowProductListOnSalesModal}
+          setSelectedProduct={setSelectedProduct}
           {...props}
         />
         <PostViewChangeNav />
@@ -102,7 +105,13 @@ export default function ProfilePage(props) {
         {showProductListOnSalesModal && (
           <ModalContainer useRef={modalRef}>
             <ModalList>삭제</ModalList>
-            <ModalList>수정</ModalList>
+            <ModalList
+              onClick={(e) => {
+                props.history.push('/product/edit', selectedProduct);
+              }}
+            >
+              수정
+            </ModalList>
             <ModalList>웹사이트에서 상품 보기</ModalList>
           </ModalContainer>
         )}
