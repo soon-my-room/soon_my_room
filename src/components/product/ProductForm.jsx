@@ -65,7 +65,6 @@ export default function ProductForm(props) {
   useEffect(() => {
     if (props?.match?.path === '/product/edit') {
       const editData = props.location.state;
-
       /*
        * 상품 수정페이지는 상품데이터를 가지고와서 이미지, 상품명, 가격, 판매링크를
        * 보여주고 수정할 수 있게 해줘야하는데 상품 데이터를 가지고 오지 않고
@@ -77,13 +76,14 @@ export default function ProductForm(props) {
         return;
       }
 
-      const { name, price, imgSrc, link } = editData;
+      const { id, name, price, imgSrc, link } = editData;
 
       nameRef.current.value = name;
       priceRef.current.value = price;
       linkRef.current.value = link;
 
       setProductInfo({
+        id,
         imageSrc: imgSrc,
         productName: name,
         productPrice: price,

@@ -3,7 +3,6 @@ import TopNavBasic from '../components/common/nav/TopNavBasic';
 import ProfileContainer from '../components/userProfile/ProfileContainer';
 import ProductListOnSales from '../components/product/ProductListOnSales';
 import BottomNavMenu from '../components/common/nav/BottomNavMenu';
-import PostViewChangeNav from '../components/common/nav/PostViewChangeNav';
 import styled from 'styled-components';
 import PostList from '../components/post/PostList';
 import ModalContainer from '../components/common/modal/ModalContainer';
@@ -99,14 +98,13 @@ export default function ProfilePage(props) {
           setSelectedProduct={setSelectedProduct}
           {...props}
         />
-        <PostViewChangeNav />
         <PostListWrap userId={props.match.params.userId} />
         <BottomNavMenu type='profile' />
         {showProductListOnSalesModal && (
           <ModalContainer useRef={modalRef}>
             <ModalList>삭제</ModalList>
             <ModalList
-              onClick={(e) => {
+              onClick={() => {
                 props.history.push('/product/edit', selectedProduct);
               }}
             >
