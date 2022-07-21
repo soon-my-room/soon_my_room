@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import UserProfile from '../../components/profileImg/UserProfileImg';
 import heart from '../../assets/icon/icon-heart.svg';
@@ -144,7 +145,9 @@ export default function PostItem({ post }) {
         {postListViewCheck(post.image)}
         <ButtonWrap>
           <HeartButton>{post.heartCount}</HeartButton>
-          <CommentButton>{post.commentCount}</CommentButton>
+          <CommentButton as={Link} to={`/post/${post.id}`}>
+            {post.commentCount}
+          </CommentButton>
         </ButtonWrap>
         <CreatedDate>{`${year}년 ${month}월 ${day}일`}</CreatedDate>
       </PostContentWrap>
