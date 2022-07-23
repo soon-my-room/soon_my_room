@@ -1,10 +1,10 @@
-import React from 'react';
-import UserProfileImg from '../profileImg/UserProfileImg';
-import Button from '../common/button/Button';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import messageCircle from '../../assets/icon/icon-comment.svg';
+import Button from '../common/button/Button';
+import UserProfileImg from '../profileImg/UserProfileImg';
 import share from '../../assets/icon/icon-share.svg';
+import messageCircle from '../../assets/icon/icon-comment.svg';
 
 const ProfileFollowWrap = styled.div`
   width: 100%;
@@ -82,17 +82,63 @@ const ShareLink = styled(MessageLink)`
 `;
 
 export default function ProfileDataCard(props) {
-  console.log(props);
-  const { followerCount, followingCount, username, intro, accountname, image } =
-    props?.userData.profile;
+  const {
+    followerCount,
+    followingCount,
+    username,
+    intro,
+    accountname,
+    image,
+    isfollow,
+  } = props?.userData.profile;
   const myAccount = JSON.parse(localStorage.getItem('userInfo')).user
     .accountname;
+  const { token } = JSON.parse(localStorage.getItem('userInfo')).user;
+  const [isfollowState, setIsfollowState] = useState(isfollow);
+  const [userFollowerCount, setUserFollowerCount] = useState(followerCount);
+
+  async function onfollowClick() {
+    const url = 'https://mandarin.api.weniv.co.kr';
+    const reqPath = `/profile/${accountname}/follow`;
+    try {
+      const res = await fetch(url + reqPath, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+      const resData = await res.json();
+      setIsfollowState(true);
+      setUserFollowerCount(resData.profile.followerCount);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+  async function onUnfollowClick() {
+    const url = 'https://mandarin.api.weniv.co.kr';
+    const reqPath = `/profile/${accountname}/unfollow`;
+    try {
+      const res = await fetch(url + reqPath, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+      const resData = await res.json();
+      setIsfollowState(false);
+      setUserFollowerCount(resData.profile.followerCount);
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
   return (
     <>
       <ProfileFollowWrap>
         <FollowersLink to='/follower'>
-          <Count>{followerCount}</Count>
+          <Count>{userFollowerCount}</Count>
           <FollowText>followers</FollowText>
         </FollowersLink>
         <UserProfileImg src={image} />
@@ -111,10 +157,15 @@ export default function ProfileDataCard(props) {
         {myAccount !== accountname ? (
           <>
             <MessageLink to='#none'></MessageLink>
-            <Button medium='true'>팔로우</Button>
-            <Button medium='true' white='true'>
-              언팔로우
-            </Button>
+            {isfollowState ? (
+              <Button medium='true' white='true' onClick={onUnfollowClick}>
+                언팔로우
+              </Button>
+            ) : (
+              <Button medium='true' onClick={onfollowClick}>
+                팔로우
+              </Button>
+            )}
             <ShareLink to='#none'></ShareLink>
           </>
         ) : (
