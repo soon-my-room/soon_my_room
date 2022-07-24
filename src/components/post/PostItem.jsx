@@ -133,11 +133,15 @@ export default function PostItem({ post }) {
   return (
     <PostWrap>
       <PostAuthorWrap>
-        <UserProfile size='tiny' src={post.author.image} />
-        <UserWrap>
-          <UserName>{post.author.username}</UserName>
-          <UserId>@ {post.author.accountname}</UserId>
-        </UserWrap>
+        <Link to={`/profile/${post.author.accountname}`}>
+          <UserProfile size='tiny' src={post.author.image} />
+        </Link>
+        <Link to={`/profile/${post.author.accountname}`}>
+          <UserWrap>
+            <UserName>{post.author.username}</UserName>
+            <UserId>@ {post.author.accountname}</UserId>
+          </UserWrap>
+        </Link>
         <MoreButton />
       </PostAuthorWrap>
       <PostContentWrap>
