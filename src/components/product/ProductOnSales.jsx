@@ -32,9 +32,17 @@ const ItemPrice = styled.span`
   color: #f26e22;
 `;
 
-export default function ProductOnSales({ name, price, src, link, ...props }) {
+export default function ProductOnSales({
+  id,
+  name,
+  price,
+  src,
+  link,
+  ...props
+}) {
   const handleProductClick = () => {
     const productInfo = {
+      id,
       name,
       price,
       imgSrc: src,
