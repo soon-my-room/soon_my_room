@@ -83,13 +83,13 @@ const ShareLink = styled(MessageLink)`
 
 export default function ProfileDataCard(props) {
   const {
-    followerCount,
-    followingCount,
+    accountname,
     username,
     intro,
-    accountname,
     image,
     isfollow,
+    followerCount,
+    followingCount,
   } = props?.userData.profile;
   const myAccount = JSON.parse(localStorage.getItem('userInfo')).user
     .accountname;
@@ -97,7 +97,7 @@ export default function ProfileDataCard(props) {
   const [isfollowState, setIsfollowState] = useState(isfollow);
   const [userFollowerCount, setUserFollowerCount] = useState(followerCount);
 
-  async function onfollowClick() {
+  async function followRequest() {
     const url = 'https://mandarin.api.weniv.co.kr';
     const reqPath = `/profile/${accountname}/follow`;
     try {
@@ -109,13 +109,13 @@ export default function ProfileDataCard(props) {
         },
       });
       const resData = await res.json();
-      setIsfollowState(true);
-      setUserFollowerCount(resData.profile.followerCount);
+      return resData.profile.followerCount;
     } catch (err) {
       console.error(err);
     }
   }
-  async function onUnfollowClick() {
+
+  async function unfollowRequest() {
     const url = 'https://mandarin.api.weniv.co.kr';
     const reqPath = `/profile/${accountname}/unfollow`;
     try {
@@ -127,11 +127,26 @@ export default function ProfileDataCard(props) {
         },
       });
       const resData = await res.json();
-      setIsfollowState(false);
-      setUserFollowerCount(resData.profile.followerCount);
+      return resData.profile.followerCount;
     } catch (err) {
       console.error(err);
     }
+  }
+
+  function onUnfollowClick() {
+    const UserFollowerCount = unfollowRequest(token);
+    UserFollowerCount.then((count) => {
+      setIsfollowState(false);
+      setUserFollowerCount(count);
+    });
+  }
+
+  function onFollowClick() {
+    const UserFollowerCount = followRequest(token);
+    UserFollowerCount.then((count) => {
+      setIsfollowState(true);
+      setUserFollowerCount(count);
+    });
   }
 
   return (
@@ -156,26 +171,35 @@ export default function ProfileDataCard(props) {
       <ButtonWrap>
         {myAccount !== accountname ? (
           <>
-            <MessageLink to='#none'></MessageLink>
+            <MessageLink to='#none' />
             {isfollowState ? (
-              <Button medium='true' white='true' onClick={onUnfollowClick}>
-                언팔로우
-              </Button>
+              <Button
+                medium
+                white
+                children='언팔로우'
+                onClick={onUnfollowClick}
+              />
             ) : (
-              <Button medium='true' onClick={onfollowClick}>
-                팔로우
-              </Button>
+              <Button medium children='팔로우' onClick={onFollowClick} />
             )}
-            <ShareLink to='#none'></ShareLink>
+            <ShareLink to='#none' />
           </>
         ) : (
           <>
-            <Button as={Link} to='/profile/edit' medium='true' white='true'>
-              프로필 수정
-            </Button>
-            <Button as={Link} to='/product/add' medium100='true' white='true'>
-              상품 등록
-            </Button>
+            <Button
+              as={Link}
+              to='/profile/edit'
+              medium='true'
+              white='true'
+              children='프로필 수정'
+            />
+            <Button
+              as={Link}
+              to='/product/add'
+              medium100='true'
+              white='true'
+              children='상품 등록'
+            />
           </>
         )}
       </ButtonWrap>
