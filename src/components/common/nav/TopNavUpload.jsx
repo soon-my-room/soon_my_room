@@ -37,8 +37,13 @@ export default function TopUploadNav({
   return (
     <>
       <Container>
-        <BackButton onClick={() => history.goBack()} />
-        <SaveButton small disabled={buttonDisabled} onClick={onClick}>
+        <BackButton type='button' onClick={() => history.goBack()} />
+        <SaveButton
+          type='button'
+          small
+          disabled={buttonDisabled}
+          onClick={onClick}
+        >
           {buttonText}
         </SaveButton>
       </Container>

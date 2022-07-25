@@ -46,7 +46,7 @@ export default function TopNavBasic({ title, onClick, viewMore, history }) {
   return (
     <>
       <Navigation>
-        <BackButton onClick={() => history.goBack()} />
+        <BackButton type='button' onClick={() => history.goBack()} />
         {title && <Title>{title}</Title>}
         {viewMore && <OpenModal onClick={onClick} />}
       </Navigation>
