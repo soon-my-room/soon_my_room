@@ -7,6 +7,8 @@ import styled from 'styled-components';
 import PostList from '../components/post/PostList';
 import ModalContainer from '../components/common/modal/ModalContainer';
 import ModalList from '../components/common/modal/ModalList';
+import { getUserInfo } from '../utils/userInfo';
+import { axiosRemoveProduct } from '../apis/productApi';
 
 const ProductListOnSalesWrap = styled(ProductListOnSales)`
   border-top: 6px solid #e0e0e0;
@@ -46,6 +48,23 @@ export default function ProfilePage(props) {
   const [selectedProduct, setSelectedProduct] = useState({});
 
   const modalRef = useRef();
+
+  const handleRemoveProduct = async () => {
+    try {
+      const { accountname, token } = getUserInfo();
+      const userId = accountname; // 서버에서 보내주는 accountname을 userId로 쓰고있어서 재할당했습니다.
+
+      const { data } = await axiosRemoveProduct(selectedProduct.id);
+      if (data.status === '200') {
+        getProductListOnSales(userId, token).then((data) => {
+          setProductListOnSalesData(data.product);
+          setShowProductListOnSalesModal(false);
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem('userInfo'));
@@ -102,7 +121,7 @@ export default function ProfilePage(props) {
         <BottomNavMenu type='profile' />
         {showProductListOnSalesModal && (
           <ModalContainer useRef={modalRef}>
-            <ModalList>삭제</ModalList>
+            <ModalList onClick={handleRemoveProduct}>삭제</ModalList>
             <ModalList
               onClick={() => {
                 props.history.push('/product/edit', selectedProduct);
