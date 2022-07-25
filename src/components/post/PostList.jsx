@@ -65,7 +65,7 @@ export default function PostList({ userId, ...props }) {
     const URL = 'https://mandarin.api.weniv.co.kr';
 
     return posts.map((post, index) => {
-      if (!post.image.includes(URL) || !post.image) {
+      if (!post.image || !post.image.includes(URL)) {
         return false;
       } else if (post.image.includes(',')) {
         return (
