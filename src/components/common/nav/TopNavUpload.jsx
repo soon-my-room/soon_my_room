@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import iconArrowLeft from '../../../assets/icon/icon-arrow-left.svg';
 import Button from '../button/Button';
@@ -17,9 +16,8 @@ const Container = styled.nav`
   }
 `;
 
-const BackLink = styled(Link)`
+const BackButton = styled.button`
   margin-top: 5px;
-  display: inline-block;
   width: 22px;
   height: 22px;
   background-image: url(${iconArrowLeft});
@@ -39,7 +37,7 @@ export default function TopUploadNav({
   return (
     <>
       <Container>
-        <BackLink to='#' onClick={() => history.goBack()} />
+        <BackButton onClick={() => history.goBack()} />
         <SaveButton small disabled={buttonDisabled} onClick={onClick}>
           {buttonText}
         </SaveButton>
