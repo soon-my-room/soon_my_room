@@ -51,11 +51,6 @@ export default function ProfilePage(props) {
 
   useEffect(() => {
     const userInfo = getUserInfo();
-    if (!userInfo) {
-      console.log('로그인 정보가 없습니다.');
-      props.history.push('/login');
-      return;
-    }
 
     if (props.match.path === '/profile') {
       props.match.params = {
