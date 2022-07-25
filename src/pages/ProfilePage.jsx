@@ -7,6 +7,11 @@ import styled from 'styled-components';
 import PostList from '../components/post/PostList';
 import ModalContainer from '../components/common/modal/ModalContainer';
 import ModalList from '../components/common/modal/ModalList';
+import { getUserInfo } from '../utils/userInfo';
+import {
+  axiosGetProductListOnSales,
+  axiosRemoveProduct,
+} from '../apis/productApi';
 
 const ProductListOnSalesWrap = styled(ProductListOnSales)`
   border-top: 6px solid #e0e0e0;
@@ -16,26 +21,6 @@ const ProductListOnSalesWrap = styled(ProductListOnSales)`
 const PostListWrap = styled(PostList)`
   padding-bottom: 62px;
 `;
-
-const URL = 'https://mandarin.api.weniv.co.kr';
-
-async function getProductListOnSales(userId, token) {
-  const reqPath = `/product/${userId}`;
-
-  try {
-    const res = await fetch(`${URL}${reqPath}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const resData = await res.json();
-    return resData;
-  } catch (err) {
-    console.error(err);
-  }
-}
 
 export default function ProfilePage(props) {
   const [isLoding, setIsLoding] = useState(false);
@@ -47,25 +32,45 @@ export default function ProfilePage(props) {
 
   const modalRef = useRef();
 
-  useEffect(() => {
-    const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+  const handleRemoveProduct = async () => {
+    try {
+      const { accountname } = getUserInfo();
+      const userId = accountname; // 서버에서 보내주는 accountname을 userId로 쓰고있어서 재할당했습니다.
 
+      const { data } = await axiosRemoveProduct(selectedProduct.id);
+      if (data.status === '200') {
+        const { data } = await axiosGetProductListOnSales(userId);
+
+        setProductListOnSalesData(data.product);
+        setShowProductListOnSalesModal(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    const userInfo = getUserInfo();
     if (!userInfo) {
       console.log('로그인 정보가 없습니다.');
       props.history.push('/login');
       return;
     }
 
-    const { accountname } = userInfo.user;
     if (props.match.path === '/profile') {
-      props.match.params = { ...props.match.params, userId: accountname };
+      props.match.params = {
+        ...props.match.params,
+        userId: userInfo.accountname,
+      };
     }
+  }, []);
 
-    getProductListOnSales(accountname, userInfo.user.token).then((data) => {
+  useEffect(() => {
+    const { userId } = props.match.params;
+    axiosGetProductListOnSales(userId).then(({ data }) => {
       setProductListOnSalesData(data.product);
+      setIsLoding(true);
     });
-
-    setIsLoding(true);
   }, []);
 
   useEffect(() => {
@@ -102,7 +107,7 @@ export default function ProfilePage(props) {
         <BottomNavMenu type='profile' />
         {showProductListOnSalesModal && (
           <ModalContainer useRef={modalRef}>
-            <ModalList>삭제</ModalList>
+            <ModalList onClick={handleRemoveProduct}>삭제</ModalList>
             <ModalList
               onClick={() => {
                 props.history.push('/product/edit', selectedProduct);
