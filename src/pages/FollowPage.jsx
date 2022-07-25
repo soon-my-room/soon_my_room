@@ -12,7 +12,7 @@ const Wrapper = styled.div`
 export default function FollowPage({ title, ...props }) {
   return (
     <Wrapper>
-      <TopNavBasic title={title} />
+      <TopNavBasic title={title} {...props} />
       <FollowProfileList
         searchFollow={title.toLowerCase().slice(0, -1)}
         {...props}
