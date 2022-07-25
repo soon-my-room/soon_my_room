@@ -83,13 +83,13 @@ const ShareLink = styled(MessageLink)`
 
 export default function ProfileDataCard(props) {
   const {
-    accountname,
-    username,
-    intro,
-    image,
-    isfollow,
     followerCount,
     followingCount,
+    username,
+    intro,
+    accountname,
+    image,
+    isfollow,
   } = props?.userData.profile;
   const myAccount = JSON.parse(localStorage.getItem('userInfo')).user
     .accountname;
