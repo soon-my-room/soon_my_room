@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import iconArrowLeft from '../../../assets/icon/icon-arrow-left.svg';
 import iconMore from '../../../assets/icon/icon-more-vertical.svg';
@@ -17,8 +16,7 @@ const Navigation = styled.nav`
   }
 `;
 
-const BackLink = styled(Link)`
-  display: inline-block;
+const BackButton = styled.button`
   width: 22px;
   height: 22px;
   background-image: url(${iconArrowLeft});
@@ -44,11 +42,11 @@ const Title = styled.h1`
   overflow: hidden;
 `;
 
-export default function TopNavBasic({ title, onClick, viewMore }) {
+export default function TopNavBasic({ title, onClick, viewMore, history }) {
   return (
     <>
       <Navigation>
-        <BackLink to='../' />
+        <BackButton type='button' onClick={() => history.goBack()} />
         {title && <Title>{title}</Title>}
         {viewMore && <OpenModal onClick={onClick} />}
       </Navigation>

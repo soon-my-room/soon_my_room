@@ -20,10 +20,10 @@ const ProfileWrapper = styled.div`
   margin: 30px auto;
 `;
 
-export default function ProfileEditPage() {
+export default function ProfileEditPage(props) {
   return (
     <ProfileEditWrapper>
-      <TopUploadNav buttonText='저장' />
+      <TopUploadNav buttonText='저장' {...props} />
       <Form>
         <ProfileWrapper>
           <ProfileImg />
