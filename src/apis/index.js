@@ -3,8 +3,10 @@ import { getUserInfo } from '../utils/userInfo';
 
 const token = getUserInfo()?.token;
 
+export const API_URL = 'https://mandarin.api.weniv.co.kr';
+
 export const axiosInstance = axios.create({
-  baseURL: 'https://mandarin.api.weniv.co.kr',
+  baseURL: API_URL,
   headers: {
     'Content-Type': 'application/json',
   },
