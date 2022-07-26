@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import TopNavUpload from '../components/common/nav/TopNavUpload';
 import UserProfile from '../components/profileImg/UserProfileImg';
@@ -56,8 +57,6 @@ const UploadedImgList = styled.li`
 `;
 
 const UploadedImg = styled.img`
-  width: 304px;
-  height: 228px;
   border: 0.5px solid var(--border-gray);
   border-radius: 10px;
   object-fit: cover;
@@ -85,18 +84,12 @@ const HiddenUploadFileInput = styled.input`
 `;
 
 export default function PostAddPage({ ...props }) {
+  let { post_id } = useParams();
+  const textAreaRef = useRef();
   const [textAreaValid, setTextAreaValid] = useState(false);
-  const [imgFile, setImgFile] = useState([]);
-
-  const handleTextAreaValid = ({ target }) => {
-    const textAreaLength = target.value.length;
-    if (textAreaLength > 0) {
-      setTextAreaValid(true);
-    } else {
-      setTextAreaValid(false);
-    }
-    return;
-  };
+  const [imgBlob, setImgBlob] = useState([]);
+  const [imgData, setImgData] = useState([]);
+  const [imgName, setImgName] = useState([]);
 
   const userInfo = JSON.parse(localStorage.getItem('userInfo'));
   if (!userInfo) {
@@ -106,19 +99,51 @@ export default function PostAddPage({ ...props }) {
   }
 
   const AuthorProfileImg = userInfo.user.image;
+  const { token } = userInfo.user;
 
-  //해당 파일의 전체 내용을 URL 텍스트로 변환하여 이미지 프리뷰 3장까지만 업로드
-  const handleImgUpload = (e) => {
-    setImgFile([...imgFile, URL.createObjectURL(e.target.files[0])]);
-    e.target.value = '';
-    if (imgFile.length > 2) {
-      setImgFile(imgFile.slice(0, 3));
+  const handleTextAreaValid = ({ target }) => {
+    const textAreaLength = target.value.length;
+    if (textAreaLength) {
+      setTextAreaValid(true);
+    } else {
+      setTextAreaValid(false);
+    }
+    return;
+  };
+
+  const handleImgUpload = async (e) => {
+    const files = e.target.files[0];
+    const maxValue = 10 * 1024 * 1024;
+
+    //파일 타입, 사이즈 유효성 체크 후 데이터 state와 프리뷰용 blob state에 넣어주기.
+    if (files.type === '') {
+      e.target.value = null;
+      alert('이미지 파일만 업로드가 가능합니다.');
+    } else if (files.size > maxValue) {
+      e.target.value = null;
+      console.log('사이즈 열심히 초과중');
+      alert('파일의 용량이 10MB를 초과했습니다.');
+    } else {
+      setImgData([...imgData, files]);
+      setImgBlob([...imgBlob, URL.createObjectURL(files)]);
+      e.target.value = '';
+    }
+
+    //파일 3장까지만 받도록 처리.
+    if (imgData.length > 2) {
+      setImgData(imgData.slice(0, 3));
+      alert('3개 이하의 파일을 업로드 하세요.');
+    }
+
+    if (imgBlob.length > 2) {
+      setImgBlob(imgBlob.slice(0, 3));
     }
   };
 
-  //이미지 프리뷰 삭제. 클릭한 요소가 아닌 요소들만 모은 배열을 반환하여 ImgFile에 저장하는 방식.
-  const handleImgDelete = (e) => {
-    setImgFile(imgFile.filter((item, index) => index !== e));
+  //이미지 삭제 버튼 누르면 데이터와 프리뷰용 blob 둘다 제거.
+  const handleImgDelete = (idx) => {
+    setImgBlob(imgBlob.filter((item, index) => index !== idx));
+    setImgData(imgData.filter((item, index) => index !== idx));
   };
 
   //img를 load하는 과정에서 error가 발생하면 defaultImg 표시
@@ -126,9 +151,67 @@ export default function PostAddPage({ ...props }) {
     e.target.src = defaultImg;
   };
 
+  const url = 'https://mandarin.api.weniv.co.kr';
+
+  const handleSubmit = async () => {
+    const formData = new FormData();
+    imgData.map((value) => {
+      return formData.append('image', value);
+    });
+
+    //여러개 이미지 포스트 api
+    try {
+      const reqImgPath = '/image/uploadfiles';
+      const resImg = await fetch(url + reqImgPath, {
+        method: 'POST',
+        body: formData,
+      });
+      const imgRes = await resImg.json();
+      for (let i of imgRes) {
+        setImgName([...imgName, imgName.push(i['filename'])]);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+    //img url을 합친 문자열 만들기
+    const imgNameJoin = imgName
+      .map((value) => 'https://mandarin.api.weniv.co.kr/' + value)
+      .join(',');
+
+    //게시글 작성 api
+    const reqPath = '/post';
+    const reqData = {
+      post: {
+        content: textAreaRef.current.value,
+        image: imgNameJoin,
+      },
+    };
+
+    try {
+      const res = await fetch(url + reqPath, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify(reqData),
+      });
+      const submitRes = await res.json();
+      if (submitRes) {
+        props.history.push(`/post/${post_id}`);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <>
-      <TopNavUpload buttonText='업로드' buttonDisabled={!textAreaValid} />
+      <TopNavUpload
+        buttonText='업로드'
+        buttonDisabled={!textAreaValid}
+        onClick={handleSubmit}
+      />
       <FormAreaWrap>
         <form>
           <AuthorProfile
@@ -139,16 +222,21 @@ export default function PostAddPage({ ...props }) {
           <TextArea
             placeholder='게시글 입력하기...'
             cols='40'
+            ref={textAreaRef}
             onChange={handleTextAreaValid}
           />
           <UploadedImgListWrap>
-            {imgFile.length > 0 &&
-              imgFile.map((image, index) => (
+            {imgBlob.length > 0 &&
+              imgBlob.map((image, index) => (
                 <UploadedImgList key={index}>
                   <UploadedImg
+                    style={{
+                      width: imgBlob.length === 1 ? '304px' : '168px',
+                      height: imgBlob.length === 1 ? '228px' : '126px',
+                    }}
                     src={image}
                     onError={handleDefaultImg}
-                    alt={`${image}=${index}`}
+                    alt={`업로드이미지-${index}`}
                   />
                   <ImgDeleteBtn
                     type='button'
