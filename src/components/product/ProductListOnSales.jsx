@@ -32,9 +32,12 @@ export default function ProductListOnSales({ title, products, ...props }) {
         {products.map((product) => (
           <ProductOnSales
             key={product.id}
+            id={product.id}
             name={product.itemName}
             price={product.price}
             src={product.itemImage}
+            link={product.link}
+            {...props}
           ></ProductOnSales>
         ))}
       </ProductList>

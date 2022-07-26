@@ -1,8 +1,10 @@
-import React from 'react';
-import UserProfileImg from '../profileImg/UserProfileImg';
-import Button from '../common/button/Button';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import Button from '../common/button/Button';
+import UserProfileImg from '../profileImg/UserProfileImg';
+import share from '../../assets/icon/icon-share.svg';
+import messageCircle from '../../assets/icon/icon-comment.svg';
 
 const ProfileFollowWrap = styled.div`
   width: 100%;
@@ -64,35 +66,142 @@ const FollowingLink = styled(FollowersLink)`
   color: var(--subtitle-text);
 `;
 
+const MessageLink = styled(Link)`
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--border-gray);
+  background-image: url(${messageCircle});
+  background-position: center;
+  background-size: 20px 20px;
+  background-repeat: no-repeat;
+`;
+
+const ShareLink = styled(MessageLink)`
+  background-image: url(${share});
+`;
+
 export default function ProfileDataCard(props) {
-  const { followerCount, followingCount, username, intro, accountname } =
-    props?.userData.profile;
+  const {
+    accountname,
+    username,
+    intro,
+    image,
+    isfollow,
+    followerCount,
+    followingCount,
+  } = props?.userData.profile;
+  const myAccount = JSON.parse(localStorage.getItem('userInfo')).user
+    .accountname;
+  const { token } = JSON.parse(localStorage.getItem('userInfo')).user;
+  const [isfollowState, setIsfollowState] = useState(isfollow);
+  const [userFollowerCount, setUserFollowerCount] = useState(followerCount);
+
+  async function followRequest() {
+    const url = 'https://mandarin.api.weniv.co.kr';
+    const reqPath = `/profile/${accountname}/follow`;
+    try {
+      const res = await fetch(url + reqPath, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+      const resData = await res.json();
+      return resData.profile.followerCount;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  async function unfollowRequest() {
+    const url = 'https://mandarin.api.weniv.co.kr';
+    const reqPath = `/profile/${accountname}/unfollow`;
+    try {
+      const res = await fetch(url + reqPath, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+      const resData = await res.json();
+      return resData.profile.followerCount;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  function onUnfollowClick() {
+    const UserFollowerCount = unfollowRequest(token);
+    UserFollowerCount.then((count) => {
+      setIsfollowState(false);
+      setUserFollowerCount(count);
+    });
+  }
+
+  function onFollowClick() {
+    const UserFollowerCount = followRequest(token);
+    UserFollowerCount.then((count) => {
+      setIsfollowState(true);
+      setUserFollowerCount(count);
+    });
+  }
+
   return (
     <>
       <ProfileFollowWrap>
         <FollowersLink to='/follower'>
-          <Count>{followerCount}</Count>
+          <Count>{userFollowerCount}</Count>
           <FollowText>followers</FollowText>
         </FollowersLink>
-        <UserProfileImg />
-        <FollowingLink to='/ollowing'>
+        <UserProfileImg src={image} />
+        <FollowingLink to='/following'>
           <Count>{followingCount}</Count>
           <FollowText>followings</FollowText>
         </FollowingLink>
       </ProfileFollowWrap>
 
       <ProfileDescriptionWrap>
-        <UserName>{accountname}</UserName>
-        <UserId>{username}</UserId>
+        <UserName>{username}</UserName>
+        <UserId>@ {accountname}</UserId>
         <UserIntro>{intro}</UserIntro>
       </ProfileDescriptionWrap>
       <ButtonWrap>
-        <Button as={Link} to='/프로필수정페이지' medium='true' white='true'>
-          프로필 수정
-        </Button>
-        <Button as={Link} to='/상품등록페이지' medium100='true' white='true'>
-          상품 등록
-        </Button>
+        {myAccount !== accountname ? (
+          <>
+            <MessageLink to='#none' />
+            {isfollowState ? (
+              <Button
+                medium
+                white
+                children='언팔로우'
+                onClick={onUnfollowClick}
+              />
+            ) : (
+              <Button medium children='팔로우' onClick={onFollowClick} />
+            )}
+            <ShareLink to='#none' />
+          </>
+        ) : (
+          <>
+            <Button
+              as={Link}
+              to='/profile/edit'
+              medium='true'
+              white='true'
+              children='프로필 수정'
+            />
+            <Button
+              as={Link}
+              to='/product/add'
+              medium100='true'
+              white='true'
+              children='상품 등록'
+            />
+          </>
+        )}
       </ButtonWrap>
     </>
   );

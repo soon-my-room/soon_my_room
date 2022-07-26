@@ -30,10 +30,10 @@ const ModalWrap = styled.ul`
   }
 `;
 
-export default function ModalContainer({ children }) {
+export default function ModalContainer({ children, useRef }) {
   return (
     <ModalBackground>
-      <ModalWrap>{children}</ModalWrap>;
+      <ModalWrap ref={useRef}>{children}</ModalWrap>;
     </ModalBackground>
   );
 }
