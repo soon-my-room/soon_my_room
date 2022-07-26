@@ -1,10 +1,10 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import UserProfile from '../../components/profileImg/UserProfileImg';
-import heart from '../../assets/icon/icon-heart.svg';
-import comment from '../../assets/icon/icon-comment.svg';
 import more from '../../assets/icon/s-icon-more-vertical.svg';
+import { ReactComponent as Heart } from '../../assets/icon/icon-heart.svg';
+import { ReactComponent as Comment } from '../../assets/icon/icon-comment.svg';
 
 const PostWrap = styled.li`
   display: flex;
@@ -73,26 +73,11 @@ const PostImages = styled.div`
 
 const ButtonWrap = styled.div`
   margin: 12px 0 16px;
-`;
-
-const HeartButton = styled.button`
+  display: flex;
+  align-items: center;
   font-weight: 400;
   font-size: 12px;
   color: var(--subtitle-text);
-  margin-right: 16px;
-
-  &::before {
-    content: url(${heart});
-    display: inline-block;
-    vertical-align: middle;
-    margin-right: 6px;
-  }
-`;
-
-const CommentButton = styled(HeartButton)`
-  &::before {
-    content: url(${comment});
-  }
 `;
 
 const CreatedDate = styled.span`
@@ -102,7 +87,34 @@ const CreatedDate = styled.span`
   color: var(--subtitle-text);
 `;
 
+const HeartSvg = styled(Heart)`
+  margin-right: 6px;
+`;
+
+const CommentSvg = styled(Comment)`
+  margin: 0 6px 0 16px;
+`;
+
 export default function PostItem({ post }) {
+  const {
+    author,
+    commentCount,
+    content,
+    createdAt,
+    heartCount,
+    hearted,
+    id,
+    image,
+  } = post;
+
+  const [year, month, day] = parseDate(createdAt);
+  const [isHearted, setIsHearted] = useState(hearted);
+  const [postHeartCount, setPostHeartCount] = useState(heartCount);
+
+  const { token } = JSON.parse(localStorage.getItem('userInfo')).user;
+
+  const history = useHistory();
+
   function parseDate(dateString) {
     const postDate = new Date(dateString);
     const year = postDate.getFullYear();
@@ -110,7 +122,6 @@ export default function PostItem({ post }) {
     const day = postDate.getDate();
     return [year, month, day];
   }
-  const [year, month, day] = parseDate(post.createdAt);
 
   function postListViewCheck(image) {
     const URL = 'https://mandarin.api.weniv.co.kr';
@@ -130,28 +141,97 @@ export default function PostItem({ post }) {
     }
   }
 
+  async function postLikeResquest() {
+    const url = 'https://mandarin.api.weniv.co.kr';
+    const reqPath = `/post/${id}/heart`;
+    try {
+      const res = await fetch(url + reqPath, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-type': 'application/json',
+        },
+      });
+      const resData = await res.json();
+      return resData.post.heartCount;
+    } catch (err) {
+      console.error('error');
+    }
+  }
+
+  async function postUnlikeRequest() {
+    const url = 'https://mandarin.api.weniv.co.kr';
+    const reqPath = `/post/${id}/unheart`;
+    try {
+      const res = await fetch(url + reqPath, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-type': 'application/json',
+        },
+      });
+      const resData = await res.json();
+      return resData.post.heartCount;
+    } catch (err) {
+      console.error('error');
+    }
+  }
+
+  function onHeartClick() {
+    const heartCount = postLikeResquest();
+    heartCount.then((count) => {
+      setIsHearted(true);
+      setPostHeartCount(count);
+    });
+  }
+
+  function onUnHeartClick() {
+    const heartCount = postUnlikeRequest();
+    heartCount.then((count) => {
+      setIsHearted(false);
+      setPostHeartCount(count);
+    });
+  }
+
   return (
     <PostWrap>
       <PostAuthorWrap>
-        <Link to={`/profile/${post.author.accountname}`}>
-          <UserProfile size='tiny' src={post.author.image} />
+        <Link to={`/profile/${author.accountname}`}>
+          <UserProfile size='tiny' src={author.image} />
         </Link>
-        <Link to={`/profile/${post.author.accountname}`}>
+        <Link to={`/profile/${author.accountname}`}>
           <UserWrap>
-            <UserName>{post.author.username}</UserName>
-            <UserId>@ {post.author.accountname}</UserId>
+            <UserName>{author.username}</UserName>
+            <UserId>@ {author.accountname}</UserId>
           </UserWrap>
         </Link>
         <MoreButton />
       </PostAuthorWrap>
       <PostContentWrap>
-        <Text>{post.content}</Text>
-        {postListViewCheck(post.image)}
+        <Text>{content}</Text>
+        {postListViewCheck(image)}
         <ButtonWrap>
-          <HeartButton>{post.heartCount}</HeartButton>
-          <CommentButton as={Link} to={`/post/${post.id}`}>
-            {post.commentCount}
-          </CommentButton>
+          {isHearted ? (
+            <>
+              <HeartSvg
+                fill='var(--main-color)'
+                stroke='var(--main-color)'
+                onClick={onUnHeartClick}
+              />
+              {postHeartCount}
+            </>
+          ) : (
+            <>
+              <HeartSvg
+                fill='var(--bg-color)'
+                stroke='var(--subtitle-text)'
+                onClick={onHeartClick}
+              />
+              {postHeartCount}
+            </>
+          )}
+          <CommentSvg onClick={() => history.push(`/post/${id}`)} />
+          {commentCount}
         </ButtonWrap>
         <CreatedDate>{`${year}년 ${month}월 ${day}일`}</CreatedDate>
       </PostContentWrap>
