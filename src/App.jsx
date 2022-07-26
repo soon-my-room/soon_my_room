@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import ProfileSettingPage from './pages/ProfileSettingPage';
 import LoginHomePage from './pages/LoginHomePage';
@@ -18,14 +18,14 @@ function PrivateRoute({ children, ...rest }) {
   return (
     <Route
       {...rest}
-      render={({ location }) =>
+      render={(props) =>
         userInfo ? (
-          children
+          React.cloneElement(children, { ...props })
         ) : (
           <Redirect
             to={{
               pathname: '/login',
-              state: { from: location },
+              state: { from: props.location },
             }}
           />
         )
