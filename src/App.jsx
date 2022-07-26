@@ -1,4 +1,5 @@
-import { Route, Switch } from 'react-router-dom';
+import { useState } from 'react';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import ProfileSettingPage from './pages/ProfileSettingPage';
 import LoginHomePage from './pages/LoginHomePage';
 import LoginPage from './pages/LoginPage';
@@ -10,6 +11,28 @@ import ProductAddPage from './pages/ProductAddPage';
 import ProductEditPage from './pages/ProductEditPage';
 import SearchPage from './pages/SearchPage';
 import ProfilePage from './pages/ProfilePage';
+import { getUserInfo } from './utils/userInfo';
+
+function PrivateRoute({ children, ...rest }) {
+  const [userInfo] = useState(getUserInfo);
+  return (
+    <Route
+      {...rest}
+      render={({ location }) =>
+        userInfo ? (
+          children
+        ) : (
+          <Redirect
+            to={{
+              pathname: '/login',
+              state: { from: location },
+            }}
+          />
+        )
+      }
+    />
+  );
+}
 
 function App() {
   return (
@@ -35,7 +58,9 @@ function App() {
         <Route path='/product/edit' exact component={ProductEditPage} />
         <Route path='/search' exact component={SearchPage} />
         <Route path='/profile/:userId' exact component={ProfilePage} />
-        <Route path='/profile' exact component={ProfilePage} />
+        <PrivateRoute path='/profile' exact>
+          <ProfilePage />
+        </PrivateRoute>
       </Switch>
     </>
   );
