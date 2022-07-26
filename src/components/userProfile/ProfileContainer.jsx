@@ -1,7 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { useState } from 'react';
-import { useEffect } from 'react';
 import ProfileDataCard from './ProfileDataCard';
 
 const ProfileWrap = styled.section`
@@ -13,7 +11,6 @@ const ProfileWrap = styled.section`
 
 export default function ProfileContainer({ userId, ...props }) {
   const [userData, setUserData] = useState();
-
   async function GetUserProfileData(userId, token) {
     const url = 'https://mandarin.api.weniv.co.kr';
     const reqPath = `/profile/${userId}`;
