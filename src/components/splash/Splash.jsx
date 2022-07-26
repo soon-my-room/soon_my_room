@@ -17,7 +17,6 @@ const SplashImg = styled.img`
 `;
 
 const FlexCenter = styled.div`
-  width: 100%;
   height: 100%;
   display: flex;
   justify-content: conter;
@@ -26,6 +25,7 @@ const FlexCenter = styled.div`
 
 const AniSplash = styled.div`
   position: absolute;
+  left: 0;
   width: 100%;
   height: 100%;
   background-color: var(--bg-color);

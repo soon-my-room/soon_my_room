@@ -6,7 +6,7 @@ import LoginCard from '../components/login/LoginCard';
 import Splash from '../components/splash/Splash';
 
 const LoginContainer = styled.main`
-  width: 100%;
+  margin: 0 -1500px;
   height: 100vh;
   display: flex;
   flex-direction: column;
