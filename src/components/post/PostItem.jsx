@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import UserProfile from '../../components/profileImg/UserProfileImg';
-import heart from '../../assets/icon/icon-heart.svg';
-import postUploadImg from '../../assets/icon/post-upload-Img.svg';
-import comment from '../../assets/icon/icon-comment.svg';
 import more from '../../assets/icon/s-icon-more-vertical.svg';
+import { ReactComponent as Heart } from '../../assets/icon/icon-heart.svg';
+import { ReactComponent as Comment } from '../../assets/icon/icon-comment.svg';
 
 const PostWrap = styled.li`
   display: flex;
@@ -38,7 +38,7 @@ const UserId = styled.span`
 `;
 
 const MoreButton = styled.button`
-  padding: 10px;
+  padding: 7px;
   background-image: url(${more});
   background-position: center;
   background-repeat: no-repeat;
@@ -59,62 +59,176 @@ const Text = styled.p`
   word-break: break-all;
 `;
 
-const PostImg = styled.img``;
+const PostImg = styled.img`
+  width: 304px;
+  height: 228px;
+  border-radius: 10px;
+  object-fit: contain;
+`;
+
+const PostImages = styled.div`
+  display: flex;
+  overflow-x: auto;
+`;
 
 const ButtonWrap = styled.div`
   margin: 12px 0 16px;
-`;
-
-const HeartButton = styled.button`
+  display: flex;
   font-weight: 400;
   font-size: 12px;
   color: var(--subtitle-text);
-  margin-right: 16px;
-
-  &::before {
-    content: url(${heart});
-    display: inline-block;
-    vertical-align: middle;
-    margin-right: 6px;
-  }
 `;
 
-const CommentButton = styled(HeartButton)`
-  &::before {
-    content: url(${comment});
-  }
-`;
-
-const Date = styled.span`
+const CreatedDate = styled.span`
   font-weight: 400;
   font-size: 10px;
   line-height: 12px;
   color: var(--subtitle-text);
 `;
 
-export default function PostItem() {
+const IconWrap = styled.div`
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+`;
+
+const HeartSvg = styled(Heart)`
+  margin-right: 6px;
+`;
+
+const CommentSvg = styled(Comment)`
+  margin: 0 6px 0 16px;
+`;
+
+export default function PostItem({ post }) {
+  const {
+    author,
+    commentCount,
+    content,
+    createdAt,
+    heartCount,
+    hearted,
+    id,
+    image,
+  } = post;
+
+  const [year, month, day] = parseDate(createdAt);
+  const [isHearted, setIsHearted] = useState(hearted);
+  const [postHeartCount, setPostHeartCount] = useState(heartCount);
+
+  const { token } = JSON.parse(localStorage.getItem('userInfo')).user;
+
+  const history = useHistory();
+
+  function parseDate(dateString) {
+    const postDate = new Date(dateString);
+    const year = postDate.getFullYear();
+    const month = postDate.getMonth() + 1;
+    const day = postDate.getDate();
+    return [year, month, day];
+  }
+
+  function postListViewCheck(image) {
+    const URL = 'https://mandarin.api.weniv.co.kr';
+
+    if (!image) {
+      return false;
+    } else if (!image.includes(URL)) {
+      return <PostImg src='' alt='이미지 파일을 불러올 수 없습니다.' />;
+    } else {
+      return (
+        <PostImages>
+          {image.split(',').map((postImg, index) => (
+            <PostImg key={index} src={postImg} alt='게시글상품사진' />
+          ))}
+        </PostImages>
+      );
+    }
+  }
+
+  async function postLikeResquest() {
+    const url = 'https://mandarin.api.weniv.co.kr';
+    const reqPath = `/post/${id}/heart`;
+    try {
+      const res = await fetch(url + reqPath, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-type': 'application/json',
+        },
+      });
+      const resData = await res.json();
+      return resData.post.heartCount;
+    } catch (err) {
+      console.error('error');
+    }
+  }
+
+  async function postUnlikeRequest() {
+    const url = 'https://mandarin.api.weniv.co.kr';
+    const reqPath = `/post/${id}/unheart`;
+    try {
+      const res = await fetch(url + reqPath, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-type': 'application/json',
+        },
+      });
+      const resData = await res.json();
+      return resData.post.heartCount;
+    } catch (err) {
+      console.error('error');
+    }
+  }
+
+  function onHeartClick() {
+    const heartCount = postLikeResquest();
+    heartCount.then((count) => {
+      setIsHearted(true);
+      setPostHeartCount(count);
+    });
+  }
+
+  function onUnHeartClick() {
+    const heartCount = postUnlikeRequest();
+    heartCount.then((count) => {
+      setIsHearted(false);
+      setPostHeartCount(count);
+    });
+  }
+
   return (
     <PostWrap>
       <PostAuthorWrap>
-        <UserProfile size='tiny' />
-        <UserWrap>
-          <UserName>애월읍 위니브 감귤농장</UserName>
-          <UserId>@ weniv_Mandarin</UserId>
-        </UserWrap>
+        <Link to={`/profile/${author.accountname}`}>
+          <UserProfile size='tiny' src={author.image} />
+        </Link>
+        <Link to={`/profile/${author.accountname}`}>
+          <UserWrap>
+            <UserName>{author.username}</UserName>
+            <UserId>@ {author.accountname}</UserId>
+          </UserWrap>
+        </Link>
         <MoreButton />
       </PostAuthorWrap>
       <PostContentWrap>
-        <Text>
-          옷을 인생을 그러므로 없으면 것은 이상은 것은 우리의 위하여, 뿐이다.
-          이상의 청춘의 뼈 따뜻한 그들의 그와 악동하다. 대고, 못할 넣는 풍부하게
-          뛰노는 인생의 힘있다.
-        </Text>
-        <PostImg src={postUploadImg} alt='게시글상품사진' />
+        <Text>{content}</Text>
+        {postListViewCheck(image)}
         <ButtonWrap>
-          <HeartButton>58</HeartButton>
-          <CommentButton>12</CommentButton>
+          <IconWrap onClick={isHearted ? onUnHeartClick : onHeartClick}>
+            <HeartSvg
+              fill={isHearted ? 'var(--main-color)' : 'var(--bg-color)'}
+              stroke={isHearted ? 'var(--main-color)' : 'var(--subtitle-text)'}
+            />
+            {postHeartCount}
+          </IconWrap>
+          <IconWrap onClick={() => history.push(`/post/${id}`)}>
+            <CommentSvg />
+            {commentCount}
+          </IconWrap>
         </ButtonWrap>
-        <Date>2020년 10월 21일</Date>
+        <CreatedDate>{`${year}년 ${month}월 ${day}일`}</CreatedDate>
       </PostContentWrap>
     </PostWrap>
   );

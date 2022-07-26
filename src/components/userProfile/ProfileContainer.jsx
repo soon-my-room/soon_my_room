@@ -1,21 +1,19 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { useState } from 'react';
-import { useEffect } from 'react';
 import ProfileDataCard from './ProfileDataCard';
 
 const ProfileWrap = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 30px 0 26px;
 `;
 
-export default function ProfileContainer(props) {
+export default function ProfileContainer({ userId, ...props }) {
   const [userData, setUserData] = useState();
-
-  async function GetUserProfileData(accountname, token) {
+  async function GetUserProfileData(userId, token) {
     const url = 'https://mandarin.api.weniv.co.kr';
-    const reqPath = `/profile/${accountname}`;
+    const reqPath = `/profile/${userId}`;
     try {
       const res = await fetch(url + reqPath, {
         method: 'GET',
@@ -39,10 +37,9 @@ export default function ProfileContainer(props) {
       return;
     }
 
-    const { accountname, token } = userInfo.user;
-    const UserProfileData = GetUserProfileData(accountname, token);
+    const { token } = userInfo.user;
+    const UserProfileData = GetUserProfileData(userId, token);
     UserProfileData.then((userData) => {
-      console.log('userData', userData);
       setUserData(userData);
     });
   }, []);

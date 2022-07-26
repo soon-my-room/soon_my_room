@@ -1,5 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { useState, useEffect } from 'react';
+import styled, { css } from 'styled-components';
 import uploadFileButton from '../../../assets/upload-file-button-gray.svg';
 
 const ImageUploadLabel = styled.label`
@@ -18,7 +18,27 @@ const ImageUploadInput = styled.input`
   color: transparent; // '선택된 파일 없음' 글자 안나오도록 설정
   width: 322px;
   height: 204px;
-  background-color: #f2f2f2;
+  ${(props) =>
+    props.imageSrc
+      ? css`
+          background-image: url(${props.imageSrc});
+          background-repeat: no-repeat;
+          background-size: contain;
+          background-position: center;
+        `
+      : css`
+          background-color: #f2f2f2;
+        `}
+
+  ${({ EditImageUrl }) =>
+    EditImageUrl &&
+    css`
+      background-image: url(${EditImageUrl});
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: center;
+    `}        
+
   border: 0.5px solid var(--border-gray);
   border-radius: 10px;
   cursor: pointer;
@@ -38,11 +58,38 @@ const ImageUploadInput = styled.input`
   }
 `;
 
-export default function InputImageUploadBox({ htmlFor, labelText, ...props }) {
+export default function InputImageUploadBox({
+  htmlFor,
+  labelText,
+  setImageData,
+  useRef,
+  ...props
+}) {
+  const [imageSrc, setImageSrc] = useState('');
+
+  const handleEncodeFileToBase64 = (e) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(e.target.files[0]);
+    reader.onload = () => {
+      setImageSrc(reader.result);
+    };
+  };
+
+  useEffect(() => {
+    return setImageData(imageSrc);
+  }, [imageSrc]);
+
   return (
     <>
-      <ImageUploadLabel htmlFor={htmlFor}>{labelText}</ImageUploadLabel>
-      <ImageUploadInput {...props} />
+      <ImageUploadLabel htmlFor={props.id}>{labelText}</ImageUploadLabel>
+      <ImageUploadInput
+        {...props}
+        onChange={handleEncodeFileToBase64}
+        setImageData={setImageData}
+        ref={useRef}
+        accept='*.jpg, *.gif, *.png, *.jpeg, *.bmp, *.tif, *.heic'
+        imageSrc={imageSrc} // props로 background를 변경해 주기 위해 사용
+      />
     </>
   );
 }

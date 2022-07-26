@@ -79,6 +79,12 @@ export default function LoginPage(props) {
         setErrorMessage('*이메일 또는 비밀번호가 일치하지 않습니다.');
       } else {
         localStorage.setItem('userInfo', JSON.stringify(resData));
+
+        // userInfo객체의 구조가 userInfo: { user: { ...정보 }} 로 되어있어서 리팩토링하기위해 추가로 userInfo1 설정
+        // 나중에 리팩토링이 끝나면 userInfo1을 userInfo로 바꿀 예정입니다.
+        const { user } = resData;
+        localStorage.setItem('userInfo1', JSON.stringify(user));
+
         props.history.push('/feed');
       }
     } catch (err) {

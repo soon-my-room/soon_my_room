@@ -1,4 +1,5 @@
-import { Route, Switch } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import ProfileSettingPage from './pages/ProfileSettingPage';
 import LoginHomePage from './pages/LoginHomePage';
 import LoginPage from './pages/LoginPage';
@@ -8,6 +9,32 @@ import FollowPage from './pages/FollowPage';
 import ProfileEditPage from './pages/ProfileEditPage';
 import ProductAddPage from './pages/ProductAddPage';
 import ProductEditPage from './pages/ProductEditPage';
+import PostAddPage from './pages/PostAddPage';
+import PostPage from './pages/PostPage';
+import SearchPage from './pages/SearchPage';
+import ProfilePage from './pages/ProfilePage';
+import { getUserInfo } from './utils/userInfo';
+
+function PrivateRoute({ children, ...rest }) {
+  const [userInfo] = useState(getUserInfo);
+  return (
+    <Route
+      {...rest}
+      render={(props) =>
+        userInfo ? (
+          React.cloneElement(children, { ...props })
+        ) : (
+          <Redirect
+            to={{
+              pathname: '/login',
+              state: { from: props.location },
+            }}
+          />
+        )
+      }
+    />
+  );
+}
 
 function App() {
   return (
@@ -31,6 +58,13 @@ function App() {
         <Route path='/profile/edit' exact component={ProfileEditPage} />
         <Route path='/product/add' exact component={ProductAddPage} />
         <Route path='/product/edit' exact component={ProductEditPage} />
+        <Route path='/post/add' exact component={PostAddPage} />
+        <Route path='/post/:post_id' exact component={PostPage} />
+        <Route path='/search' exact component={SearchPage} />
+        <Route path='/profile/:userId' exact component={ProfilePage} />
+        <PrivateRoute path='/profile' exact>
+          <ProfilePage />
+        </PrivateRoute>
       </Switch>
     </>
   );
