@@ -18,13 +18,12 @@ const CommentListWrap = styled.section`
     background-color: var(--border-gray);
   }
 `;
-export default function PostPage({ postList }) {
-  console.log(postList);
+export default function PostPage({ location, ...props }) {
   return (
     <>
       <TopNavBasic viewMore />
       <PostItemWrap>
-        <PostItem />
+        <PostItem post={location.state.post} />
         <CommentListWrap>
           <CommentItem />
           <CommentItem />
