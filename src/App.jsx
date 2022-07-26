@@ -10,7 +10,6 @@ import ProfileEditPage from './pages/ProfileEditPage';
 import ProductAddPage from './pages/ProductAddPage';
 import ProductEditPage from './pages/ProductEditPage';
 import PostAddPage from './pages/PostAddPage';
-import PostPage from './pages/PostPage';
 import SearchPage from './pages/SearchPage';
 import ProfilePage from './pages/ProfilePage';
 import { getUserInfo } from './utils/userInfo';
@@ -59,7 +58,6 @@ function App() {
         <Route path='/product/add' exact component={ProductAddPage} />
         <Route path='/product/edit' exact component={ProductEditPage} />
         <Route path='/post/add' exact component={PostAddPage} />
-        <Route path='/post/:post_id' exact component={PostPage} />
         <Route path='/search' exact component={SearchPage} />
         <Route path='/profile/:userId' exact component={ProfilePage} />
         <PrivateRoute path='/profile' exact>
