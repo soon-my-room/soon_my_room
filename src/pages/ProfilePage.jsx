@@ -89,7 +89,7 @@ export default function ProfilePage(props) {
   return (
     isLoding && (
       <>
-        <TopNavBasic viewMore />
+        <TopNavBasic viewMore {...props} />
         <ProfileContainer userId={props.match.params.userId} />
         <ProductListOnSalesWrap
           title='판매 중인 상품'
@@ -99,7 +99,7 @@ export default function ProfilePage(props) {
           {...props}
         />
         <PostListWrap userId={props.match.params.userId} />
-        <BottomNavMenu type='profile' />
+        <BottomNavMenu type='profile' {...props} />
         {showProductListOnSalesModal && (
           <ModalContainer useRef={modalRef}>
             <ModalList onClick={handleRemoveProduct}>삭제</ModalList>

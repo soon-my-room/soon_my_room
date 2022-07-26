@@ -128,7 +128,11 @@ export default function PostAddPage({ ...props }) {
 
   return (
     <>
-      <TopNavUpload buttonText='업로드' buttonDisabled={!textAreaValid} />
+      <TopNavUpload
+        buttonText='업로드'
+        buttonDisabled={!textAreaValid}
+        {...props}
+      />
       <FormAreaWrap>
         <form>
           <AuthorProfile
