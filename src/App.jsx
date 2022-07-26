@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Redirect, Route, Switch } from 'react-router-dom';
+import React from 'react';
+import { Route, Switch } from 'react-router-dom';
 import ProfileSettingPage from './pages/ProfileSettingPage';
 import LoginHomePage from './pages/LoginHomePage';
 import LoginPage from './pages/LoginPage';
@@ -12,29 +12,7 @@ import ProductEditPage from './pages/ProductEditPage';
 import PostAddPage from './pages/PostAddPage';
 import SearchPage from './pages/SearchPage';
 import ProfilePage from './pages/ProfilePage';
-import { getUserInfo } from './utils/userInfo';
-
-function PrivateRoute({ children, ...rest }) {
-  const userInfo = getUserInfo();
-
-  return (
-    <Route
-      {...rest}
-      render={(props) =>
-        userInfo ? (
-          React.cloneElement(children, { ...props })
-        ) : (
-          <Redirect
-            to={{
-              pathname: '/login',
-              state: { from: props.location },
-            }}
-          />
-        )
-      }
-    />
-  );
-}
+import PrivateRoute from './utils/route/PrivateRoute';
 
 function App() {
   return (
