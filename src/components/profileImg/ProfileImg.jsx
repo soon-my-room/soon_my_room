@@ -10,6 +10,7 @@ const ProfileImageContainer = styled.div`
 `;
 
 const ProfileImage = styled.img`
+  height: 110px;
   border-radius: 50%;
 `;
 
@@ -31,9 +32,17 @@ const Input = styled.input`
   display: none;
 `;
 
-export default function ProfileImg() {
+export default function ProfileImg(props) {
   const imageInput = useRef();
-  const [imageSrc, setImageSrc] = useState(basicProfile);
+  const [imageSrc, setImageSrc] = useState(setDefalutImage);
+
+  function setDefalutImage() {
+    if (props.profileImage) {
+      return props.profileImage;
+    }
+
+    return basicProfile;
+  }
 
   //이미지업로드 버튼을 클릭했을 때 input이 실행
   const onClickImageUpload = () => {
