@@ -52,7 +52,6 @@ export default function SearchPage(props) {
       setSearchData(resJson);
     } catch (err) {}
   }
-  console.log(searchData);
   const userInfo = JSON.parse(localStorage.getItem('userInfo'));
   const token = userInfo?.user?.token;
 
