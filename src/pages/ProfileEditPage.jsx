@@ -1,10 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import TopUploadNav from '../components/common/nav/TopNavUpload';
 import InputBox from '../components/common/input/InputBox';
 import ProfileImg from '../components/profileImg/ProfileImg';
+import TopNavBasic from '../components/common/nav/TopNavBasic';
 
-const ProfileEditWrapper = styled.div`
+const ProfileEditWrap = styled.div`
+  position: relative;
   width: 390px;
   margin: 0 auto;
 `;
@@ -12,6 +13,20 @@ const ProfileEditWrapper = styled.div`
 const Form = styled.form`
   width: 322px;
   margin: 0 auto;
+`;
+
+const SaveFormButton = styled.button`
+  background-color: var(--main-color);
+  color: var(--disabled-text-color);
+  border-radius: 30px;
+  font-weight: 500;
+  font-size: 14px;
+  width: 90px;
+  line-height: 32px;
+  border-radius: 32px;
+  position: absolute;
+  top: 8px;
+  right: 16px;
 `;
 
 const ProfileWrapper = styled.div`
@@ -22,8 +37,8 @@ const ProfileWrapper = styled.div`
 
 export default function ProfileEditPage(props) {
   return (
-    <ProfileEditWrapper>
-      <TopUploadNav buttonText='저장' {...props} />
+    <ProfileEditWrap>
+      <TopNavBasic {...props} />
       <Form>
         <ProfileWrapper>
           <ProfileImg />
@@ -41,7 +56,8 @@ export default function ProfileEditPage(props) {
           labelText='소개'
           placeholder='자신과 판매할 상품에 대해 소개해 주세요!'
         />
+        <SaveFormButton>저장</SaveFormButton>
       </Form>
-    </ProfileEditWrapper>
+    </ProfileEditWrap>
   );
 }
