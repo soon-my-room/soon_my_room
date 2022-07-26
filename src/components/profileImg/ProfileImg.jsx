@@ -10,6 +10,7 @@ const ProfileImageContainer = styled.div`
 `;
 
 const ProfileImage = styled.img`
+  height: 110px;
   border-radius: 50%;
 `;
 
