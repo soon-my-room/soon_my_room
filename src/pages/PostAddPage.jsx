@@ -121,7 +121,6 @@ export default function PostAddPage({ ...props }) {
       alert('이미지 파일만 업로드가 가능합니다.');
     } else if (files.size > maxValue) {
       e.target.value = null;
-      console.log('사이즈 열심히 초과중');
       alert('파일의 용량이 10MB를 초과했습니다.');
     } else {
       setImgData([...imgData, files]);
