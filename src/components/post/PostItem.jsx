@@ -74,7 +74,6 @@ const PostImages = styled.div`
 const ButtonWrap = styled.div`
   margin: 12px 0 16px;
   display: flex;
-  align-items: center;
   font-weight: 400;
   font-size: 12px;
   color: var(--subtitle-text);
@@ -85,6 +84,12 @@ const CreatedDate = styled.span`
   font-size: 10px;
   line-height: 12px;
   color: var(--subtitle-text);
+`;
+
+const IconWrap = styled.div`
+  display: flex;
+  align-items: center;
+  cursor: pointer;
 `;
 
 const HeartSvg = styled(Heart)`
@@ -211,27 +216,17 @@ export default function PostItem({ post }) {
         <Text>{content}</Text>
         {postListViewCheck(image)}
         <ButtonWrap>
-          {isHearted ? (
-            <>
-              <HeartSvg
-                fill='var(--main-color)'
-                stroke='var(--main-color)'
-                onClick={onUnHeartClick}
-              />
-              {postHeartCount}
-            </>
-          ) : (
-            <>
-              <HeartSvg
-                fill='var(--bg-color)'
-                stroke='var(--subtitle-text)'
-                onClick={onHeartClick}
-              />
-              {postHeartCount}
-            </>
-          )}
-          <CommentSvg onClick={() => history.push(`/post/${id}`)} />
-          {commentCount}
+          <IconWrap onClick={isHearted ? onUnHeartClick : onHeartClick}>
+            <HeartSvg
+              fill={isHearted ? 'var(--main-color)' : 'var(--bg-color)'}
+              stroke={isHearted ? 'var(--main-color)' : 'var(--subtitle-text)'}
+            />
+            {postHeartCount}
+          </IconWrap>
+          <IconWrap onClick={() => history.push(`/post/${id}`)}>
+            <CommentSvg />
+            {commentCount}
+          </IconWrap>
         </ButtonWrap>
         <CreatedDate>{`${year}년 ${month}월 ${day}일`}</CreatedDate>
       </PostContentWrap>
