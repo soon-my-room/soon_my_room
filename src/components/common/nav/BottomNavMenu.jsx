@@ -43,7 +43,7 @@ export default function BottomNavMenu(props) {
           채팅
         </BottomNavMenuItem>
         <BottomNavMenuItem
-          to='/post/upload'
+          to='/post/add'
           iconSrc={editIcon}
           color={
             props.type === 'upload'

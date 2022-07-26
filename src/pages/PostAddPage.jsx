@@ -210,6 +210,7 @@ export default function PostAddPage({ ...props }) {
         buttonText='업로드'
         buttonDisabled={!textAreaValid}
         onClick={handleSubmit}
+        {...props}
       />
       <FormAreaWrap>
         <form>
