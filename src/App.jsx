@@ -15,7 +15,8 @@ import ProfilePage from './pages/ProfilePage';
 import { getUserInfo } from './utils/userInfo';
 
 function PrivateRoute({ children, ...rest }) {
-  const [userInfo] = useState(getUserInfo);
+  const userInfo = getUserInfo();
+
   return (
     <Route
       {...rest}
@@ -54,7 +55,9 @@ function App() {
           render={(props) => <FollowPage title='Followings' {...props} />}
         />
         <Route path='/feed' exact component={FeedPage} />
-        <Route path='/profile/edit' exact component={ProfileEditPage} />
+        <PrivateRoute path='/profile/edit' exact>
+          <ProfileEditPage />
+        </PrivateRoute>
         <Route path='/product/add' exact component={ProductAddPage} />
         <Route path='/product/edit' exact component={ProductEditPage} />
         <Route path='/post/add' exact component={PostAddPage} />
