@@ -13,21 +13,18 @@ const Wrapper = styled.ul`
 
 export default function SearchCardList({ searchData, ...props }) {
   if (!searchData.length) {
-    console.log('SearchCard Return');
     return;
   }
   return (
-    <>
-      <Wrapper>
-        {searchData.map((Data) => (
-          <SearchCard
-            key={Data.accountname}
-            src={Data.image}
-            accountname={Data.accountname}
-            username={Data.username}
-          />
-        ))}
-      </Wrapper>
-    </>
+    <Wrapper>
+      {searchData.map((Data) => (
+        <SearchCard
+          key={Data.accountname}
+          src={Data.image}
+          accountname={Data.accountname}
+          username={Data.username}
+        />
+      ))}
+    </Wrapper>
   );
 }

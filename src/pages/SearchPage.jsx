@@ -49,11 +49,8 @@ export default function SearchPage(props) {
         },
       });
       const resJson = await res.json();
-      console.log(resJson);
       setSearchData(resJson);
-    } catch (err) {
-      console.error(err);
-    }
+    } catch (err) {}
   }
   console.log(searchData);
   const userInfo = JSON.parse(localStorage.getItem('userInfo'));
@@ -61,7 +58,6 @@ export default function SearchPage(props) {
 
   useEffect(() => {
     if (!userInfo) {
-      console.log('로그인 정보가 없습니다.');
       props.history.push('/login');
       return;
     }
