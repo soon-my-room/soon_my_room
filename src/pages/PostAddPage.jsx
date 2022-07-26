@@ -1,5 +1,4 @@
 import React, { useState, useRef } from 'react';
-import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import TopNavUpload from '../components/common/nav/TopNavUpload';
 import UserProfile from '../components/profileImg/UserProfileImg';
@@ -84,7 +83,6 @@ const HiddenUploadFileInput = styled.input`
 `;
 
 export default function PostAddPage({ ...props }) {
-  let { post_id } = useParams();
   const textAreaRef = useRef();
   const [textAreaValid, setTextAreaValid] = useState(false);
   const [imgBlob, setImgBlob] = useState([]);
@@ -197,7 +195,9 @@ export default function PostAddPage({ ...props }) {
       });
       const submitRes = await res.json();
       if (submitRes) {
-        props.history.push(`/post/${post_id}`);
+        props.history.push(`/post/${submitRes.post.id}`, {
+          post: submitRes.post,
+        });
       }
     } catch (err) {
       console.error(err);
