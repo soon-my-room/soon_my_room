@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
+import ModalList from '../common/modal/ModalList';
+import ModalContainer from '../common/modal/ModalContainer';
 import UserProfile from '../../components/profileImg/UserProfileImg';
-import more from '../../assets/icon/s-icon-more-vertical.svg';
 import { ReactComponent as Heart } from '../../assets/icon/icon-heart.svg';
 import { ReactComponent as Comment } from '../../assets/icon/icon-comment.svg';
+import { ReactComponent as More } from '../../assets/icon/s-icon-more-vertical.svg';
+import { useRef } from 'react';
 
 const PostWrap = styled.li`
   display: flex;
@@ -35,16 +38,6 @@ const UserId = styled.span`
   font-size: 12px;
   line-height: 14px;
   color: var(--subtitle-text);
-`;
-
-const MoreButton = styled.button`
-  padding: 7px;
-  background-image: url(${more});
-  background-position: center;
-  background-repeat: no-repeat;
-  position: absolute;
-  top: 0;
-  right: 4px;
 `;
 
 const PostContentWrap = styled.div`
@@ -100,7 +93,13 @@ const CommentSvg = styled(Comment)`
   margin: 0 6px 0 16px;
 `;
 
-export default function PostItem({ post }) {
+const MoreSvg = styled(More)`
+  position: absolute;
+  right: 0;
+  cursor: pointer;
+`;
+
+export default function PostItem({ post, ...props }) {
   const {
     author,
     commentCount,
@@ -111,11 +110,11 @@ export default function PostItem({ post }) {
     id,
     image,
   } = post;
-
   const [year, month, day] = parseDate(createdAt);
   const [isHearted, setIsHearted] = useState(hearted);
   const [postHeartCount, setPostHeartCount] = useState(heartCount);
-
+  const [isModal, setIsModal] = useState(false);
+  const modalRef = useRef();
   const { token } = JSON.parse(localStorage.getItem('userInfo')).user;
 
   const history = useHistory();
@@ -182,8 +181,8 @@ export default function PostItem({ post }) {
     }
   }
 
-  function onHeartClick() {
-    const heartCount = postLikeResquest();
+  async function onHeartClick() {
+    const heartCount = await postLikeResquest();
     heartCount.then((count) => {
       setIsHearted(true);
       setPostHeartCount(count);
@@ -198,6 +197,14 @@ export default function PostItem({ post }) {
     });
   }
 
+  function hendleModal(e) {
+    setIsModal(!isModal);
+
+    if (modalRef.current !== e.target.firstElementChild) {
+      setIsModal(true);
+    }
+  }
+
   return (
     <PostWrap>
       <PostAuthorWrap>
@@ -210,7 +217,13 @@ export default function PostItem({ post }) {
             <UserId>@ {author.accountname}</UserId>
           </UserWrap>
         </Link>
-        <MoreButton />
+        <MoreSvg onClick={hendleModal} />
+        {isModal && (
+          <ModalContainer useRef={modalRef} onClick={hendleModal}>
+            <ModalList children='삭제' />
+            <ModalList children='수정' />
+          </ModalContainer>
+        )}
       </PostAuthorWrap>
       <PostContentWrap>
         <Text>{content}</Text>
