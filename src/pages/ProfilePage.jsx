@@ -86,6 +86,15 @@ export default function ProfilePage(props) {
     };
   }, [showProductListOnSalesModal]);
 
+  function handleViewWebsiteProductClick() {
+    let requestUrl = 'http://';
+    if (!selectedProduct.link.includes('http')) {
+      requestUrl += selectedProduct.link;
+    }
+
+    window.open(requestUrl, '_blank', 'noopener,noreferrer');
+  }
+
   return (
     isLoding && (
       <>
@@ -110,18 +119,7 @@ export default function ProfilePage(props) {
             >
               수정
             </ModalList>
-            <ModalList
-              onClick={() => {
-                console.log('웹사이트 상품보기 주소', selectedProduct.link);
-
-                let requestUrl = 'http://';
-                if (!selectedProduct.link.includes('http')) {
-                  requestUrl += selectedProduct.link;
-                }
-
-                window.open(requestUrl, '_blank', 'noopener,noreferrer');
-              }}
-            >
+            <ModalList onClick={handleViewWebsiteProductClick}>
               웹사이트에서 상품 보기
             </ModalList>
           </ModalContainer>
