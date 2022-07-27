@@ -34,28 +34,30 @@ const MultiImgLi = styled.li`
 export default function PostList({ userId, ...props }) {
   const [posts, setPosts] = useState([]);
 
-  useEffect(() => {
-    async function userPostGet() {
-      const userInfo = JSON.parse(localStorage.getItem('userInfo')).user;
-      const url = 'https://mandarin.api.weniv.co.kr';
-      const reqPath = `/post/${userId}/userpost`;
+  async function userPostGet() {
+    const userInfo = JSON.parse(localStorage.getItem('userInfo')).user;
+    const url = 'https://mandarin.api.weniv.co.kr';
+    const reqPath = `/post/${userId}/userpost`;
 
-      try {
-        const res = await fetch(url + reqPath, {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${userInfo.token}`,
-            'Content-type': 'application/json',
-          },
-        });
-        const postData = await res.json();
-        setPosts(postData.post);
-      } catch (err) {
-        console.error('error');
-      }
+    try {
+      const res = await fetch(url + reqPath, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${userInfo.token}`,
+          'Content-type': 'application/json',
+        },
+      });
+      const postData = await res.json();
+      setPosts(postData.post);
+    } catch (err) {
+      console.error('error');
     }
+  }
+
+  useEffect(() => {
     userPostGet();
   }, []);
+
   const [isPostView, setIsPostView] = useState(true);
   function changePostView() {
     setIsPostView((current) => !current);
@@ -99,7 +101,7 @@ export default function PostList({ userId, ...props }) {
         {isPostView ? (
           <>
             {posts.map((post) => (
-              <PostItem key={post.id} post={post} />
+              <PostItem key={post.id} post={post} userPostGet={userPostGet} />
             ))}
           </>
         ) : (
