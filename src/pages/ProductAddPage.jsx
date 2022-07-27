@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import styled from 'styled-components';
+import { axiosSaveProduct } from '../apis/productApi';
 import TopUploadNav from '../components/common/nav/TopNavUpload';
 import ProductForm from '../components/product/ProductForm';
 
@@ -29,45 +30,26 @@ export default function ProductAddPage(props) {
     }
   };
 
-  const saveProduct = async (formInfo, imagePath) => {
-    const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-    const { user } = userInfo;
-    const { token } = user;
-
-    try {
-      const path = '/product';
-      const response = await fetch(`${url}${path}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          product: {
-            itemName: formInfo.productName,
-            price: formInfo.productPrice,
-            link: formInfo.productLink,
-            itemImage: `${url}/${imagePath}`,
-          },
-        }),
-      });
-
-      const saveImageResult = await response.json();
-      return saveImageResult;
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   const handleAddProduct = async () => {
-    const getUserImageUrl = await saveProductImage();
-    const { filename } = getUserImageUrl;
-    const message = await saveProduct(formInfo, filename);
+    try {
+      const getUserImageUrl = await saveProductImage();
+      const productInfo = {
+        product: {
+          itemName: formInfo.productName,
+          price: formInfo.productPrice,
+          link: formInfo.productLink,
+          itemImage: `${url}/${getUserImageUrl.filename}`,
+        },
+      };
 
-    if (message?.product) {
-      props.history.push('/profile');
-    } else {
-      alert('에러가 발생했습니다. 관리자에게 문의해주세요.');
+      const { product } = await axiosSaveProduct(productInfo);
+      if (product) {
+        props.history.push('/profile');
+      } else {
+        alert('에러가 발생했습니다. 관리자에게 문의해주세요.');
+      }
+    } catch (error) {
+      console.error('handleAddProduct error', error);
     }
   };
 
@@ -75,7 +57,7 @@ export default function ProductAddPage(props) {
     <ProfileEditWrap>
       <TopUploadNav
         buttonText='저장'
-        buttonDisabled={!storable ? 'buttonDisabled' : null}
+        buttonDisabled={!storable ? true : null}
         onClick={handleAddProduct}
         {...props}
       />
