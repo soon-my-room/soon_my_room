@@ -1,10 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
+import ModalList from '../common/modal/ModalList';
+import DeleteModal from '../common/modal/DeleteModal';
+import ModalContainer from '../common/modal/ModalContainer';
 import UserProfile from '../../components/profileImg/UserProfileImg';
-import more from '../../assets/icon/s-icon-more-vertical.svg';
 import { ReactComponent as Heart } from '../../assets/icon/icon-heart.svg';
 import { ReactComponent as Comment } from '../../assets/icon/icon-comment.svg';
+import { ReactComponent as More } from '../../assets/icon/s-icon-more-vertical.svg';
+import {
+  axiosPostLikeResquester,
+  axiosPostUnLikeResquester,
+} from '../../apis/postApi';
 
 const PostWrap = styled.li`
   display: flex;
@@ -35,16 +42,6 @@ const UserId = styled.span`
   font-size: 12px;
   line-height: 14px;
   color: var(--subtitle-text);
-`;
-
-const MoreButton = styled.button`
-  padding: 7px;
-  background-image: url(${more});
-  background-position: center;
-  background-repeat: no-repeat;
-  position: absolute;
-  top: 0;
-  right: 4px;
 `;
 
 const PostContentWrap = styled.div`
@@ -100,7 +97,13 @@ const CommentSvg = styled(Comment)`
   margin: 0 6px 0 16px;
 `;
 
-export default function PostItem({ post }) {
+const MoreSvg = styled(More)`
+  position: absolute;
+  right: 0;
+  cursor: pointer;
+`;
+
+export default function PostItem({ post, userPostGet }) {
   const {
     author,
     commentCount,
@@ -115,8 +118,13 @@ export default function PostItem({ post }) {
   const [year, month, day] = parseDate(createdAt);
   const [isHearted, setIsHearted] = useState(hearted);
   const [postHeartCount, setPostHeartCount] = useState(heartCount);
-
-  const { token } = JSON.parse(localStorage.getItem('userInfo')).user;
+  const [isModal, setIsModal] = useState(false);
+  const [isLogin, setIsLogin] = useState(false);
+  const [isModalAlert, setIsModalAlert] = useState(false);
+  const modalRef = useRef();
+  const { token, accountname } = JSON.parse(
+    localStorage.getItem('userInfo'),
+  ).user;
 
   const history = useHistory();
 
@@ -146,27 +154,47 @@ export default function PostItem({ post }) {
     }
   }
 
-  async function postLikeResquest() {
-    const url = 'https://mandarin.api.weniv.co.kr';
-    const reqPath = `/post/${id}/heart`;
-    try {
-      const res = await fetch(url + reqPath, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-type': 'application/json',
-        },
-      });
-      const resData = await res.json();
-      return resData.post.heartCount;
-    } catch (err) {
-      console.error('error');
+  async function onHeartClick() {
+    const { post } = await axiosPostLikeResquester(id);
+    setIsHearted(true);
+    setPostHeartCount(post.heartCount);
+  }
+
+  async function onUnHeartClick() {
+    const { post } = await axiosPostUnLikeResquester(id);
+    setIsHearted(false);
+    setPostHeartCount(post.heartCount);
+  }
+
+  function hendleModal(e) {
+    setIsModal(!isModal);
+    if (accountname === author.accountname) {
+      setIsLogin(true);
+    }
+    if (modalRef.current !== e.target.firstElementChild) {
+      setIsModal(true);
     }
   }
 
-  async function postUnlikeRequest() {
+  function postAlert(e) {
+    e.stopPropagation();
+    setIsModal(false);
+    setIsModalAlert(!isModalAlert);
+  }
+
+  function onDeleteClick() {
+    const deleteReq = postDeleteRequester(token);
+    deleteReq.then(() => {
+      setIsModalAlert(!isModalAlert);
+      userPostGet();
+    });
+  }
+
+  const onCloseClick = () => setIsModalAlert(!isModalAlert);
+
+  async function postDeleteRequester(token) {
     const url = 'https://mandarin.api.weniv.co.kr';
-    const reqPath = `/post/${id}/unheart`;
+    const reqPath = `/post/${id}`;
     try {
       const res = await fetch(url + reqPath, {
         method: 'DELETE',
@@ -176,60 +204,70 @@ export default function PostItem({ post }) {
         },
       });
       const resData = await res.json();
-      return resData.post.heartCount;
+      return resData;
     } catch (err) {
       console.error('error');
     }
   }
 
-  function onHeartClick() {
-    const heartCount = postLikeResquest();
-    heartCount.then((count) => {
-      setIsHearted(true);
-      setPostHeartCount(count);
-    });
-  }
-
-  function onUnHeartClick() {
-    const heartCount = postUnlikeRequest();
-    heartCount.then((count) => {
-      setIsHearted(false);
-      setPostHeartCount(count);
-    });
-  }
-
   return (
-    <PostWrap>
-      <PostAuthorWrap>
-        <Link to={`/profile/${author.accountname}`}>
-          <UserProfile size='tiny' src={author.image} />
-        </Link>
-        <Link to={`/profile/${author.accountname}`}>
-          <UserWrap>
-            <UserName>{author.username}</UserName>
-            <UserId>@ {author.accountname}</UserId>
-          </UserWrap>
-        </Link>
-        <MoreButton />
-      </PostAuthorWrap>
-      <PostContentWrap>
-        <Text>{content}</Text>
-        {postListViewCheck(image)}
-        <ButtonWrap>
-          <IconWrap onClick={isHearted ? onUnHeartClick : onHeartClick}>
-            <HeartSvg
-              fill={isHearted ? 'var(--main-color)' : 'var(--bg-color)'}
-              stroke={isHearted ? 'var(--main-color)' : 'var(--subtitle-text)'}
+    <>
+      <PostWrap>
+        <PostAuthorWrap>
+          <Link to={`/profile/${author.accountname}`}>
+            <UserProfile size='tiny' src={author.image} />
+          </Link>
+          <Link to={`/profile/${author.accountname}`}>
+            <UserWrap>
+              <UserName>{author.username}</UserName>
+              <UserId>@ {author.accountname}</UserId>
+            </UserWrap>
+          </Link>
+          <MoreSvg onClick={hendleModal} />
+        </PostAuthorWrap>
+        <PostContentWrap>
+          <Text>{content}</Text>
+          {postListViewCheck(image)}
+          <ButtonWrap>
+            <IconWrap onClick={isHearted ? onUnHeartClick : onHeartClick}>
+              <HeartSvg
+                fill={isHearted ? 'var(--main-color)' : 'var(--bg-color)'}
+                stroke={
+                  isHearted ? 'var(--main-color)' : 'var(--subtitle-text)'
+                }
+              />
+              {postHeartCount}
+            </IconWrap>
+            <IconWrap onClick={() => history.push(`/post/${id}`)}>
+              <CommentSvg />
+              {commentCount}
+            </IconWrap>
+          </ButtonWrap>
+          <CreatedDate>{`${year}년 ${month}월 ${day}일`}</CreatedDate>
+        </PostContentWrap>
+      </PostWrap>
+      {isModal && (
+        <ModalContainer useRef={modalRef} onClick={hendleModal}>
+          {isLogin ? (
+            <>
+              <ModalList children='삭제' onClick={postAlert} />
+              <ModalList children='수정' />
+            </>
+          ) : (
+            <ModalList
+              children='신고하기'
+              onClick={(e) => (e.target.innerText = '정말 하실 건가요?')}
             />
-            {postHeartCount}
-          </IconWrap>
-          <IconWrap onClick={() => history.push(`/post/${id}`)}>
-            <CommentSvg />
-            {commentCount}
-          </IconWrap>
-        </ButtonWrap>
-        <CreatedDate>{`${year}년 ${month}월 ${day}일`}</CreatedDate>
-      </PostContentWrap>
-    </PostWrap>
+          )}
+        </ModalContainer>
+      )}
+      {isModalAlert && (
+        <DeleteModal
+          title='게시글'
+          onCloseClick={onCloseClick}
+          onDeleteClick={onDeleteClick}
+        />
+      )}
+    </>
   );
 }

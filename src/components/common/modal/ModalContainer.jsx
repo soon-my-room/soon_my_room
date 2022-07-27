@@ -8,6 +8,16 @@ const ModalBackground = styled.div`
   bottom: 0;
   right: 0;
   background: rgba(0, 0, 0, 0.8);
+  z-index: 10;
+  animation: modalBgFadeIn 0.3s ease-in-out;
+  @keyframes modalBgFadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
 `;
 
 const ModalWrap = styled.ul`
@@ -19,6 +29,8 @@ const ModalWrap = styled.ul`
   border-top-right-radius: 10px;
   background-color: white;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
+  animation: modalFadeIn 0.3s ease-in-out;
+  transition: 1s linear;
   &::before {
     content: '';
     width: 50px;
@@ -28,11 +40,20 @@ const ModalWrap = styled.ul`
     background: var(--border-gray);
     border-radius: 5px;
   }
+  @keyframes modalFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(120px);
+    }
+    to {
+      opacity: 1;
+    }
+  }
 `;
 
-export default function ModalContainer({ children, useRef }) {
+export default function ModalContainer({ children, useRef, onClick }) {
   return (
-    <ModalBackground>
+    <ModalBackground onClick={onClick}>
       <ModalWrap ref={useRef}>{children}</ModalWrap>;
     </ModalBackground>
   );
