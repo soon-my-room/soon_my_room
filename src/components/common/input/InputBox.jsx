@@ -25,6 +25,7 @@ const Input = styled.input`
   height: 48px;
   border: 0;
   border-bottom: 1px solid var(--border-gray);
+  color: var(--main-text-color);
 
   &:focus {
     border-bottom: 1px solid var(--main-color);

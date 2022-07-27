@@ -29,7 +29,7 @@ const ItemPrice = styled.span`
   font-weight: 700;
   font-size: 12px;
   line-height: 15px;
-  color: #f26e22;
+  color: var(--main-text-color);
 `;
 
 export default function ProductOnSales({

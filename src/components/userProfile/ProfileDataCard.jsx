@@ -192,6 +192,7 @@ export default function ProfileDataCard(props) {
               medium='true'
               white='true'
               children='프로필 수정'
+              hover
             />
             <Button
               as={Link}
@@ -199,6 +200,7 @@ export default function ProfileDataCard(props) {
               medium100='true'
               white='true'
               children='상품 등록'
+              hover
             />
           </>
         )}
