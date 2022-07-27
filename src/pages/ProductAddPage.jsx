@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import styled from 'styled-components';
+import { axiosImageSave } from '../apis/imageApi';
 import { axiosSaveProduct } from '../apis/productApi';
 import TopUploadNav from '../components/common/nav/TopNavUpload';
 import ProductForm from '../components/product/ProductForm';
@@ -14,31 +15,15 @@ export default function ProductAddPage(props) {
   const [storable, setStorable] = useState(false);
   const [formInfo, setFormInfo] = useState({});
 
-  const url = 'https://mandarin.api.weniv.co.kr';
-  const saveProductImage = async () => {
-    try {
-      const path = '/image/uploadfile';
-      const response = await fetch(`${url}${path}`, {
-        method: 'POST',
-        body: formInfo.imageFormData,
-      });
-
-      const saveImageResult = await response.json();
-      return saveImageResult;
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   const handleAddProduct = async () => {
     try {
-      const getUserImageUrl = await saveProductImage();
+      const productImageUrl = await axiosImageSave(formInfo.imageFormData);
       const productInfo = {
         product: {
           itemName: formInfo.productName,
           price: formInfo.productPrice,
           link: formInfo.productLink,
-          itemImage: `${url}/${getUserImageUrl.filename}`,
+          itemImage: productImageUrl,
         },
       };
 
