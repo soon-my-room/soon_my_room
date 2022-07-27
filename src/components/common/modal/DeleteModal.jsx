@@ -52,14 +52,14 @@ const ButtonWrap = styled.div`
   }
 `;
 
-export default function DeleteModal({ title }) {
+export default function DeleteModal({ title, onCloseClick, onDeleteClick }) {
   return (
     <ModalBackground>
       <ModalWrap>
         <Message>{title}을 삭제할까요?</Message>
         <ButtonWrap>
-          <button>취소</button>
-          <button>삭제</button>
+          <button onClick={onCloseClick}>취소</button>
+          <button onClick={onDeleteClick}>삭제</button>
         </ButtonWrap>
       </ModalWrap>
     </ModalBackground>
