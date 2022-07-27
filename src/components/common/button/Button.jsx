@@ -32,7 +32,9 @@ const StyledButton = styled.button`
   ${(props) =>
     props.disabled &&
     css`
-      background-color: var(--main-disabled-color);
+      background-color: white;
+      color: var(--main-color);
+      border: var(--main-color) 1px solid;
       cursor: not-allowed;
     `}
 

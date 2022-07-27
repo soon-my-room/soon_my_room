@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import Logo from '../../assets/symbol-logo-gray.png';
+import Logo from '../../assets/symbol-logo-W-01.svg';
 import { Link } from 'react-router-dom';
 
 const FeedContainer = styled.div`

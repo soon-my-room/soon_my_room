@@ -1,24 +1,22 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import logoImg from '../assets/symbol-logo-W.png';
+import logoImg from '../assets/full-logo-01.svg';
 import LoginCard from '../components/login/LoginCard';
 import Splash from '../components/splash/Splash';
 
 const LoginContainer = styled.main`
-  margin: 0 -1500px;
   height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: var(--main-color);
+  background-color: var(--bg-color);
 `;
 
 const LoginLogoImg = styled.img`
-  width: 144px;
-  height: 144px;
-  margin-bottom: 177px;
+  width: 200px;
+  margin: 0 auto 120px;
 `;
 
 export default function LoginHomePage(props) {
