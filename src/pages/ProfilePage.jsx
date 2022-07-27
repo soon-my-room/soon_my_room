@@ -112,11 +112,14 @@ export default function ProfilePage(props) {
             </ModalList>
             <ModalList
               onClick={() => {
-                window.open(
-                  selectedProduct.link,
-                  '_blank',
-                  'noopener,noreferrer',
-                );
+                console.log('웹사이트 상품보기 주소', selectedProduct.link);
+
+                let requestUrl = 'http://';
+                if (!selectedProduct.link.includes('http')) {
+                  requestUrl += selectedProduct.link;
+                }
+
+                window.open(requestUrl, '_blank', 'noopener,noreferrer');
               }}
             >
               웹사이트에서 상품 보기
