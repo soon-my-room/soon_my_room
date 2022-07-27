@@ -13,7 +13,7 @@ export const axiosInstance = axios.create({
 });
 
 export const axiosInstanceWithToken = axios.create({
-  baseURL: 'https://mandarin.api.weniv.co.kr',
+  baseURL: API_URL,
   headers: {
     'Content-Type': 'application/json',
     Authorization: `Bearer ${token}`,
