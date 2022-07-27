@@ -7,8 +7,9 @@ const DisabledBtn = styled.button`
   margin: 14px auto 0;
   width: 322px;
   border-radius: 44px;
-  background-color: var(--main-disabled-color);
-  color: var(--disabled-text-color);
+  background-color: white;
+  color: var(--main-color);
+  border: var(--main-color) 2px solid;
   font-family: 'Spoqa Han Sans Neo';
   font-style: normal;
   font-weight: 500;
@@ -19,6 +20,7 @@ const DisabledBtn = styled.button`
 
 const AbledBtn = styled(DisabledBtn)`
   background-color: var(--main-color);
+  color: white;
   cursor: pointer;
 `;
 

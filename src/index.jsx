@@ -69,9 +69,9 @@ const GlobalStyle = createGlobalStyle`
   }
 
   :root {
-    --main-color: #00BFD7;
-    --main-disabled-color: #00BED798;
-    --main-text-color: #049DB2;
+    --main-color: #FFDC73;
+    --main-disabled-color: #EBCB72;
+    --main-text-color: #FFBB0F;
     --main-title-color: #000000;
     --subtitle-text: #767676;
     --disabled-text-color: #FFFFFF;
