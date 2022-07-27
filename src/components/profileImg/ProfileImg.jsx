@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import basicProfile from '../../assets/basic-profile.png';
-import uploadFile from '../../assets/upload-file.png';
+import uploadFile from '../../assets/upload-file.svg';
 import styled from 'styled-components';
 
 const ProfileImageContainer = styled.div`

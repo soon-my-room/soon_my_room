@@ -37,7 +37,7 @@ const ButtonWrap = styled.div`
   }
 
   button:last-child {
-    color: #f26e22;
+    color: var(--main-text-color);
   }
 
   &::after {

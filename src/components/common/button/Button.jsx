@@ -11,6 +11,16 @@ const StyledButton = styled.button`
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
+
+  ${(props) =>
+    props.hover &&
+    css`
+      &:hover {
+        color: var(--main-color);
+        border: 1px solid var(--main-color);
+      }
+    `}
+
   ${(props) =>
     props.white &&
     css`
@@ -18,6 +28,7 @@ const StyledButton = styled.button`
       color: var(--subtitle-text);
       border: 1px solid var(--border-gray);
     `}
+    
   ${(props) =>
     props.disabled &&
     css`
@@ -37,6 +48,7 @@ const StyledButton = styled.button`
     css`
       line-height: 34px;
     `}
+
   ${(props) =>
     props.medium100 &&
     css`
@@ -51,6 +63,7 @@ const StyledButton = styled.button`
       line-height: 32px;
       border-radius: 32px;
     `}
+    
   ${(props) =>
     props.xSmall &&
     css`

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import TopNavUpload from '../components/common/nav/TopNavUpload';
 import UserProfile from '../components/profileImg/UserProfileImg';
 import defaultImg from '../assets/symbol-logo-gray.png';
-import uploadFile from '../assets/upload-file.png';
+import uploadFile from '../assets/upload-file.svg';
 import deleteBtnImg from '../assets/icon/x.svg';
 
 const FormAreaWrap = styled.section`
