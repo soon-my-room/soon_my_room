@@ -8,6 +8,10 @@ import UserProfile from '../../components/profileImg/UserProfileImg';
 import { ReactComponent as Heart } from '../../assets/icon/icon-heart.svg';
 import { ReactComponent as Comment } from '../../assets/icon/icon-comment.svg';
 import { ReactComponent as More } from '../../assets/icon/s-icon-more-vertical.svg';
+import {
+  axiosPostLikeResquester,
+  axiosPostUnLikeResquester,
+} from '../../apis/postApi';
 
 const PostWrap = styled.li`
   display: flex;
@@ -103,7 +107,6 @@ export default function PostItem({ post, userPostGet }) {
   const {
     author,
     commentCount,
-    comments,
     content,
     createdAt,
     heartCount,
@@ -151,56 +154,16 @@ export default function PostItem({ post, userPostGet }) {
     }
   }
 
-  async function postLikeResquest(token) {
-    const url = 'https://mandarin.api.weniv.co.kr';
-    const reqPath = `/post/${id}/heart`;
-    try {
-      const res = await fetch(url + reqPath, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-type': 'application/json',
-        },
-      });
-      const resData = await res.json();
-      return resData.post.heartCount;
-    } catch (err) {
-      console.error('error');
-    }
+  async function onHeartClick() {
+    const { post } = await axiosPostLikeResquester(id);
+    setIsHearted(true);
+    setPostHeartCount(post.heartCount);
   }
 
-  async function postUnlikeRequest(token) {
-    const url = 'https://mandarin.api.weniv.co.kr';
-    const reqPath = `/post/${id}/unheart`;
-    try {
-      const res = await fetch(url + reqPath, {
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-type': 'application/json',
-        },
-      });
-      const resData = await res.json();
-      return resData.post.heartCount;
-    } catch (err) {
-      console.error('error');
-    }
-  }
-
-  function onHeartClick() {
-    const heartCount = postLikeResquest(token);
-    heartCount.then((count) => {
-      setIsHearted(true);
-      setPostHeartCount(count);
-    });
-  }
-
-  function onUnHeartClick() {
-    const heartCount = postUnlikeRequest(token);
-    heartCount.then((count) => {
-      setIsHearted(false);
-      setPostHeartCount(count);
-    });
+  async function onUnHeartClick() {
+    const { post } = await axiosPostUnLikeResquester(id);
+    setIsHearted(false);
+    setPostHeartCount(post.heartCount);
   }
 
   function hendleModal(e) {
