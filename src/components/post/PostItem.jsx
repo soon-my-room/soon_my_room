@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import ModalList from '../common/modal/ModalList';
+import DeleteModal from '../common/modal/DeleteModal';
 import ModalContainer from '../common/modal/ModalContainer';
 import UserProfile from '../../components/profileImg/UserProfileImg';
 import { ReactComponent as Heart } from '../../assets/icon/icon-heart.svg';
 import { ReactComponent as Comment } from '../../assets/icon/icon-comment.svg';
 import { ReactComponent as More } from '../../assets/icon/s-icon-more-vertical.svg';
-import { useRef } from 'react';
 
 const PostWrap = styled.li`
   display: flex;
@@ -99,10 +99,11 @@ const MoreSvg = styled(More)`
   cursor: pointer;
 `;
 
-export default function PostItem({ post, ...props }) {
+export default function PostItem({ post, userPostGet }) {
   const {
     author,
     commentCount,
+    comments,
     content,
     createdAt,
     heartCount,
@@ -110,12 +111,17 @@ export default function PostItem({ post, ...props }) {
     id,
     image,
   } = post;
+
   const [year, month, day] = parseDate(createdAt);
   const [isHearted, setIsHearted] = useState(hearted);
   const [postHeartCount, setPostHeartCount] = useState(heartCount);
   const [isModal, setIsModal] = useState(false);
+  const [isLogin, setIsLogin] = useState(false);
+  const [isModalAlert, setIsModalAlert] = useState(false);
   const modalRef = useRef();
-  const { token } = JSON.parse(localStorage.getItem('userInfo')).user;
+  const { token, accountname } = JSON.parse(
+    localStorage.getItem('userInfo'),
+  ).user;
 
   const history = useHistory();
 
@@ -145,7 +151,7 @@ export default function PostItem({ post, ...props }) {
     }
   }
 
-  async function postLikeResquest() {
+  async function postLikeResquest(token) {
     const url = 'https://mandarin.api.weniv.co.kr';
     const reqPath = `/post/${id}/heart`;
     try {
@@ -163,7 +169,7 @@ export default function PostItem({ post, ...props }) {
     }
   }
 
-  async function postUnlikeRequest() {
+  async function postUnlikeRequest(token) {
     const url = 'https://mandarin.api.weniv.co.kr';
     const reqPath = `/post/${id}/unheart`;
     try {
@@ -181,8 +187,8 @@ export default function PostItem({ post, ...props }) {
     }
   }
 
-  async function onHeartClick() {
-    const heartCount = await postLikeResquest();
+  function onHeartClick() {
+    const heartCount = postLikeResquest(token);
     heartCount.then((count) => {
       setIsHearted(true);
       setPostHeartCount(count);
@@ -190,7 +196,7 @@ export default function PostItem({ post, ...props }) {
   }
 
   function onUnHeartClick() {
-    const heartCount = postUnlikeRequest();
+    const heartCount = postUnlikeRequest(token);
     heartCount.then((count) => {
       setIsHearted(false);
       setPostHeartCount(count);
@@ -199,50 +205,106 @@ export default function PostItem({ post, ...props }) {
 
   function hendleModal(e) {
     setIsModal(!isModal);
-
+    if (accountname === author.accountname) {
+      setIsLogin(true);
+    }
     if (modalRef.current !== e.target.firstElementChild) {
       setIsModal(true);
     }
   }
 
+  function postAlert(e) {
+    e.stopPropagation();
+    setIsModal(false);
+    setIsModalAlert(!isModalAlert);
+  }
+
+  function onDeleteClick() {
+    const deleteReq = postDeleteRequester(token);
+    deleteReq.then(() => {
+      setIsModalAlert(!isModalAlert);
+      userPostGet();
+    });
+  }
+
+  const onCloseClick = () => setIsModalAlert(!isModalAlert);
+
+  async function postDeleteRequester(token) {
+    const url = 'https://mandarin.api.weniv.co.kr';
+    const reqPath = `/post/${id}`;
+    try {
+      const res = await fetch(url + reqPath, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-type': 'application/json',
+        },
+      });
+      const resData = await res.json();
+      return resData;
+    } catch (err) {
+      console.error('error');
+    }
+  }
+
   return (
-    <PostWrap>
-      <PostAuthorWrap>
-        <Link to={`/profile/${author.accountname}`}>
-          <UserProfile size='tiny' src={author.image} />
-        </Link>
-        <Link to={`/profile/${author.accountname}`}>
-          <UserWrap>
-            <UserName>{author.username}</UserName>
-            <UserId>@ {author.accountname}</UserId>
-          </UserWrap>
-        </Link>
-        <MoreSvg onClick={hendleModal} />
-        {isModal && (
-          <ModalContainer useRef={modalRef} onClick={hendleModal}>
-            <ModalList children='삭제' />
-            <ModalList children='수정' />
-          </ModalContainer>
-        )}
-      </PostAuthorWrap>
-      <PostContentWrap>
-        <Text>{content}</Text>
-        {postListViewCheck(image)}
-        <ButtonWrap>
-          <IconWrap onClick={isHearted ? onUnHeartClick : onHeartClick}>
-            <HeartSvg
-              fill={isHearted ? 'var(--main-color)' : 'var(--bg-color)'}
-              stroke={isHearted ? 'var(--main-color)' : 'var(--subtitle-text)'}
+    <>
+      <PostWrap>
+        <PostAuthorWrap>
+          <Link to={`/profile/${author.accountname}`}>
+            <UserProfile size='tiny' src={author.image} />
+          </Link>
+          <Link to={`/profile/${author.accountname}`}>
+            <UserWrap>
+              <UserName>{author.username}</UserName>
+              <UserId>@ {author.accountname}</UserId>
+            </UserWrap>
+          </Link>
+          <MoreSvg onClick={hendleModal} />
+        </PostAuthorWrap>
+        <PostContentWrap>
+          <Text>{content}</Text>
+          {postListViewCheck(image)}
+          <ButtonWrap>
+            <IconWrap onClick={isHearted ? onUnHeartClick : onHeartClick}>
+              <HeartSvg
+                fill={isHearted ? 'var(--main-color)' : 'var(--bg-color)'}
+                stroke={
+                  isHearted ? 'var(--main-color)' : 'var(--subtitle-text)'
+                }
+              />
+              {postHeartCount}
+            </IconWrap>
+            <IconWrap onClick={() => history.push(`/post/${id}`)}>
+              <CommentSvg />
+              {commentCount}
+            </IconWrap>
+          </ButtonWrap>
+          <CreatedDate>{`${year}년 ${month}월 ${day}일`}</CreatedDate>
+        </PostContentWrap>
+      </PostWrap>
+      {isModal && (
+        <ModalContainer useRef={modalRef} onClick={hendleModal}>
+          {isLogin ? (
+            <>
+              <ModalList children='삭제' onClick={postAlert} />
+              <ModalList children='수정' />
+            </>
+          ) : (
+            <ModalList
+              children='신고하기'
+              onClick={(e) => (e.target.innerText = '정말 하실 건가요?')}
             />
-            {postHeartCount}
-          </IconWrap>
-          <IconWrap onClick={() => history.push(`/post/${id}`)}>
-            <CommentSvg />
-            {commentCount}
-          </IconWrap>
-        </ButtonWrap>
-        <CreatedDate>{`${year}년 ${month}월 ${day}일`}</CreatedDate>
-      </PostContentWrap>
-    </PostWrap>
+          )}
+        </ModalContainer>
+      )}
+      {isModalAlert && (
+        <DeleteModal
+          title='게시글'
+          onCloseClick={onCloseClick}
+          onDeleteClick={onDeleteClick}
+        />
+      )}
+    </>
   );
 }
