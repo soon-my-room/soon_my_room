@@ -24,7 +24,7 @@ const SearchBtnImg = styled.img`
 export default function TopNavHome() {
   return (
     <>
-      <Title>재능마켓 피드</Title>
+      <Title>금방내방 피드</Title>
       <Link to='/search'>
         <SearchBtnImg src={searchIcon} />
       </Link>

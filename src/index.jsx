@@ -73,6 +73,7 @@ const GlobalStyle = createGlobalStyle`
     --main-disabled-color: #EBCB72;
     --main-text-color: #FFBB0F;
     --main-title-color: #000000;
+    --main-subtext-color:  #734407;
     --subtitle-text: #767676;
     --disabled-text-color: #FFFFFF;
     --border-gray: #DBDBDB;

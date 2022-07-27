@@ -9,13 +9,14 @@ const LoginBtn = styled(Link)`
   position: relative;
   width: 322px;
   height: 44px;
-  background-color: var(--bg-color);
-  color: var(--subtitle-text);
+  background-color: var(--main-color);
+  color: var(--main-subtext-color);
   font-size: 14px;
   cursor: pointer;
   border-radius: 44px;
   text-align: center;
   line-height: 44px;
+
   &::before {
     position: absolute;
     left: 16px;
