@@ -152,12 +152,22 @@ export default function ProfileDataCard(props) {
   return (
     <>
       <ProfileFollowWrap>
-        <FollowersLink to='/follower'>
+        <FollowersLink
+          to={{
+            pathname: '/follower',
+            search: `?userId=${accountname}`,
+          }}
+        >
           <Count>{userFollowerCount}</Count>
           <FollowText>followers</FollowText>
         </FollowersLink>
         <UserProfileImg src={image} />
-        <FollowingLink to='/following'>
+        <FollowingLink
+          to={{
+            pathname: '/following',
+            search: `?userId=${accountname}`,
+          }}
+        >
           <Count>{followingCount}</Count>
           <FollowText>followings</FollowText>
         </FollowingLink>
