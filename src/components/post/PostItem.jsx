@@ -263,9 +263,10 @@ export default function PostItem({ post, userPostGet }) {
       )}
       {isModalAlert && (
         <DeleteModal
-          title='게시글'
+          title='게시글을 삭제할까요?'
           onCloseClick={onCloseClick}
           onDeleteClick={onDeleteClick}
+          children='삭제'
         />
       )}
     </>
