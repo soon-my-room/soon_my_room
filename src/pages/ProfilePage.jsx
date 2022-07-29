@@ -12,6 +12,7 @@ import {
   axiosGetProductListOnSales,
   axiosRemoveProduct,
 } from '../apis/productApi';
+import DeleteModal from '../components/common/modal/DeleteModal';
 
 const ProductListOnSalesWrap = styled(ProductListOnSales)`
   border-top: 6px solid #e0e0e0;
@@ -27,8 +28,8 @@ export default function ProfilePage(props) {
   const [productListOnSalesData, setProductListOnSalesData] = useState([]);
   const [showProductListOnSalesModal, setShowProductListOnSalesModal] =
     useState(false);
-
   const [selectedProduct, setSelectedProduct] = useState({});
+  const [isModalAlert, setIsModalAlert] = useState(false);
 
   const modalRef = useRef();
 
@@ -43,6 +44,7 @@ export default function ProfilePage(props) {
 
         setProductListOnSalesData(data.product);
         setShowProductListOnSalesModal(false);
+        setIsModalAlert(false);
       }
     } catch (error) {
       console.log(error);
@@ -95,6 +97,10 @@ export default function ProfilePage(props) {
     window.open(requestUrl, '_blank', 'noopener,noreferrer');
   }
 
+  function handleCloseClick() {
+    setIsModalAlert(false);
+  }
+
   return (
     isLoding && (
       <>
@@ -123,6 +129,13 @@ export default function ProfilePage(props) {
               웹사이트에서 상품 보기
             </ModalList>
           </ModalContainer>
+        )}
+        {isModalAlert && (
+          <DeleteModal
+            title='상품'
+            onCloseClick={handleCloseClick}
+            onDeleteClick={handleRemoveProduct}
+          />
         )}
       </>
     )
