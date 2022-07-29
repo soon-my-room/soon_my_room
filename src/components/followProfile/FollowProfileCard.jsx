@@ -73,7 +73,7 @@ export default function FollowProfileCard({
 
   const handleClickMoveUserProfilePage = ({ target }) => {
     const { tagName } = target;
-    const clickedMovePageTagName = ['IMG', 'STRONG', 'P'];
+    const clickedMovePageTagName = ['IMG', 'STRONG'];
 
     if (clickedMovePageTagName.indexOf(tagName) > -1) {
       history.push(`/profile/${accountname}`);
