@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import FollowingPostItem from './FollowingPostItem';
+import PostItem from '../post/PostItem';
 
 const Wrapper = styled.ul`
   margin: 70px 16px 95px;
@@ -14,7 +14,7 @@ export default function FollowingPostList({ followingList }) {
   return (
     <Wrapper>
       {followingList.posts.map((data) => (
-        <FollowingPostItem key={data.id} post={data} />
+        <PostItem key={data.id} post={data} />
       ))}
     </Wrapper>
   );
