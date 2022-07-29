@@ -5,6 +5,7 @@ import ErrorMessageBox from '../components/common/input/ErrorMessageBox';
 import LongButton from '../components/common/button/LongButton';
 import LoginTitle from '../components/login/LoginTitle';
 import ProfileImg from '../components/profileImg/ProfileImg';
+import { axiosUserIdValidCheck } from '../apis/profileApi';
 
 const Form = styled.form`
   width: 322px;
@@ -99,23 +100,8 @@ export default function ProfileSettingPage(props) {
   };
 
   const userIdValidCheck = async () => {
-    const url = 'https://mandarin.api.weniv.co.kr';
-
     try {
-      const path = '/user/accountnamevalid';
-      const res = await fetch(`${url}${path}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          user: {
-            accountname: userIdRef.current.value,
-          },
-        }),
-      });
-
-      const { message } = await res.json();
+      const message = await axiosUserIdValidCheck(userIdRef.current.value);
 
       if (message === '이미 가입된 계정ID 입니다.') {
         setManageUserId({
