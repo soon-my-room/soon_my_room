@@ -17,6 +17,21 @@ export const axiosUserIdValidCheck = async (userId) => {
   }
 };
 
+export const axiosJoin = async (userInfo) => {
+  try {
+    const { data } = await axiosInstance.post(
+      `/user`,
+      JSON.stringify({
+        user: userInfo,
+      }),
+    );
+
+    return data.message;
+  } catch (error) {
+    console.error('axiosUserIdValidCheck error', error);
+  }
+};
+
 export const axiosProfileInfoEdit = async (userInfo) => {
   try {
     return await axiosInstanceWithToken.put(`/user`, JSON.stringify(userInfo));
