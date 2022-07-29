@@ -7,13 +7,15 @@ const Wrapper = styled.div`
 `;
 
 export default function FollowPage({ title, ...props }) {
+  console.log(props);
+  function getTitle(url) {
+    return url.charAt(1).toUpperCase() + url.slice(2) + 's';
+  }
+
   return (
     <Wrapper>
-      <TopNavBasic title={title} {...props} />
-      <FollowProfileList
-        searchFollow={title.toLowerCase().slice(0, -1)}
-        {...props}
-      />
+      <TopNavBasic title={getTitle(props.match.url)} {...props} />
+      <FollowProfileList searchFollow={props.match.url.slice(1)} {...props} />
     </Wrapper>
   );
 }
