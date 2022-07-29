@@ -5,7 +5,7 @@ import ErrorMessageBox from '../components/common/input/ErrorMessageBox';
 import LongButton from '../components/common/button/LongButton';
 import LoginTitle from '../components/login/LoginTitle';
 import ProfileImg from '../components/profileImg/ProfileImg';
-import { axiosUserIdValidCheck } from '../apis/profileApi';
+import { axiosJoin, axiosUserIdValidCheck } from '../apis/profileApi';
 import { axiosImageSave, DEFAULT_IMAGE_URL } from '../apis/imageApi';
 
 const Form = styled.form`
@@ -137,36 +137,6 @@ export default function ProfileSettingPage(props) {
     return saveImageUrl;
   };
 
-  const join = async () => {
-    const url = 'https://mandarin.api.weniv.co.kr';
-    const imageUrl = await getUserImageUrl();
-
-    try {
-      const path = '/user';
-      const res = await fetch(`${url}${path}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          user: {
-            username: userNameRef.current.value,
-            email: userEmail,
-            password: userPw,
-            accountname: userIdRef.current.value,
-            intro: userIntroduceRef.current.value,
-            image: imageUrl,
-          },
-        }),
-      });
-
-      const joinResult = await res.json();
-      return joinResult;
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   const handleStartMarketClick = async (e) => {
     e.preventDefault();
 
@@ -175,11 +145,26 @@ export default function ProfileSettingPage(props) {
       return;
     }
 
-    const joinResult = await join();
-    if (joinResult.message === '회원가입 성공') {
-      props.history.push('/login');
-    } else {
-      alert(joinResult.message);
+    const userImageUrl = await getUserImageUrl();
+    const userInfo = {
+      email: userEmail,
+      password: userPw,
+      username: userNameRef.current.value,
+      accountname: userIdRef.current.value,
+      intro: userIntroduceRef.current.value,
+      image: userImageUrl,
+    };
+
+    try {
+      const message = await axiosJoin(userInfo);
+      if (message === '회원가입 성공') {
+        props.history.push('/login');
+      } else {
+        throw new Error('회원가입 실패');
+      }
+    } catch (error) {
+      console.log(error);
+      alert('에러가 발생했습니다. 관리자에게 문의해주세요.');
     }
   };
 
