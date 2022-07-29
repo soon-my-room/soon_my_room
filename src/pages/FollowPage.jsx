@@ -3,8 +3,6 @@ import TopNavBasic from '../components/common/nav/TopNavBasic';
 import FollowProfileList from '../components/followProfile/FollowProfileList';
 
 const Wrapper = styled.div`
-  margin: 0 auto;
-  width: 390px;
   border: 1px solid var(--border-gray);
 `;
 
