@@ -102,29 +102,17 @@ export default function ProfileSettingPage(props) {
   const userIdValidCheck = async () => {
     try {
       const message = await axiosUserIdValidCheck(userIdRef.current.value);
+      const errorMessages = [
+        '이미 가입된 계정ID 입니다.',
+        '잘못된 접근입니다.',
+      ];
 
-      if (message === '이미 가입된 계정ID 입니다.') {
+      if (errorMessages.includes(message)) {
         setManageUserId({
-          errorMessage: '*이미 가입된 계정ID 입니다.',
+          errorMessage: `*${errorMessages[errorMessages.indexOf(message)]}`,
           isValid: false,
         });
         userIdRef.current.focus();
-        return;
-      }
-
-      if (message === '잘못된 접근입니다.') {
-        setManageUserId({
-          errorMessage: '*잘못된 접근입니다.',
-          isValid: false,
-        });
-        return;
-      }
-
-      if (!message) {
-        setManageUserId({
-          errorMessage: '*관리자에게 문의해주세요.',
-          isValid: false,
-        });
         return;
       }
 
