@@ -6,6 +6,7 @@ import LongButton from '../components/common/button/LongButton';
 import LoginTitle from '../components/login/LoginTitle';
 import ProfileImg from '../components/profileImg/ProfileImg';
 import { axiosUserIdValidCheck } from '../apis/profileApi';
+import { axiosImageSave, DEFAULT_IMAGE_URL } from '../apis/imageApi';
 
 const Form = styled.form`
   width: 322px;
@@ -122,38 +123,22 @@ export default function ProfileSettingPage(props) {
     }
   };
 
-  const saveUserImage = async () => {
-    const url = 'https://mandarin.api.weniv.co.kr';
-    const file = document.getElementById('imgUpload').files;
-    const formData = new FormData();
-    formData.append('image', file[0]);
-    try {
-      const path = '/image/uploadfile';
-      const response = await fetch(`${url}${path}`, {
-        method: 'POST',
-        body: formData,
-      });
-
-      const saveImageResult = await response.json();
-      return saveImageResult;
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   const getUserImageUrl = async () => {
-    const file = document.getElementById('imgUpload').files;
+    const imageFiles = document.getElementById('imgUpload').files;
 
-    const url = 'https://mandarin.api.weniv.co.kr';
-
-    if (!file.length) {
-      const defaultImageUrl = `${url}/1657196670849.png`;
-      return defaultImageUrl;
+    if (!imageFiles.length) {
+      return DEFAULT_IMAGE_URL;
     }
 
-    const saveImageResult = await saveUserImage();
+    const formData = new FormData();
+    formData.append('image', imageFiles[0]);
 
-    return `${url}/${saveImageResult.filename}`;
+    try {
+      const saveImageUrl = await axiosImageSave(formData);
+      return saveImageUrl;
+    } catch (error) {
+      console.log('유저 이미지 저장 에러', error);
+    }
   };
 
   const join = async () => {
