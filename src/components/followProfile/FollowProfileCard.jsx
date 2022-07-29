@@ -14,6 +14,7 @@ const ProfileImage = styled.img`
   width: 50px;
   border: 0.5px solid var(--border-gray);
   border-radius: 25px;
+  cursor: pointer;
 `;
 
 const UserInfoWrapper = styled.div`
@@ -27,6 +28,7 @@ const UserName = styled.strong`
   font-weight: 500;
   font-size: 14px;
   line-height: 18px;
+  cursor: pointer;
 `;
 
 const UserIntro = styled.p`
