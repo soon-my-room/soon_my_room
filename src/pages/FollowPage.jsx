@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import TopNavBasic from '../components/common/nav/TopNavBasic';
 import FollowProfileList from '../components/followProfile/FollowProfileList';

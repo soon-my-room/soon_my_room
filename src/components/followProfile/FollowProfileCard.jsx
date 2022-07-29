@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import Button from '../common/button/Button';
 
@@ -57,13 +58,24 @@ const SmallButton = styled(Button)`
 `;
 
 export default function FollowProfileCard({
+  accountname,
   userName,
   userIntro,
   userProfileImageSrc,
   isfollow,
 }) {
+  const history = useHistory();
+
+  const handleClickMoveUserProfilePage = ({ target }) => {
+    const { tagName } = target;
+    const clickedMovePageTagName = ['IMG', 'STRONG', 'P'];
+
+    if (clickedMovePageTagName.indexOf(tagName) > -1) {
+      history.push(`/profile/${accountname}`);
+    }
+  };
   return (
-    <ProfileCard>
+    <ProfileCard onClick={handleClickMoveUserProfilePage}>
       <ProfileImage src={userProfileImageSrc} alt='유저 프로필 이미지' />
       <UserInfoWrapper>
         <UserName>{userName}</UserName>
