@@ -133,8 +133,12 @@ export default function ProfileSettingPage(props) {
     const formData = new FormData();
     formData.append('image', imageFiles[0]);
 
-    const saveImageUrl = await axiosImageSave(formData);
-    return saveImageUrl;
+    try {
+      const saveImageUrl = await axiosImageSave(formData);
+      return saveImageUrl;
+    } catch (error) {
+      console.log('유저 이미지 저장 에러', error);
+    }
   };
 
   const handleStartMarketClick = async (e) => {
