@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled, { css } from 'styled-components';
+import { axiosRequestFollow, axioxRemoveFollow } from '../../apis/followApi';
 import Button from '../common/button/Button';
 
 const ProfileCard = styled.li`
@@ -66,6 +67,8 @@ export default function FollowProfileCard({
 }) {
   const history = useHistory();
 
+  const [isFollowNow, setIsFollowNow] = useState(isfollow);
+
   const handleClickMoveUserProfilePage = ({ target }) => {
     const { tagName } = target;
     const clickedMovePageTagName = ['IMG', 'STRONG', 'P'];
@@ -74,6 +77,21 @@ export default function FollowProfileCard({
       history.push(`/profile/${accountname}`);
     }
   };
+
+  const handleFollowClick = async (e) => {
+    const buttonText = e.target.textContent;
+
+    try {
+      buttonText === '팔로우'
+        ? axiosRequestFollow(accountname)
+        : axioxRemoveFollow(accountname);
+
+      setIsFollowNow((isFollow) => !isFollow);
+    } catch (error) {
+      console.error('follow error', error);
+    }
+  };
+
   return (
     <ProfileCard onClick={handleClickMoveUserProfilePage}>
       <ProfileImage src={userProfileImageSrc} alt='유저 프로필 이미지' />
@@ -81,8 +99,8 @@ export default function FollowProfileCard({
         <UserName>{userName}</UserName>
         <UserIntro>{userIntro}</UserIntro>
       </UserInfoWrapper>
-      <SmallButton xSmall isfollow={isfollow}>
-        {isfollow ? '취소' : '팔로우'}
+      <SmallButton xSmall isfollow={isFollowNow} onClick={handleFollowClick}>
+        {isFollowNow ? '취소' : '팔로우'}
       </SmallButton>
     </ProfileCard>
   );
