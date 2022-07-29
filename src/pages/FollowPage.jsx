@@ -7,7 +7,6 @@ const Wrapper = styled.div`
 `;
 
 export default function FollowPage({ title, ...props }) {
-  console.log(props);
   function getTitle(url) {
     return url.charAt(1).toUpperCase() + url.slice(2) + 's';
   }
