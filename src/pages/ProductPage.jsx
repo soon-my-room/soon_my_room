@@ -4,8 +4,7 @@ import TopUploadNav from '../components/common/nav/TopNavUpload';
 import ProductForm from '../components/product/ProductForm';
 
 const ProfileEditWrap = styled.div`
-  width: 390px;
-  margin: 0 auto;
+  position: relative;
 `;
 
 export default function ProductPage(props) {
