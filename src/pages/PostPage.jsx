@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import TopNavBasic from '../components/common/nav/TopNavBasic';
 import PostItem from '../components/post/PostItem';
@@ -22,43 +22,13 @@ const CommentListWrap = styled.section`
 `;
 export default function PostPage({ location, match, ...props }) {
   const [comments, setComments] = useState([]);
-  const inputRef = useRef();
-
-  const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-  const { token } = userInfo.user;
-
-  async function handleAddComment() {
-    const pathname = location.pathname;
-    const url = 'https://mandarin.api.weniv.co.kr';
-    const req = `${pathname}/comments`;
-    const reqData = {
-      comment: {
-        content: inputRef.current.value,
-      },
-    };
-    try {
-      const resPost = await fetch(url + req, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-type': 'application/json',
-        },
-        body: JSON.stringify(reqData),
-      });
-      const postResponse = await resPost.json();
-      inputRef.current.value = '';
-      return postResponse.data;
-    } catch (err) {
-      console.error('error');
-    }
-  }
 
   useEffect(() => {
     const { post_id } = match.params;
     axiosGetPostComments(post_id).then(({ comments }) => {
       setComments(comments);
     });
-  }, [comments]);
+  }, []);
 
   return (
     <>
@@ -72,8 +42,8 @@ export default function PostPage({ location, match, ...props }) {
         </CommentListWrap>
       </PostItemWrap>
       <CommentAddBox
-        inputRefProps={inputRef}
-        onClick={handleAddComment}
+        setComments={setComments}
+        postId={match.params.post_id}
         color={'var(--border-gray)'}
       />
     </>
