@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
+import ModalList from '../modal/ModalList';
+import DeleteModal from '../modal/DeleteModal';
+import ModalContainer from '../modal/ModalContainer';
 import iconArrowLeft from '../../../assets/icon/icon-arrow-left.svg';
 import iconMore from '../../../assets/icon/icon-more-vertical.svg';
 
@@ -42,14 +45,58 @@ const Title = styled.h1`
   overflow: hidden;
 `;
 
-export default function TopNavBasic({ title, onClick, viewMore, history }) {
+export default function TopNavBasic({ title, viewMore, history }) {
+  const [isProfileModal, setIsProfileModal] = useState(false);
+  const [isLogoutModal, setIsLogoutModal] = useState(false);
+  const profileModalRef = useRef();
+
+  function hendleOpenModal(e) {
+    setIsProfileModal(!isProfileModal);
+    if (e.target === profileModalRef.current) {
+      setIsProfileModal(true);
+    }
+  }
+
+  function userTokenDelete() {
+    localStorage.clear();
+    setIsLogoutModal(false);
+    window.location.replace('/');
+  }
+
+  function onCloseClick() {
+    setIsLogoutModal(false);
+  }
+
+  function onLoginout(e) {
+    e.stopPropagation();
+    setIsProfileModal(false);
+    setIsLogoutModal(!isLogoutModal);
+  }
+
   return (
     <>
       <Navigation>
         <BackButton type='button' onClick={() => history.goBack()} />
         {title && <Title>{title}</Title>}
-        {viewMore && <OpenModal onClick={onClick} />}
+        {viewMore && <OpenModal onClick={hendleOpenModal} />}
       </Navigation>
+      {isProfileModal && (
+        <ModalContainer useRef={profileModalRef} onClick={hendleOpenModal}>
+          <ModalList
+            children='설정 및 개인정보'
+            onClick={() => history.push('/profile')}
+          />
+          <ModalList children='로그아웃' onClick={onLoginout} />
+        </ModalContainer>
+      )}
+      {isLogoutModal && (
+        <DeleteModal
+          title='로그아웃하시겠어요?'
+          children='로그아웃'
+          onCloseClick={onCloseClick}
+          onDeleteClick={userTokenDelete}
+        />
+      )}
     </>
   );
 }
