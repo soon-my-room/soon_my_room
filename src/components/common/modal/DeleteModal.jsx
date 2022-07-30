@@ -5,7 +5,7 @@ const ModalBackground = styled.div`
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.8);
-  z-index: 1;
+  z-index: 10;
 `;
 
 const ModalWrap = styled.div`

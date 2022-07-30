@@ -30,8 +30,10 @@ export default function ProfilePage(props) {
   const [isLogoutModal, setIsLogoutModal] = useState(false);
   const [showProductListOnSalesModal, setShowProductListOnSalesModal] =
     useState(false);
-  const [productListOnSalesData, setProductListOnSalesData] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState({});
+  const [isModalAlert, setIsModalAlert] = useState(false);
+
+  const [productListOnSalesData, setProductListOnSalesData] = useState([]);
   const profileModalRef = useRef();
   const modalRef = useRef();
 
@@ -48,6 +50,7 @@ export default function ProfilePage(props) {
 
         setProductListOnSalesData(data.product);
         setShowProductListOnSalesModal(false);
+        setIsModalAlert(false);
       }
     } catch (error) {
       console.log(error);
@@ -98,6 +101,10 @@ export default function ProfilePage(props) {
     }
 
     window.open(requestUrl, '_blank', 'noopener,noreferrer');
+  }
+
+  function handleCloseClick() {
+    setIsModalAlert(false);
   }
 
   function hendleOpenModal(e) {
@@ -152,6 +159,14 @@ export default function ProfilePage(props) {
               웹사이트에서 상품 보기
             </ModalList>
           </ModalContainer>
+        )}
+        {isModalAlert && (
+          <DeleteModal
+            title='상품을 삭제할까요?'
+            children='삭제'
+            onCloseClick={handleCloseClick}
+            onDeleteClick={handleRemoveProduct}
+          />
         )}
         {isProfileModal && (
           <ModalContainer useRef={profileModalRef} onClick={hendleOpenModal}>
