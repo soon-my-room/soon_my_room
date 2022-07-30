@@ -6,6 +6,7 @@ import ModalContainer from '../common/modal/ModalContainer';
 import ModalList from '../common/modal/ModalList';
 import { useRouteMatch } from 'react-router-dom';
 import { axiosRemoveComment } from '../../apis/postApi';
+import { getUserInfo } from '../../utils/userInfo';
 
 const FontFamily = css`
   font-family: 'Spoqa Han Sans Neo';
@@ -86,6 +87,15 @@ export default function CommentItem({ comment, setComments }) {
     }
   }
 
+  function authorCheck() {
+    const userInfo = getUserInfo();
+
+    const commentAuthor = comment.author.accountname;
+    const me = userInfo.accountname;
+
+    return me === commentAuthor;
+  }
+
   return (
     <>
       <CommentItemWrap>
@@ -105,7 +115,9 @@ export default function CommentItem({ comment, setComments }) {
       </CommentItemWrap>
       {modalOpen && (
         <ModalContainer>
-          <ModalList onClick={handleRemoveComment}>삭제</ModalList>
+          {authorCheck() && (
+            <ModalList onClick={handleRemoveComment}>삭제</ModalList>
+          )}
           <ModalList>신고하기</ModalList>
         </ModalContainer>
       )}
