@@ -53,19 +53,14 @@ const ButtonWrap = styled.div`
   }
 `;
 
-export default function DeleteModal({
-  title,
-  onCloseClick,
-  onDeleteClick,
-  children,
-}) {
+export default function DeleteModal({ title, onCloseClick, onDeleteClick }) {
   return (
     <ModalBackground>
       <ModalWrap>
-        <Message>{title}</Message>
+        <Message>{title}을 삭제할까요?</Message>
         <ButtonWrap>
           <button onClick={onCloseClick}>취소</button>
-          <button onClick={onDeleteClick}>{children}</button>
+          <button onClick={onDeleteClick}>삭제</button>
         </ButtonWrap>
       </ModalWrap>
     </ModalBackground>

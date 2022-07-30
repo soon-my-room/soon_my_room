@@ -34,16 +34,13 @@ export default function ProfilePage(props) {
 
   const handleRemoveProduct = async () => {
     try {
-      const { accountname } = getUserInfo();
-      const userId = accountname; // 서버에서 보내주는 accountname을 userId로 쓰고있어서 재할당했습니다.
-
       const { data } = await axiosRemoveProduct(selectedProduct.id);
       if (data.status === '200') {
-        const { data } = await axiosGetProductListOnSales(userId);
-
-        setProductListOnSalesData(data.product);
-        setShowProductListOnSalesModal(false);
         setIsModalAlert(false);
+        setShowProductListOnSalesModal(false);
+        setProductListOnSalesData((prev) =>
+          prev.filter((product) => product.id !== selectedProduct.id),
+        );
       }
     } catch (error) {
       console.log(error);
@@ -116,7 +113,7 @@ export default function ProfilePage(props) {
         <BottomNavMenu type='profile' {...props} />
         {showProductListOnSalesModal && (
           <ModalContainer useRef={modalRef}>
-            <ModalList onClick={handleRemoveProduct}>삭제</ModalList>
+            <ModalList onClick={() => setIsModalAlert(true)}>삭제</ModalList>
             <ModalList
               onClick={() => {
                 props.history.push('/product/edit', selectedProduct);
@@ -131,8 +128,7 @@ export default function ProfilePage(props) {
         )}
         {isModalAlert && (
           <DeleteModal
-            title='상품을 삭제할까요?'
-            children='삭제'
+            title='상품'
             onCloseClick={handleCloseClick}
             onDeleteClick={handleRemoveProduct}
           />
