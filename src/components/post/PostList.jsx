@@ -6,17 +6,24 @@ import PostItem from './PostItem';
 import multiImage from '../../assets/icon/iccon-img-layers.svg';
 
 const PostItemUl = styled.ul`
-  margin: 0 16px 80px;
-  & > li {
-    margin-top: 16px;
-  }
+  margin: 16px 16px 50px;
+  display: flex;
+  flex-direction: column;
+
+  gap: 16px 0;
   ${(props) =>
     props.isPostView &&
     css`
       display: grid;
       grid-template-columns: repeat(3, 1fr);
+      place-items: center;
       gap: 8px;
-    `}
+      margin-bottom: 75px;
+    `};
+  img {
+    width: 100%;
+    aspect-ratio: 1;
+  }
 `;
 
 const MultiImgLi = styled.li`
@@ -64,14 +71,20 @@ export default function PostList({ userId, ...props }) {
 
   function postAlbumViewCheck(posts) {
     const URL = 'https://mandarin.api.weniv.co.kr';
-
     return posts.map((post, index) => {
       if (!post.image || !post.image.includes(URL)) {
         return false;
       } else if (post.image.includes(',')) {
         return (
           <MultiImgLi key={index}>
-            <Link to={`/post/${post.id}`}>
+            <Link
+              to={{
+                pathname: `/post/${post.id}`,
+                state: {
+                  post,
+                },
+              }}
+            >
               <img src={post.image.split(',')[0]} alt='게시글상품사진' />
             </Link>
           </MultiImgLi>
@@ -79,7 +92,14 @@ export default function PostList({ userId, ...props }) {
       } else {
         return (
           <li key={index}>
-            <Link to={`/post/${post.id}`}>
+            <Link
+              to={{
+                pathname: `/post/${post.id}`,
+                state: {
+                  post,
+                },
+              }}
+            >
               <img src={post.image} alt='게시글상품사진' />
             </Link>
           </li>

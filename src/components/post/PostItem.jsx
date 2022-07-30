@@ -66,6 +66,7 @@ const PostImg = styled.img`
 const PostImages = styled.div`
   display: flex;
   overflow-x: auto;
+  gap: 8px;
 `;
 
 const ButtonWrap = styled.div`
@@ -154,19 +155,19 @@ export default function PostItem({ post, userPostGet }) {
     }
   }
 
-  async function onHeartClick() {
+  async function handleHeartClick() {
     const { post } = await axiosPostLikeResquester(id);
     setIsHearted(true);
     setPostHeartCount(post.heartCount);
   }
 
-  async function onUnHeartClick() {
+  async function handleUnHeartClick() {
     const { post } = await axiosPostUnLikeResquester(id);
     setIsHearted(false);
     setPostHeartCount(post.heartCount);
   }
 
-  function hendleModal(e) {
+  function handleModal(e) {
     setIsModal(!isModal);
     if (accountname === author.accountname) {
       setIsLogin(true);
@@ -182,7 +183,7 @@ export default function PostItem({ post, userPostGet }) {
     setIsModalAlert(!isModalAlert);
   }
 
-  function onDeleteClick() {
+  function handlDeleteClick() {
     const deleteReq = postDeleteRequester(token);
     deleteReq.then(() => {
       setIsModalAlert(!isModalAlert);
@@ -190,7 +191,7 @@ export default function PostItem({ post, userPostGet }) {
     });
   }
 
-  const onCloseClick = () => setIsModalAlert(!isModalAlert);
+  const handlCloseClick = () => setIsModalAlert(!isModalAlert);
 
   async function postDeleteRequester(token) {
     const url = 'https://mandarin.api.weniv.co.kr';
@@ -223,13 +224,24 @@ export default function PostItem({ post, userPostGet }) {
               <UserId>@ {author.accountname}</UserId>
             </UserWrap>
           </Link>
-          <MoreSvg onClick={hendleModal} />
+          <MoreSvg onClick={handleModal} />
         </PostAuthorWrap>
         <PostContentWrap>
-          <Text>{content}</Text>
-          {postListViewCheck(image)}
+          <Link
+            to={{
+              pathname: `/post/${post.id}`,
+              state: {
+                post,
+              },
+            }}
+          >
+            <Text>{content}</Text>
+            {postListViewCheck(image)}
+          </Link>
           <ButtonWrap>
-            <IconWrap onClick={isHearted ? onUnHeartClick : onHeartClick}>
+            <IconWrap
+              onClick={isHearted ? handleUnHeartClick : handleHeartClick}
+            >
               <HeartSvg
                 fill={isHearted ? 'var(--main-color)' : 'var(--bg-color)'}
                 stroke={
@@ -247,7 +259,7 @@ export default function PostItem({ post, userPostGet }) {
         </PostContentWrap>
       </PostWrap>
       {isModal && (
-        <ModalContainer useRef={modalRef} onClick={hendleModal}>
+        <ModalContainer useRef={modalRef} onClick={handleModal}>
           {isLogin ? (
             <>
               <ModalList children='삭제' onClick={postAlert} />
@@ -264,8 +276,8 @@ export default function PostItem({ post, userPostGet }) {
       {isModalAlert && (
         <DeleteModal
           title='게시글을 삭제할까요?'
-          onCloseClick={onCloseClick}
-          onDeleteClick={onDeleteClick}
+          onCloseClick={handlCloseClick}
+          onDeleteClick={handlDeleteClick}
           children='삭제'
         />
       )}
