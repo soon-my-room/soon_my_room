@@ -225,7 +225,7 @@ export default function ProfileSettingPage(props) {
           }
           onClick={handleStartMarketClick}
         >
-          감귤마켓 시작하기
+          금방내방 시작하기
         </LongButton>
       </Form>
     </>
