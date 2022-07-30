@@ -5,6 +5,6 @@ export const axiosGetFollowingFeedList = async () => {
     const { data } = await axiosInstanceWithToken.get(`/post/feed`);
     return data.posts;
   } catch (error) {
-    console.error('axiosPostLikeResquester error', error);
+    console.error('axiosGetFollowingFeedList error', error);
   }
 };
