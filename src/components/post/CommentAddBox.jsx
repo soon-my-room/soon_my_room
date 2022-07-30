@@ -48,13 +48,14 @@ const AddBtn = styled.button`
   float: right;
 `;
 
-export default function CommentAddBox({ postId, ...props }) {
+export default function CommentAddBox({ postId, setComments, ...props }) {
   const inputRef = useRef();
   const [userImage, setUserImage] = useState();
 
   async function handleWriteComment(postId, commentValue) {
     const { comment } = await axiosWriteComment(postId, commentValue);
     inputRef.current.value = '';
+    setComments((prev) => [comment, ...prev]);
   }
 
   useEffect(() => {
