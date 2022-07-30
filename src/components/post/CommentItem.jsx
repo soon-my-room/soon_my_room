@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
-import basicProfile from '../../assets/basic-profile.png';
+import UserProfileImg from '../profileImg/UserProfileImg';
 import viewMore from '../../assets/icon/icon-more-vertical.svg';
 import ModalContainer from '../common/modal/ModalContainer';
 import ModalList from '../common/modal/ModalList';
@@ -17,7 +17,7 @@ const UserWrap = styled.div`
   margin-bottom: 4px;
 `;
 
-const UserProfile = styled.img`
+const UserProfile = styled(UserProfileImg)`
   width: 36px;
   margin-right: 12px;
   vertical-align: middle;
@@ -53,6 +53,7 @@ const Comment = styled.p`
   font-weight:400;
   font-size: 14px;
   line-height: 18px;
+  color: #333333;
   margin-left: 48px;
   word-break: break-all;
 `;
@@ -67,6 +68,7 @@ export default function CommentItem({ comment }) {
       <CommentItemWrap>
         <UserWrap>
           <UserProfile
+            size='tiny'
             src={comment.author.image}
             alt='댓글 작성자 프로필 이미지'
           />
