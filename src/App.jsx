@@ -23,13 +23,12 @@ function App() {
         <Route path='/login' exact component={LoginPage} />
         <Route path='/profile-setting' exact component={ProfileSettingPage} />
         <Route path='/join' exact component={JoinPage} />
-        <PrivateRoute path='/follower' exact>
-          <FollowPage title='Followers' />
+        <PrivateRoute path={['/follower', '/following']} exact>
+          <FollowPage />
         </PrivateRoute>
-        <PrivateRoute path='/following' exact>
-          <FollowPage title='Followings' />
+        <PrivateRoute path='/feed' exact>
+          <FeedPage />
         </PrivateRoute>
-        <Route path='/feed' exact component={FeedPage} />
         <PrivateRoute path='/profile/edit' exact>
           <ProfileEditPage />
         </PrivateRoute>

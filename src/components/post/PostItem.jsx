@@ -238,7 +238,7 @@ export default function PostItem({ post, userPostGet }) {
               />
               {postHeartCount}
             </IconWrap>
-            <IconWrap onClick={() => history.push(`/post/${id}`)}>
+            <IconWrap onClick={() => history.push(`/post/${id}`, { post })}>
               <CommentSvg />
               {commentCount}
             </IconWrap>
@@ -263,9 +263,10 @@ export default function PostItem({ post, userPostGet }) {
       )}
       {isModalAlert && (
         <DeleteModal
-          title='게시글'
+          title='게시글을 삭제할까요?'
           onCloseClick={onCloseClick}
           onDeleteClick={onDeleteClick}
+          children='삭제'
         />
       )}
     </>

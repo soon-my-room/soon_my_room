@@ -19,3 +19,23 @@ export const axiosPostUnLikeResquester = async (postId) => {
     console.error('axiosPostUnLikeResquester error', error);
   }
 };
+
+export const axiosGetPostDetail = async (postId) => {
+  try {
+    const { data } = await axiosInstanceWithToken.get(`/post/${postId}`);
+    return data;
+  } catch (error) {
+    console.error('axiosGetPostDetail error', error);
+  }
+};
+
+export const axiosGetPostComments = async (postId) => {
+  try {
+    const { data } = await axiosInstanceWithToken.get(
+      `/post/${postId}/comments`,
+    );
+    return data;
+  } catch (error) {
+    console.error('axiosGetPostComments error', error);
+  }
+};

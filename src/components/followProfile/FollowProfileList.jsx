@@ -29,6 +29,7 @@ export default function FollowProfileList({ searchFollow, location }) {
         <FollowProfileCard
           key={user._id}
           userProfileImageSrc={user.image}
+          accountname={user.accountname}
           userName={user.username}
           userIntro={user.intro}
           isfollow={user.isfollow}

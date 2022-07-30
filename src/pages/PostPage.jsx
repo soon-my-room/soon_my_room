@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import TopNavBasic from '../components/common/nav/TopNavBasic';
 import PostItem from '../components/post/PostItem';
 import CommentAddBox from '../components/post/CommentAddBox';
 import CommentItem from '../components/post/CommentItem';
+import { axiosGetPostComments } from '../apis/postApi';
 
 const PostItemWrap = styled.main`
   margin: 20px 16px 24px;
@@ -18,18 +19,25 @@ const CommentListWrap = styled.section`
     background-color: var(--border-gray);
   }
 `;
-export default function PostPage({ location, ...props }) {
+export default function PostPage({ location, match, ...props }) {
+  const [comments, setComments] = useState([]);
+
+  useEffect(() => {
+    const { post_id } = match.params;
+    axiosGetPostComments(post_id).then(({ comments }) => {
+      setComments(comments);
+    });
+  }, []);
+
   return (
     <>
-      <TopNavBasic viewMore />
+      <TopNavBasic viewMore {...props} />
       <PostItemWrap>
         <PostItem post={location.state.post} />
         <CommentListWrap>
-          <CommentItem />
-          <CommentItem />
-          <CommentItem />
-          <CommentItem />
-          <CommentItem />
+          {comments.map((comment) => (
+            <CommentItem key={comment.id} comment={comment} />
+          ))}
         </CommentListWrap>
       </PostItemWrap>
       <CommentAddBox color={'var(--border-gray)'} />

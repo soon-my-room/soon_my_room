@@ -4,6 +4,7 @@ import Logo from '../../assets/symbol-logo-W-01.svg';
 import { Link } from 'react-router-dom';
 
 const FeedContainer = styled.div`
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
