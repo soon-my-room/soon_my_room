@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
-import basicProfile from '../../assets/basic-profile.png';
+import UserProfileImg from '../profileImg/UserProfileImg';
 import viewMore from '../../assets/icon/icon-more-vertical.svg';
 import ModalContainer from '../common/modal/ModalContainer';
 import ModalList from '../common/modal/ModalList';
+import { useRouteMatch } from 'react-router-dom';
+import { axiosRemoveComment } from '../../apis/postApi';
 
 const FontFamily = css`
   font-family: 'Spoqa Han Sans Neo';
@@ -17,7 +19,7 @@ const UserWrap = styled.div`
   margin-bottom: 4px;
 `;
 
-const UserProfile = styled.img`
+const UserProfile = styled(UserProfileImg)`
   width: 36px;
   margin-right: 12px;
   vertical-align: middle;
@@ -53,20 +55,43 @@ const Comment = styled.p`
   font-weight:400;
   font-size: 14px;
   line-height: 18px;
+  color: #333333;
   margin-left: 48px;
   word-break: break-all;
 `;
 
-export default function CommentItem({ comment }) {
+export default function CommentItem({ comment, setComments }) {
+  const match = useRouteMatch();
   const [modalOpen, setModalOpen] = useState(false);
   const handleModalOpen = () => {
     setModalOpen(!modalOpen);
   };
+
+  async function handleRemoveComment(e) {
+    e.preventDefault();
+
+    const postId = match.params.post_id;
+    const commentId = comment.id;
+
+    try {
+      const { message } = await axiosRemoveComment(postId, commentId);
+      if (message !== '댓글이 삭제되었습니다.') {
+        throw new Error('댓글 삭제 에러');
+      }
+
+      setComments((prev) => prev.filter((comment) => comment.id !== commentId));
+      setModalOpen(false);
+    } catch (error) {
+      console.error('댓글 삭제 에러', error);
+    }
+  }
+
   return (
     <>
       <CommentItemWrap>
         <UserWrap>
           <UserProfile
+            size='tiny'
             src={comment.author.image}
             alt='댓글 작성자 프로필 이미지'
           />
@@ -80,6 +105,7 @@ export default function CommentItem({ comment }) {
       </CommentItemWrap>
       {modalOpen && (
         <ModalContainer>
+          <ModalList onClick={handleRemoveComment}>삭제</ModalList>
           <ModalList>신고하기</ModalList>
         </ModalContainer>
       )}

@@ -5,6 +5,8 @@ import ErrorMessageBox from '../components/common/input/ErrorMessageBox';
 import LongButton from '../components/common/button/LongButton';
 import LoginTitle from '../components/login/LoginTitle';
 import ProfileImg from '../components/profileImg/ProfileImg';
+import { axiosJoin, axiosUserIdValidCheck } from '../apis/profileApi';
+import { axiosImageSave, DEFAULT_IMAGE_URL } from '../apis/imageApi';
 
 const Form = styled.form`
   width: 322px;
@@ -99,46 +101,19 @@ export default function ProfileSettingPage(props) {
   };
 
   const userIdValidCheck = async () => {
-    const url = 'https://mandarin.api.weniv.co.kr';
-
     try {
-      const path = '/user/accountnamevalid';
-      const res = await fetch(`${url}${path}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          user: {
-            accountname: userIdRef.current.value,
-          },
-        }),
-      });
+      const message = await axiosUserIdValidCheck(userIdRef.current.value);
+      const errorMessages = [
+        '이미 가입된 계정ID 입니다.',
+        '잘못된 접근입니다.',
+      ];
 
-      const { message } = await res.json();
-
-      if (message === '이미 가입된 계정ID 입니다.') {
+      if (errorMessages.includes(message)) {
         setManageUserId({
-          errorMessage: '*이미 가입된 계정ID 입니다.',
+          errorMessage: `*${errorMessages[errorMessages.indexOf(message)]}`,
           isValid: false,
         });
         userIdRef.current.focus();
-        return;
-      }
-
-      if (message === '잘못된 접근입니다.') {
-        setManageUserId({
-          errorMessage: '*잘못된 접근입니다.',
-          isValid: false,
-        });
-        return;
-      }
-
-      if (!message) {
-        setManageUserId({
-          errorMessage: '*관리자에게 문의해주세요.',
-          isValid: false,
-        });
         return;
       }
 
@@ -148,68 +123,18 @@ export default function ProfileSettingPage(props) {
     }
   };
 
-  const saveUserImage = async () => {
-    const url = 'https://mandarin.api.weniv.co.kr';
-    const file = document.getElementById('imgUpload').files;
-    const formData = new FormData();
-    formData.append('image', file[0]);
-    try {
-      const path = '/image/uploadfile';
-      const response = await fetch(`${url}${path}`, {
-        method: 'POST',
-        body: formData,
-      });
-
-      const saveImageResult = await response.json();
-      return saveImageResult;
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   const getUserImageUrl = async () => {
-    const file = document.getElementById('imgUpload').files;
+    const imageFiles = document.getElementById('imgUpload').files;
 
-    const url = 'https://mandarin.api.weniv.co.kr';
-
-    if (!file.length) {
-      const defaultImageUrl = `${url}/1657196670849.png`;
-      return defaultImageUrl;
+    if (!imageFiles.length) {
+      return DEFAULT_IMAGE_URL;
     }
 
-    const saveImageResult = await saveUserImage();
+    const formData = new FormData();
+    formData.append('image', imageFiles[0]);
 
-    return `${url}/${saveImageResult.filename}`;
-  };
-
-  const join = async () => {
-    const url = 'https://mandarin.api.weniv.co.kr';
-    const imageUrl = await getUserImageUrl();
-
-    try {
-      const path = '/user';
-      const res = await fetch(`${url}${path}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          user: {
-            username: userNameRef.current.value,
-            email: userEmail,
-            password: userPw,
-            accountname: userIdRef.current.value,
-            intro: userIntroduceRef.current.value,
-            image: imageUrl,
-          },
-        }),
-      });
-
-      const joinResult = await res.json();
-      return joinResult;
-    } catch (err) {
-      console.error(err);
-    }
+    const saveImageUrl = await axiosImageSave(formData);
+    return saveImageUrl;
   };
 
   const handleStartMarketClick = async (e) => {
@@ -220,11 +145,26 @@ export default function ProfileSettingPage(props) {
       return;
     }
 
-    const joinResult = await join();
-    if (joinResult.message === '회원가입 성공') {
-      props.history.push('/login');
-    } else {
-      alert(joinResult.message);
+    const userImageUrl = await getUserImageUrl();
+    const userInfo = {
+      email: userEmail,
+      password: userPw,
+      username: userNameRef.current.value,
+      accountname: userIdRef.current.value,
+      intro: userIntroduceRef.current.value,
+      image: userImageUrl,
+    };
+
+    try {
+      const message = await axiosJoin(userInfo);
+      if (message === '회원가입 성공') {
+        props.history.push('/login');
+      } else {
+        throw new Error('회원가입 실패');
+      }
+    } catch (error) {
+      console.log(error);
+      alert('에러가 발생했습니다. 관리자에게 문의해주세요.');
     }
   };
 
@@ -285,7 +225,7 @@ export default function ProfileSettingPage(props) {
           }
           onClick={handleStartMarketClick}
         >
-          감귤마켓 시작하기
+          금방내방 시작하기
         </LongButton>
       </Form>
     </>

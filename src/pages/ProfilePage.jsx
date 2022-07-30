@@ -26,8 +26,8 @@ export default function ProfilePage(props) {
   const [isLoding, setIsLoding] = useState(false);
   const [showProductListOnSalesModal, setShowProductListOnSalesModal] =
     useState(false);
-  const [productListOnSalesData, setProductListOnSalesData] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState({});
+  const [productListOnSalesData, setProductListOnSalesData] = useState([]);
   const modalRef = useRef();
 
   const handleRemoveProduct = async () => {
@@ -41,6 +41,7 @@ export default function ProfilePage(props) {
 
         setProductListOnSalesData(data.product);
         setShowProductListOnSalesModal(false);
+        setIsModalAlert(false);
       }
     } catch (error) {
       console.log(error);

@@ -39,3 +39,30 @@ export const axiosGetPostComments = async (postId) => {
     console.error('axiosGetPostComments error', error);
   }
 };
+
+export const axiosWriteComment = async (postId, commentValue) => {
+  try {
+    const { data } = await axiosInstanceWithToken.post(
+      `/post/${postId}/comments`,
+      JSON.stringify({
+        comment: {
+          content: commentValue,
+        },
+      }),
+    );
+    return data;
+  } catch (error) {
+    console.error('axiosWriteComment error', error);
+  }
+};
+
+export const axiosRemoveComment = async (postId, commentId) => {
+  try {
+    const { data } = await axiosInstanceWithToken.delete(
+      `/post/${postId}/comments/${commentId}`,
+    );
+    return data;
+  } catch (error) {
+    console.error('axiosRemoveComment error', error);
+  }
+};

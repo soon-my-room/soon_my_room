@@ -10,6 +10,7 @@ const PostItemWrap = styled.main`
   margin: 20px 16px 24px;
 `;
 const CommentListWrap = styled.section`
+  position: relative;
   margin: 20px 16px 66px;
   &::before {
     content: '';
@@ -36,11 +37,19 @@ export default function PostPage({ location, match, ...props }) {
         <PostItem post={location.state.post} />
         <CommentListWrap>
           {comments.map((comment) => (
-            <CommentItem key={comment.id} comment={comment} />
+            <CommentItem
+              key={comment.id}
+              comment={comment}
+              setComments={setComments}
+            />
           ))}
         </CommentListWrap>
       </PostItemWrap>
-      <CommentAddBox color={'var(--border-gray)'} />
+      <CommentAddBox
+        setComments={setComments}
+        postId={match.params.post_id}
+        color={'var(--border-gray)'}
+      />
     </>
   );
 }
