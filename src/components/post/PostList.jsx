@@ -6,8 +6,8 @@ import PostItem from './PostItem';
 import multiImage from '../../assets/icon/iccon-img-layers.svg';
 
 const PostItemUl = styled.ul`
-  margin: 16px 16px 30px;
-  & > li + li {
+  margin: 0 16px 80px;
+  & > li {
     margin-top: 16px;
   }
   ${(props) =>
@@ -37,8 +37,7 @@ export default function PostList({ userId, ...props }) {
   async function userPostGet() {
     const userInfo = JSON.parse(localStorage.getItem('userInfo')).user;
     const url = 'https://mandarin.api.weniv.co.kr';
-    const reqPath = `/post/${userId}/userpost`;
-
+    const reqPath = `/post/${userId}/userpost/?limit=${parseInt(20)}`;
     try {
       const res = await fetch(url + reqPath, {
         method: 'GET',
@@ -97,7 +96,7 @@ export default function PostList({ userId, ...props }) {
         isPostListView={isPostView}
         isPostAlbumView={!isPostView}
       />
-      <PostItemUl className={props.className} isPostView={!isPostView}>
+      <PostItemUl isPostView={!isPostView}>
         {isPostView ? (
           <>
             {posts.map((post) => (
