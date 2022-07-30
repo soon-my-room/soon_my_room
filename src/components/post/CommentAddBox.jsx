@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
+import { axiosWriteComment } from '../../apis/postApi';
+import { getUserInfo } from '../../utils/userInfo';
 import UserProfile from '../profileImg/UserProfileImg';
 
 const Wrap = styled.div`
@@ -46,26 +48,38 @@ const AddBtn = styled.button`
   float: right;
 `;
 
-export default function CommentAddBox({ onClick, ...props }) {
-  const { inputRefProps } = props;
-  const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-  const { image } = userInfo.user;
-  if (!userInfo) {
-    console.log('로그인을 먼저 해주세요.');
-    props.history.push('/login');
-    return;
+export default function CommentAddBox({ postId, ...props }) {
+  const inputRef = useRef();
+  const [userImage, setUserImage] = useState();
+
+  async function handleWriteComment(postId, commentValue) {
+    const { comment } = await axiosWriteComment(postId, commentValue);
+    inputRef.current.value = '';
   }
+
+  useEffect(() => {
+    const { image } = getUserInfo();
+    setUserImage(image);
+  }, []);
 
   return (
     <Wrap>
-      <AuthorProfile size='tiny' src={image} alt='댓글 작성자 프로필 이미지' />
+      <AuthorProfile
+        size='tiny'
+        src={userImage}
+        alt='댓글 작성자 프로필 이미지'
+      />
       <CommentInput
         placeholder='댓글 입력하기'
         size='35'
-        ref={inputRefProps}
+        ref={inputRef}
         required='required'
       />
-      <AddBtn onClick={onClick}>게시</AddBtn>
+      <AddBtn
+        onClick={() => handleWriteComment(postId, inputRef.current.value)}
+      >
+        게시
+      </AddBtn>
     </Wrap>
   );
 }

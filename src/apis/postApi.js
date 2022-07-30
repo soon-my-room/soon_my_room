@@ -39,3 +39,19 @@ export const axiosGetPostComments = async (postId) => {
     console.error('axiosGetPostComments error', error);
   }
 };
+
+export const axiosWriteComment = async (postId, commentValue) => {
+  try {
+    const { data } = await axiosInstanceWithToken.post(
+      `/post/${postId}/comments`,
+      JSON.stringify({
+        comment: {
+          content: commentValue,
+        },
+      }),
+    );
+    return data;
+  } catch (error) {
+    console.error('axiosGetPostComments error', error);
+  }
+};
