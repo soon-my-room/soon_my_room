@@ -6,6 +6,7 @@ import BottomNavMenu from '../components/common/nav/BottomNavMenu';
 import styled from 'styled-components';
 import PostList from '../components/post/PostList';
 import ModalContainer from '../components/common/modal/ModalContainer';
+import DeleteModal from '../components/common/modal/DeleteModal';
 import ModalList from '../components/common/modal/ModalList';
 import { getUserInfo } from '../utils/userInfo';
 import {
@@ -27,6 +28,7 @@ export default function ProfilePage(props) {
   const [showProductListOnSalesModal, setShowProductListOnSalesModal] =
     useState(false);
   const [selectedProduct, setSelectedProduct] = useState({});
+  const [isModalAlert, setIsModalAlert] = useState(false);
   const [productListOnSalesData, setProductListOnSalesData] = useState([]);
   const modalRef = useRef();
 
@@ -94,6 +96,10 @@ export default function ProfilePage(props) {
     window.open(requestUrl, '_blank', 'noopener,noreferrer');
   }
 
+  function handleCloseClick() {
+    setIsModalAlert(false);
+  }
+
   return (
     isLoding && (
       <>
@@ -122,6 +128,14 @@ export default function ProfilePage(props) {
               웹사이트에서 상품 보기
             </ModalList>
           </ModalContainer>
+        )}
+        {isModalAlert && (
+          <DeleteModal
+            title='상품을 삭제할까요?'
+            children='삭제'
+            onCloseClick={handleCloseClick}
+            onDeleteClick={handleRemoveProduct}
+          />
         )}
       </>
     )
