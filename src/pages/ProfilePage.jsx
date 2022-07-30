@@ -6,7 +6,7 @@ import BottomNavMenu from '../components/common/nav/BottomNavMenu';
 import styled from 'styled-components';
 import PostList from '../components/post/PostList';
 import ModalContainer from '../components/common/modal/ModalContainer';
-import DeleteModal from '../components/common/modal/DeleteModal';
+import AlertModal from '../components/common/modal/AlertModal';
 import ModalList from '../components/common/modal/ModalList';
 import { getUserInfo } from '../utils/userInfo';
 import {
@@ -127,10 +127,11 @@ export default function ProfilePage(props) {
           </ModalContainer>
         )}
         {isModalAlert && (
-          <DeleteModal
+          <AlertModal
             title='상품'
+            submitText='삭제'
             onCloseClick={handleCloseClick}
-            onDeleteClick={handleRemoveProduct}
+            onSubmitClick={handleRemoveProduct}
           />
         )}
       </>

@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import ModalList from '../common/modal/ModalList';
-import DeleteModal from '../common/modal/DeleteModal';
+import AlertModal from '../common/modal/AlertModal';
 import ModalContainer from '../common/modal/ModalContainer';
 import UserProfile from '../../components/profileImg/UserProfileImg';
 import { ReactComponent as Heart } from '../../assets/icon/icon-heart.svg';
@@ -274,11 +274,11 @@ export default function PostItem({ post, userPostGet }) {
         </ModalContainer>
       )}
       {isModalAlert && (
-        <DeleteModal
+        <AlertModal
           title='게시글을 삭제할까요?'
+          submitText='삭제'
           onCloseClick={handlCloseClick}
-          onDeleteClick={handlDeleteClick}
-          children='삭제'
+          onSubmitClick={handlDeleteClick}
         />
       )}
     </>
