@@ -52,6 +52,17 @@ export const axiosWriteComment = async (postId, commentValue) => {
     );
     return data;
   } catch (error) {
-    console.error('axiosGetPostComments error', error);
+    console.error('axiosWriteComment error', error);
+  }
+};
+
+export const axiosRemoveComment = async (postId, commentId) => {
+  try {
+    const { data } = await axiosInstanceWithToken.delete(
+      `/post/${postId}/comments/${commentId}`,
+    );
+    return data;
+  } catch (error) {
+    console.error('axiosRemoveComment error', error);
   }
 };
