@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled, { css } from 'styled-components';
 import UserProfileImg from '../profileImg/UserProfileImg';
 import viewMore from '../../assets/icon/icon-more-vertical.svg';
@@ -64,6 +64,8 @@ const Comment = styled.p`
 export default function CommentItem({ comment, setComments }) {
   const match = useRouteMatch();
   const [modalOpen, setModalOpen] = useState(false);
+  const modalRef = useRef();
+
   const handleModalOpen = () => {
     setModalOpen(!modalOpen);
   };
@@ -96,6 +98,21 @@ export default function CommentItem({ comment, setComments }) {
     return me === commentAuthor;
   }
 
+  useEffect(() => {
+    const checkClickModalOutside = (event) => {
+      // 모달이 켜져있고 클릭한곳이 모달을 포함하고있지 않으면 모달 끄기
+      if (modalOpen && !modalRef.current.contains(event.target)) {
+        setModalOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', checkClickModalOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', checkClickModalOutside);
+    };
+  }, [modalOpen]);
+
   return (
     <>
       <CommentItemWrap>
@@ -114,7 +131,7 @@ export default function CommentItem({ comment, setComments }) {
         <Comment>{comment.content}</Comment>
       </CommentItemWrap>
       {modalOpen && (
-        <ModalContainer>
+        <ModalContainer useRef={modalRef}>
           {authorCheck() && (
             <ModalList onClick={handleRemoveComment}>삭제</ModalList>
           )}
