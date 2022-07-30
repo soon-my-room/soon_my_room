@@ -26,7 +26,9 @@ function App() {
         <PrivateRoute path={['/follower', '/following']} exact>
           <FollowPage />
         </PrivateRoute>
-        <Route path='/feed' exact component={FeedPage} />
+        <PrivateRoute path='/feed' exact>
+          <FeedPage />
+        </PrivateRoute>
         <PrivateRoute path='/profile/edit' exact>
           <ProfileEditPage />
         </PrivateRoute>
