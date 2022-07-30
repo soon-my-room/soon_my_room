@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import ModalList from '../modal/ModalList';
-import DeleteModal from '../modal/DeleteModal';
+import AlertModal from '../modal/AlertModal';
 import ModalContainer from '../modal/ModalContainer';
 import iconArrowLeft from '../../../assets/icon/icon-arrow-left.svg';
 import iconMore from '../../../assets/icon/icon-more-vertical.svg';
@@ -90,11 +90,11 @@ export default function TopNavBasic({ title, viewMore, history }) {
         </ModalContainer>
       )}
       {isLogoutModal && (
-        <DeleteModal
+        <AlertModal
           title='로그아웃하시겠어요?'
-          children='로그아웃'
+          submitText='로그아웃'
           onCloseClick={onCloseClick}
-          onDeleteClick={userTokenDelete}
+          onSubmitText={userTokenDelete}
         />
       )}
     </>
