@@ -5,6 +5,7 @@ import Button from '../common/button/Button';
 import UserProfileImg from '../profileImg/UserProfileImg';
 import share from '../../assets/icon/icon-share.svg';
 import messageCircle from '../../assets/icon/icon-comment.svg';
+import { axiosRequestFollow, axioxRemoveFollow } from '../../apis/followApi';
 
 const ProfileFollowWrap = styled.div`
   width: 100%;
@@ -93,60 +94,19 @@ export default function ProfileDataCard(props) {
   } = props?.userData.profile;
   const myAccount = JSON.parse(localStorage.getItem('userInfo')).user
     .accountname;
-  const { token } = JSON.parse(localStorage.getItem('userInfo')).user;
   const [isfollowState, setIsfollowState] = useState(isfollow);
   const [userFollowerCount, setUserFollowerCount] = useState(followerCount);
 
-  async function followRequest() {
-    const url = 'https://mandarin.api.weniv.co.kr';
-    const reqPath = `/profile/${accountname}/follow`;
-    try {
-      const res = await fetch(url + reqPath, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      });
-      const resData = await res.json();
-      return resData.profile.followerCount;
-    } catch (err) {
-      console.error(err);
-    }
+  async function onUnfollowClick() {
+    const { profile } = await axioxRemoveFollow(accountname);
+    setIsfollowState(false);
+    setUserFollowerCount(profile.followerCount);
   }
 
-  async function unfollowRequest() {
-    const url = 'https://mandarin.api.weniv.co.kr';
-    const reqPath = `/profile/${accountname}/unfollow`;
-    try {
-      const res = await fetch(url + reqPath, {
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      });
-      const resData = await res.json();
-      return resData.profile.followerCount;
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
-  function onUnfollowClick() {
-    const UserFollowerCount = unfollowRequest(token);
-    UserFollowerCount.then((count) => {
-      setIsfollowState(false);
-      setUserFollowerCount(count);
-    });
-  }
-
-  function onFollowClick() {
-    const UserFollowerCount = followRequest(token);
-    UserFollowerCount.then((count) => {
-      setIsfollowState(true);
-      setUserFollowerCount(count);
-    });
+  async function onFollowClick() {
+    const { profile } = await axiosRequestFollow(accountname);
+    setIsfollowState(true);
+    setUserFollowerCount(profile.followerCount);
   }
 
   return (
@@ -202,7 +162,7 @@ export default function ProfileDataCard(props) {
               medium='true'
               white='true'
               children='프로필 수정'
-              hover
+              hover='true'
             />
             <Button
               as={Link}
@@ -210,7 +170,7 @@ export default function ProfileDataCard(props) {
               medium100='true'
               white='true'
               children='상품 등록'
-              hover
+              hover='true'
             />
           </>
         )}
