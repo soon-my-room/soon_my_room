@@ -1,10 +1,13 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import styled from 'styled-components';
 import TopNavUpload from '../components/common/nav/TopNavUpload';
 import UserProfile from '../components/profileImg/UserProfileImg';
 import defaultImg from '../assets/symbol-logo-gray.png';
 import uploadFile from '../assets/upload-file.svg';
 import deleteBtnImg from '../assets/icon/x.svg';
+import { axiosImageSave } from '../apis/imageApi';
+import { axiosWritePost } from '../apis/postApi';
+import { getUserInfo } from '../utils/userInfo';
 
 const FormAreaWrap = styled.section`
   margin: 20px 16px 0;
@@ -87,17 +90,8 @@ export default function PostAddPage({ ...props }) {
   const [textAreaValid, setTextAreaValid] = useState(false);
   const [imgBlob, setImgBlob] = useState([]);
   const [imgData, setImgData] = useState([]);
-  const [imgName, setImgName] = useState([]);
 
-  const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-  if (!userInfo) {
-    console.log('로그인을 먼저 해주세요.');
-    props.history.push('/login');
-    return;
-  }
-
-  const AuthorProfileImg = userInfo.user.image;
-  const { token } = userInfo.user;
+  const userInfo = useCallback(getUserInfo, []);
 
   const handleTextAreaValid = ({ target }) => {
     const textAreaLength = target.value.length;
@@ -148,55 +142,30 @@ export default function PostAddPage({ ...props }) {
     e.target.src = defaultImg;
   };
 
-  const url = 'https://mandarin.api.weniv.co.kr';
-
   const handleSubmit = async () => {
-    const formData = new FormData();
-    imgData.map((value) => {
-      return formData.append('image', value);
-    });
+    let imageUrlList = [];
 
-    //여러개 이미지 포스트 api
-    try {
-      const reqImgPath = '/image/uploadfiles';
-      const resImg = await fetch(url + reqImgPath, {
-        method: 'POST',
-        body: formData,
-      });
-      const imgRes = await resImg.json();
-      for (let i of imgRes) {
-        setImgName([...imgName, imgName.push(i['filename'])]);
-      }
-    } catch (err) {
-      console.error(err);
+    for (let imageData of imgData) {
+      const formData = new FormData();
+      formData.append('image', imageData);
+
+      //이미지 포스트 api
+      const imageUrl = await axiosImageSave(formData);
+      imageUrlList.push(imageUrl);
     }
     //img url을 합친 문자열 만들기
-    const imgNameJoin = imgName
-      .map((value) => 'https://mandarin.api.weniv.co.kr/' + value)
-      .join(',');
+    const convertImageUrlArrayToString = imageUrlList.join(',');
 
     //게시글 작성 api
-    const reqPath = '/post';
-    const reqData = {
-      post: {
-        content: textAreaRef.current.value,
-        image: imgNameJoin,
-      },
-    };
-
     try {
-      const res = await fetch(url + reqPath, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-type': 'application/json',
-        },
-        body: JSON.stringify(reqData),
-      });
-      const submitRes = await res.json();
-      if (submitRes) {
-        props.history.push(`/post/${submitRes.post.id}`, {
-          post: submitRes.post,
+      const { post } = await axiosWritePost(
+        textAreaRef.current.value,
+        convertImageUrlArrayToString,
+      );
+
+      if (post) {
+        props.history.push(`/post/${post.id}`, {
+          post,
         });
       }
     } catch (err) {
@@ -216,7 +185,7 @@ export default function PostAddPage({ ...props }) {
         <form>
           <AuthorProfile
             size='small'
-            src={AuthorProfileImg}
+            src={userInfo.image}
             alt='글 작성자 프로필 이미지'
           />
           <TextArea

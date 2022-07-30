@@ -20,6 +20,23 @@ export const axiosPostUnLikeResquester = async (postId) => {
   }
 };
 
+export const axiosWritePost = async (content, image) => {
+  try {
+    const { data } = await axiosInstanceWithToken.post(
+      `/post`,
+      JSON.stringify({
+        post: {
+          content,
+          image,
+        },
+      }),
+    );
+    return data;
+  } catch (error) {
+    console.error('axiosGetPostDetail error', error);
+  }
+};
+
 export const axiosGetPostDetail = async (postId) => {
   try {
     const { data } = await axiosInstanceWithToken.get(`/post/${postId}`);

@@ -34,7 +34,9 @@ function App() {
         <PrivateRoute path={['/product/add', '/product/edit']}>
           <ProductPage />
         </PrivateRoute>
-        <Route path='/post/add' exact component={PostAddPage} />
+        <PrivateRoute path='/post/add' exact>
+          <PostAddPage />
+        </PrivateRoute>
         <Route path='/post/:post_id' exact component={PostPage} />
         <Route path='/search' exact component={SearchPage} />
         <Route path='/profile/:userId' exact component={ProfilePage} />
