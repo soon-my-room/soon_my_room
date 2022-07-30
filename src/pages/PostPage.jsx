@@ -37,7 +37,11 @@ export default function PostPage({ location, match, ...props }) {
         <PostItem post={location.state.post} />
         <CommentListWrap>
           {comments.map((comment) => (
-            <CommentItem key={comment.id} comment={comment} />
+            <CommentItem
+              key={comment.id}
+              comment={comment}
+              setComments={setComments}
+            />
           ))}
         </CommentListWrap>
       </PostItemWrap>

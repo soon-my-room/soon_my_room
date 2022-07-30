@@ -4,6 +4,8 @@ import UserProfileImg from '../profileImg/UserProfileImg';
 import viewMore from '../../assets/icon/icon-more-vertical.svg';
 import ModalContainer from '../common/modal/ModalContainer';
 import ModalList from '../common/modal/ModalList';
+import { useRouteMatch } from 'react-router-dom';
+import { axiosRemoveComment } from '../../apis/postApi';
 
 const FontFamily = css`
   font-family: 'Spoqa Han Sans Neo';
@@ -58,11 +60,32 @@ const Comment = styled.p`
   word-break: break-all;
 `;
 
-export default function CommentItem({ comment }) {
+export default function CommentItem({ comment, setComments }) {
+  const match = useRouteMatch();
   const [modalOpen, setModalOpen] = useState(false);
   const handleModalOpen = () => {
     setModalOpen(!modalOpen);
   };
+
+  async function handleRemoveComment(e) {
+    e.preventDefault();
+
+    const postId = match.params.post_id;
+    const commentId = comment.id;
+
+    try {
+      const { message } = await axiosRemoveComment(postId, commentId);
+      if (message !== '댓글이 삭제되었습니다.') {
+        throw new Error('댓글 삭제 에러');
+      }
+
+      setComments((prev) => prev.filter((comment) => comment.id !== commentId));
+      setModalOpen(false);
+    } catch (error) {
+      console.error('댓글 삭제 에러', error);
+    }
+  }
+
   return (
     <>
       <CommentItemWrap>
@@ -82,6 +105,7 @@ export default function CommentItem({ comment }) {
       </CommentItemWrap>
       {modalOpen && (
         <ModalContainer>
+          <ModalList onClick={handleRemoveComment}>삭제</ModalList>
           <ModalList>신고하기</ModalList>
         </ModalContainer>
       )}
