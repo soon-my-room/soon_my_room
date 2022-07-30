@@ -4,7 +4,7 @@ import FollowingFeedItem from '../post/PostItem';
 
 const Wrapper = styled.ul`
   margin: 70px 16px 95px;
-  width: 390px;
+  width: 358px;
   & > li + li {
     margin-top: 20px;
   }
