@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import TopNavBasic from '../components/common/nav/TopNavBasic';
 import ProfileContainer from '../components/userProfile/ProfileContainer';
 import ProductListOnSales from '../components/product/ProductListOnSales';
@@ -7,6 +8,7 @@ import styled from 'styled-components';
 import PostList from '../components/post/PostList';
 import ModalContainer from '../components/common/modal/ModalContainer';
 import ModalList from '../components/common/modal/ModalList';
+import DeleteModal from '../components/common/modal/DeleteModal';
 import { getUserInfo } from '../utils/userInfo';
 import {
   axiosGetProductListOnSales,
@@ -24,13 +26,16 @@ const PostListWrap = styled(PostList)`
 
 export default function ProfilePage(props) {
   const [isLoding, setIsLoding] = useState(false);
-  const [productListOnSalesData, setProductListOnSalesData] = useState([]);
+  const [isProfileModal, setIsProfileModal] = useState(false);
+  const [isLogoutModal, setIsLogoutModal] = useState(false);
   const [showProductListOnSalesModal, setShowProductListOnSalesModal] =
     useState(false);
-
+  const [productListOnSalesData, setProductListOnSalesData] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState({});
-
+  const profileModalRef = useRef();
   const modalRef = useRef();
+
+  const history = useHistory();
 
   const handleRemoveProduct = async () => {
     try {
@@ -95,10 +100,34 @@ export default function ProfilePage(props) {
     window.open(requestUrl, '_blank', 'noopener,noreferrer');
   }
 
+  function hendleOpenModal(e) {
+    setIsProfileModal(!isProfileModal);
+    console.log(e.target);
+    if (e.target === profileModalRef.current) {
+      setIsProfileModal(true);
+    }
+  }
+
+  function userTokenDelete() {
+    localStorage.clear();
+    setIsLogoutModal(false);
+    window.location.replace('/');
+  }
+
+  function onCloseClick() {
+    setIsLogoutModal(false);
+  }
+
+  function onLoginout(e) {
+    e.stopPropagation();
+    setIsProfileModal(false);
+    setIsLogoutModal(!isLogoutModal);
+  }
+
   return (
     isLoding && (
       <>
-        <TopNavBasic viewMore {...props} />
+        <TopNavBasic viewMore {...props} onClick={hendleOpenModal} />
         <ProfileContainer userId={props.match.params.userId} />
         <ProductListOnSalesWrap
           title='판매 중인 상품'
@@ -123,6 +152,23 @@ export default function ProfilePage(props) {
               웹사이트에서 상품 보기
             </ModalList>
           </ModalContainer>
+        )}
+        {isProfileModal && (
+          <ModalContainer useRef={profileModalRef} onClick={hendleOpenModal}>
+            <ModalList
+              children='설정 및 개인정보'
+              onClick={() => history.push('/profile')}
+            />
+            <ModalList children='로그아웃' onClick={onLoginout} />
+          </ModalContainer>
+        )}
+        {isLogoutModal && (
+          <DeleteModal
+            title='로그아웃하시겠어요?'
+            children='로그아웃'
+            onCloseClick={onCloseClick}
+            onDeleteClick={userTokenDelete}
+          />
         )}
       </>
     )
