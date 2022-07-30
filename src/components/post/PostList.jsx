@@ -6,8 +6,8 @@ import PostItem from './PostItem';
 import multiImage from '../../assets/icon/iccon-img-layers.svg';
 
 const PostItemUl = styled.ul`
-  margin: 16px 16px 80px;
-  & > li + li {
+  margin: 0 16px 80px;
+  & > li {
     margin-top: 16px;
   }
   ${(props) =>
