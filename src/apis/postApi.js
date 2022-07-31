@@ -37,6 +37,23 @@ export const axiosWritePost = async (content, image) => {
   }
 };
 
+export const axiosEditPost = async (postId, content, image) => {
+  try {
+    const { data } = await axiosInstanceWithToken.put(
+      `/post/${postId}`,
+      JSON.stringify({
+        post: {
+          content,
+          image,
+        },
+      }),
+    );
+    return data;
+  } catch (error) {
+    console.error('axiosGetPostDetail error', error);
+  }
+};
+
 export const axiosGetPostDetail = async (postId) => {
   try {
     const { data } = await axiosInstanceWithToken.get(`/post/${postId}`);

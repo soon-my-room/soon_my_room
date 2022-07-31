@@ -13,6 +13,7 @@ import SearchPage from './pages/SearchPage';
 import ProfilePage from './pages/ProfilePage';
 import PrivateRoute from './utils/route/PrivateRoute';
 import ProductPage from './pages/ProductPage';
+import PostEditPage from './pages/PostEditPage';
 
 function App() {
   return (
@@ -36,6 +37,9 @@ function App() {
         </PrivateRoute>
         <PrivateRoute path='/post/add' exact>
           <PostAddPage />
+        </PrivateRoute>
+        <PrivateRoute path='/post/edit' exact>
+          <PostEditPage />
         </PrivateRoute>
         <Route path='/post/:post_id' exact component={PostPage} />
         <Route path='/search' exact component={SearchPage} />
