@@ -250,7 +250,17 @@ export default function PostItem({ post, userPostGet }) {
               />
               {postHeartCount}
             </IconWrap>
-            <IconWrap onClick={() => history.push(`/post/${id}`, { post })}>
+            <IconWrap
+              onClick={() =>
+                history.push(`/post/${id}`, {
+                  post: {
+                    ...post,
+                    hearted: isHearted,
+                    heartCount: postHeartCount,
+                  },
+                })
+              }
+            >
               <CommentSvg />
               {commentCount}
             </IconWrap>
