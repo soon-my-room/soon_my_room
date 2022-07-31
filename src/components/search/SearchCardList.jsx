@@ -11,20 +11,20 @@ const Wrapper = styled.ul`
   align-items: center;
 `;
 
-export default function SearchCardList({ searchData, ...props }) {
-  if (!searchData.length) {
-    return;
-  }
+export default function SearchCardList({ keyword, searchData, ...props }) {
   return (
-    <Wrapper>
-      {searchData.map((Data) => (
-        <SearchCard
-          key={Data.accountname}
-          src={Data.image}
-          accountname={Data.accountname}
-          username={Data.username}
-        />
-      ))}
-    </Wrapper>
+    !!searchData.length && (
+      <Wrapper>
+        {searchData.map((data) => (
+          <SearchCard
+            key={data.accountname}
+            src={data.image}
+            accountname={data.accountname}
+            username={data.username}
+            keyword={keyword}
+          />
+        ))}
+      </Wrapper>
+    )
   );
 }
