@@ -37,12 +37,16 @@ function App() {
         <PrivateRoute path={['/post/add', '/post/edit']} exact>
           <PostUploadPage />
         </PrivateRoute>
-        <Route path='/post/:post_id' exact component={PostPage} />
+        <PrivateRoute path='/post/:post_id' exact>
+          <PostPage />
+        </PrivateRoute>
         <PrivateRoute path='/search' exact>
           <SearchPage />
         </PrivateRoute>
-        <Route path='/profile/:userId' exact component={ProfilePage} />
         <PrivateRoute path='/profile' exact>
+          <ProfilePage />
+        </PrivateRoute>
+        <PrivateRoute path='/profile/:userId' exact>
           <ProfilePage />
         </PrivateRoute>
       </Switch>
