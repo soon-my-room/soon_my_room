@@ -102,7 +102,7 @@ export default function PostEditPage({ ...props }) {
   const [imgBlob, setImgBlob] = useState([]);
   const [imgData, setImgData] = useState([]);
 
-  const userInfo = useCallback(getUserInfo, []);
+  const userInfo = useCallback(getUserInfo(), []);
 
   const handleTextAreaValid = ({ target }) => {
     const textAreaLength = target.value.length;
