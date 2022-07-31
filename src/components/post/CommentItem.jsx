@@ -24,6 +24,7 @@ const UserProfile = styled(UserProfileImg)`
   width: 36px;
   margin-right: 12px;
   vertical-align: middle;
+  cursor: pointer;
 `;
 
 const UserName = styled.p`
@@ -32,6 +33,7 @@ const UserName = styled.p`
   font-size: 14px;
   font-weight: 500;
   margin: 6px 6px 16px 0;
+  cursor: pointer;
 `;
 
 const CreatedTime = styled.span`
