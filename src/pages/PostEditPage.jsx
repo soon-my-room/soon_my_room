@@ -106,24 +106,24 @@ export default function PostEditPage({ ...props }) {
   const handleImgUpload = async (e) => {
     const files = e.target.files;
     const maxValue = 10 * 1024 * 1024;
+    let nowImageCount = imgBlob.length;
 
     for (const file of files) {
       //파일 타입, 사이즈 유효성 체크 후 데이터 state와 프리뷰용 blob state에 넣어주기.
       if (file.size > maxValue) {
-        e.target.value = null;
         alert('파일의 용량이 10MB를 초과했습니다.');
         return;
       }
 
       //파일 3장까지만 받도록 처리.
-      if (imgBlob.length > 2) {
-        // setImgBlob(imgBlob.slice(0, 3));
+      if (nowImageCount > 2) {
         alert('3개 이하의 파일을 업로드 하세요.');
         return;
       }
 
       setImgData((prev) => [...prev, file]);
       setImgBlob((prev) => [...prev, URL.createObjectURL(file)]);
+      nowImageCount++;
     }
 
     if (textAreaRef.current.value) {
