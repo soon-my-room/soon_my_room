@@ -8,7 +8,6 @@ import deleteBtnImg from '../assets/icon/x.svg';
 import { getUserInfo } from '../utils/userInfo';
 import { axiosImageSave } from '../apis/imageApi';
 import { axiosEditPost } from '../apis/postApi';
-import { API_URL } from '../apis';
 
 const FormAreaWrap = styled.section`
   margin: 20px 16px 0;
@@ -140,8 +139,8 @@ export default function PostEditPage({ ...props }) {
 
   //이미지 삭제 버튼 누르면 데이터와 프리뷰용 blob 둘다 제거.
   const handleImgDelete = (idx) => {
-    setImgBlob(imgBlob.filter((item, index) => index !== idx));
-    setImgData(imgData.filter((item, index) => index !== idx));
+    setImgBlob(imgBlob.filter((_, index) => index !== idx));
+    setImgData(imgData.filter((_, index) => index !== idx));
   };
 
   //img를 load하는 과정에서 error가 발생하면 defaultImg 표시
