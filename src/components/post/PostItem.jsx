@@ -263,7 +263,12 @@ export default function PostItem({ post, userPostGet }) {
           {isLogin ? (
             <>
               <ModalList children='삭제' onClick={postAlert} />
-              <ModalList children='수정' />
+              <ModalList
+                children='수정'
+                onClick={() => {
+                  history.push(`/post/edit`, { post });
+                }}
+              />
             </>
           ) : (
             <ModalList
