@@ -1,8 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import BottomNavMenu from '../components/common/nav/BottomNavMenu';
 import TopNavSearch from '../components/common/nav/TopNavSearch';
 import SearchCardList from '../components/search/SearchCardList';
 import styled from 'styled-components';
+import { axiosGetSearchResult } from '../apis/searchApi';
 
 const Container = styled.nav`
   display: flex;
@@ -33,34 +34,6 @@ export default function SearchPage(props) {
   const searchRef = useRef();
   const [searchData, setSearchData] = useState([]);
 
-  const onChangeKeyword = (e) => {
-    setKeyword(e.value);
-  };
-
-  async function searchUser(token, keyword) {
-    const url = 'https://mandarin.api.weniv.co.kr';
-    const reqPath = `/user/searchuser/?keyword=${keyword}`;
-    try {
-      const res = await fetch(url + reqPath, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      });
-      const resJson = await res.json();
-      setSearchData(resJson);
-    } catch (err) {}
-  }
-  const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-  const token = userInfo?.user?.token;
-
-  useEffect(() => {
-    if (!userInfo) {
-      props.history.push('/login');
-      return;
-    }
-  }, []);
   return (
     <>
       <Container>
@@ -68,10 +41,10 @@ export default function SearchPage(props) {
         <SearchInput
           type='text'
           placeholder='계정 검색'
-          onChange={(e) => {
+          onChange={() => {
             const searchValue = searchRef.current.value;
-            onChangeKeyword(e.target.value);
-            searchUser(token, searchValue);
+            setKeyword(searchValue);
+            axiosGetSearchResult(keyword).then(setSearchData);
           }}
           ref={searchRef}
         />
