@@ -72,7 +72,6 @@ axios": "^0.27.2"
 │   ├── favicon.png
 │   └── index.html
 └── src
-    ├── App.jsx
     ├── apis
     │   ├── feedApi.js
     │   ├── followApi.js
@@ -135,7 +134,6 @@ axios": "^0.27.2"
     │   └── userProfile
     │       ├── ProfileContainer.jsx
     │       └── ProfileDataCard.jsx
-    ├── index.jsx
     ├── pages
     │   ├── FeedPage.jsx
     │   ├── FollowPage.jsx
@@ -149,11 +147,13 @@ axios": "^0.27.2"
     │   ├── ProfilePage.jsx
     │   ├── ProfileSettingPage.jsx
     │   └── SearchPage.jsx
-    └── utils
-        ├── route
-        │   └── PrivateRoute.jsx
-        ├── defaultImage.js
-        └── userInfo.js
+    ├── utils
+    │   ├── route
+    │   │   └── PrivateRoute.jsx
+    │   ├── defaultImage.js
+    │   └── userInfo.js
+    ├── App.jsx
+    └── index.jsx
 ```
 
 ## 5. 역할 분담 👨‍👩‍👧‍👧
