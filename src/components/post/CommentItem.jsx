@@ -113,26 +113,27 @@ export default function CommentItem({ comment, setComments }) {
     };
   }, [modalOpen]);
 
-  let timeMessage = '';
-
   function timeSet() {
-    const commentDate = Date.parse(comment.createdAt);
+    const commentCreatedDate = Date.parse(comment.createdAt);
     const now = Date.now();
-    const commentTime = Math.floor((now - commentDate) / 1000 / 60);
-    const commentDay = Math.floor((now - commentDate) / 1000 / 60 / 60 / 24);
+    const commentMin = Math.floor((now - commentCreatedDate) / 1000 / 60);
+    const commentHour = Math.floor((now - commentCreatedDate) / 1000 / 60 / 60);
+    const commentDay = Math.floor(
+      (now - commentCreatedDate) / 1000 / 60 / 60 / 24,
+    );
 
-    if (commentTime < 1) {
-      timeMessage = '방금 전';
-    } else if (commentTime < 60) {
-      timeMessage = `${commentTime}분 전`;
-    } else if (7 >= commentDay > 0 && commentDay !== 0) {
-      timeMessage = `${commentDay}일 전`;
+    if (commentMin < 1) {
+      return '방금 전';
+    } else if (commentMin < 60) {
+      return `${commentMin}분 전`;
+    } else if (25 > commentHour > 0) {
+      return `${commentHour}시간 전`;
+    } else if (7 >= commentDay && commentDay > 0 && commentDay !== 0) {
+      return `${commentDay}일 전`;
     } else {
-      timeMessage = comment.createdAt.slice(0, 10);
+      return comment.createdAt.slice(0, 10);
     }
   }
-
-  timeSet();
 
   return (
     <>
@@ -144,7 +145,7 @@ export default function CommentItem({ comment, setComments }) {
             alt='댓글 작성자 프로필 이미지'
           />
           <UserName>{comment.author.username}</UserName>
-          <CreatedTime>{timeMessage}</CreatedTime>
+          <CreatedTime>{timeSet()}</CreatedTime>
           <ViewMoreBtn onClick={handleModalOpen}>
             <ViewMore src={viewMore} alt='더 보기' />
           </ViewMoreBtn>
