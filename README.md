@@ -68,7 +68,92 @@ axios": "^0.27.2"
 <!-- 폴더 구조를 좀 정리해서 마지막에 싹 넣으면 좋을 것 같습니다. -->
 
 ```
-폴더트리화
+├── public
+│   ├── favicon.png
+│   └── index.html
+└── src
+    ├── App.jsx
+    ├── apis
+    │   ├── feedApi.js
+    │   ├── followApi.js
+    │   ├── imageApi.js
+    │   ├── index.js
+    │   ├── postApi.js
+    │   ├── productApi.js
+    │   ├── profileApi.js
+    │   └── searchApi.js
+    ├── components
+    │   ├── common
+    │   │   ├── button
+    │   │   │   ├── Button.jsx
+    │   │   │   └── LongButton.jsx
+    │   │   ├── input
+    │   │   │   ├── ErrorMessageBox.jsx
+    │   │   │   ├── InputBox.jsx
+    │   │   │   └── InputImageUploadBox.jsx
+    │   │   ├── modal
+    │   │   │   ├── AlertModal.jsx
+    │   │   │   ├── ModalContainer.jsx
+    │   │   │   └── ModalList.jsx
+    │   │   └── nav
+    │   │       ├── BottomNavMenu.jsx
+    │   │       ├── PostViewChangeNav.jsx
+    │   │       ├── TopNavBasic.jsx
+    │   │       ├── TopNavHome.jsx
+    │   │       ├── TopNavSearch.jsx
+    │   │       ├── TopNavUpload.jsx
+    │   │       └── item
+    │   │           └── BottomNavMenuItem.jsx
+    │   ├── email
+    │   │   └── EmailSignUp.jsx
+    │   ├── feed
+    │   │   ├── BasicFeed.jsx
+    │   │   └── FollowingPostList.jsx
+    │   ├── followProfile
+    │   │   ├── FollowProfileCard.jsx
+    │   │   └── FollowProfileList.jsx
+    │   ├── login
+    │   │   ├── LoginCard.jsx
+    │   │   └── LoginTitle.jsx
+    │   ├── post
+    │   │   ├── CommentAddBox.jsx
+    │   │   ├── CommentItem.jsx
+    │   │   ├── PostItem.jsx
+    │   │   └── PostList.jsx
+    │   ├── product
+    │   │   ├── ProductForm.jsx
+    │   │   ├── ProductListOnSales.jsx
+    │   │   └── ProductOnSales.jsx
+    │   ├── profileImg
+    │   │   ├── ProfileImg.jsx
+    │   │   └── UserProfileImg.jsx
+    │   ├── search
+    │   │   ├── SearchCard.jsx
+    │   │   └── SearchCardList.jsx
+    │   ├── splash
+    │   │   └── Splash.jsx
+    │   └── userProfile
+    │       ├── ProfileContainer.jsx
+    │       └── ProfileDataCard.jsx
+    ├── index.jsx
+    ├── pages
+    │   ├── FeedPage.jsx
+    │   ├── FollowPage.jsx
+    │   ├── JoinPage.jsx
+    │   ├── LoginHomePage.jsx
+    │   ├── LoginPage.jsx
+    │   ├── PostPage.jsx
+    │   ├── PostUploadPage.jsx
+    │   ├── ProductPage.jsx
+    │   ├── ProfileEditPage.jsx
+    │   ├── ProfilePage.jsx
+    │   ├── ProfileSettingPage.jsx
+    │   └── SearchPage.jsx
+    └── utils
+        ├── defaultImage.js
+        ├── route
+        │   └── PrivateRoute.jsx
+        └── userInfo.js
 ```
 
 ## 5. 역할 분담 👨‍👩‍👧‍👧
