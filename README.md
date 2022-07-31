@@ -150,9 +150,9 @@ axios": "^0.27.2"
     │   ├── ProfileSettingPage.jsx
     │   └── SearchPage.jsx
     └── utils
-        ├── defaultImage.js
         ├── route
         │   └── PrivateRoute.jsx
+        ├── defaultImage.js
         └── userInfo.js
 ```
 
