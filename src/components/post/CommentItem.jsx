@@ -4,7 +4,7 @@ import UserProfileImg from '../profileImg/UserProfileImg';
 import viewMore from '../../assets/icon/icon-more-vertical.svg';
 import ModalContainer from '../common/modal/ModalContainer';
 import ModalList from '../common/modal/ModalList';
-import { useRouteMatch } from 'react-router-dom';
+import { useHistory, useRouteMatch } from 'react-router-dom';
 import { axiosRemoveComment } from '../../apis/postApi';
 import { getUserInfo } from '../../utils/userInfo';
 
@@ -63,6 +63,8 @@ const Comment = styled.p`
 
 export default function CommentItem({ comment, setComments }) {
   const match = useRouteMatch();
+  const history = useHistory();
+
   const [modalOpen, setModalOpen] = useState(false);
   const modalRef = useRef();
 
@@ -135,6 +137,10 @@ export default function CommentItem({ comment, setComments }) {
     }
   }
 
+  function handleMoveProfile() {
+    history.push(`/profile/${comment.author.accountname}`);
+  }
+
   return (
     <>
       <CommentItemWrap>
@@ -143,8 +149,11 @@ export default function CommentItem({ comment, setComments }) {
             size='tiny'
             src={comment.author.image}
             alt='댓글 작성자 프로필 이미지'
+            onClick={handleMoveProfile}
           />
-          <UserName>{comment.author.username}</UserName>
+          <UserName onClick={handleMoveProfile}>
+            {comment.author.username}
+          </UserName>
           <CreatedTime>{timeSet()}</CreatedTime>
           <ViewMoreBtn onClick={handleModalOpen}>
             <ViewMore src={viewMore} alt='더 보기' />
