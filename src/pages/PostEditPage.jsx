@@ -25,16 +25,20 @@ const TextArea = styled.textarea`
   color: var(--paragraph-text-color);
   height: 280px;
   cursor: text;
+
   &::placeholder {
     color: var(--border-gray);
   }
+
   &::-webkit-scrollbar {
     width: 10px;
   }
+
   &::-webkit-scrollbar-track {
     background-color: var(--border-gray);
     border-radius: 10px;
   }
+
   &::-webkit-scrollbar-thumb {
     background-color: var(--main-color);
     border-radius: 10px;
@@ -42,7 +46,7 @@ const TextArea = styled.textarea`
 `;
 
 //이미지 업로드 시 뜨는 프리뷰 창 ol > li > img, button
-const UploadedImgListWrap = styled.ol`
+const UploadedImgList = styled.ol`
   margin-top: 16px;
   white-space: nowrap;
   overflow-y: hidden;
@@ -52,7 +56,7 @@ const UploadedImgListWrap = styled.ol`
   }
 `;
 
-const UploadedImgList = styled.li`
+const UploadedImgWrap = styled.li`
   display: inline-block;
   position: relative;
   margin-right: 8px;
@@ -223,9 +227,9 @@ export default function PostEditPage({ ...props }) {
             onChange={handleTextAreaValidCheck}
           />
           {!!imgBlob.length && (
-            <UploadedImgListWrap>
+            <UploadedImgList>
               {imgBlob.map((image, index) => (
-                <UploadedImgList key={index}>
+                <UploadedImgWrap key={index}>
                   <UploadedImg
                     style={
                       imgBlob.length === 1
@@ -242,9 +246,9 @@ export default function PostEditPage({ ...props }) {
                   >
                     <img src={deleteBtnImg} alt='이미지 삭제 버튼' />
                   </ImgDeleteBtn>
-                </UploadedImgList>
+                </UploadedImgWrap>
               ))}
-            </UploadedImgListWrap>
+            </UploadedImgList>
           )}
         </form>
         <label htmlFor='imgUpload' title='이미지 파일 업로드'>
