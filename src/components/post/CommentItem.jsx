@@ -113,6 +113,27 @@ export default function CommentItem({ comment, setComments }) {
     };
   }, [modalOpen]);
 
+  let timeMessage = '';
+
+  function timeSet() {
+    const commentDate = Date.parse(comment.createdAt);
+    const now = Date.now();
+    const commentTime = Math.floor((now - commentDate) / 1000 / 60);
+    const commentDay = Math.floor((now - commentDate) / 1000 / 60 / 60 / 24);
+
+    if (commentTime < 1) {
+      timeMessage = '방금 전';
+    } else if (commentTime < 60) {
+      timeMessage = `${commentTime}분 전`;
+    } else if (7 >= commentDay > 0 && commentDay !== 0) {
+      timeMessage = `${commentDay}일 전`;
+    } else {
+      timeMessage = comment.createdAt.slice(0, 10);
+    }
+  }
+
+  timeSet();
+
   return (
     <>
       <CommentItemWrap>
@@ -123,7 +144,7 @@ export default function CommentItem({ comment, setComments }) {
             alt='댓글 작성자 프로필 이미지'
           />
           <UserName>{comment.author.username}</UserName>
-          <CreatedTime>{comment.author.createAt}</CreatedTime>
+          <CreatedTime>{timeMessage}</CreatedTime>
           <ViewMoreBtn onClick={handleModalOpen}>
             <ViewMore src={viewMore} alt='더 보기' />
           </ViewMoreBtn>
