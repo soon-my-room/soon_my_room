@@ -86,26 +86,17 @@ const HiddenUploadFileInput = styled.input`
 `;
 
 export default function PostEditPage({ ...props }) {
-  const textAreaRef = useRef();
-
-  useEffect(() => {
-    const { content, image } = props.location.state.post;
-    const images = image.split(',');
-
-    textAreaRef.current.value = content;
-    setImgBlob(images);
-    setImgData(images); // 이미지를 수정하면서 삭제했을 때 같은 인덱스를 삭제해야하기 때문에 여기도 넣어줌
-  }, []);
-
-  const [textAreaValid, setTextAreaValid] = useState(false);
   const [imgBlob, setImgBlob] = useState([]);
   const [imgData, setImgData] = useState([]);
+  const [possibleUpload, setPossibleUpload] = useState(false);
+
+  const textAreaRef = useRef();
 
   const userInfo = useCallback(getUserInfo(), []);
 
-  const handleTextAreaValid = ({ target }) => {
+  const handleTextAreaValidCheck = ({ target }) => {
     const textAreaLength = target.value.length;
-    textAreaLength ? setTextAreaValid(true) : setTextAreaValid(false);
+    textAreaLength ? setPossibleUpload(true) : setPossibleUpload(false);
   };
 
   const handleImgUpload = async (e) => {
@@ -135,12 +126,20 @@ export default function PostEditPage({ ...props }) {
     setImgData([...imgData, files]);
     setImgBlob([...imgBlob, URL.createObjectURL(files)]);
     e.target.value = '';
+
+    if (textAreaRef.current.value) {
+      setPossibleUpload(true);
+    }
   };
 
   //이미지 삭제 버튼 누르면 데이터와 프리뷰용 blob 둘다 제거.
   const handleImgDelete = (idx) => {
     setImgBlob(imgBlob.filter((_, index) => index !== idx));
     setImgData(imgData.filter((_, index) => index !== idx));
+
+    if (textAreaRef.current.value) {
+      setPossibleUpload(true);
+    }
   };
 
   //img를 load하는 과정에서 error가 발생하면 defaultImg 표시
@@ -188,11 +187,25 @@ export default function PostEditPage({ ...props }) {
     }
   };
 
+  useEffect(() => {
+    if (!props.location?.state?.post) {
+      props.history.push('/profile');
+      return;
+    }
+
+    const { content, image } = props.location?.state?.post;
+    const images = image.split(',');
+
+    textAreaRef.current.value = content;
+    setImgBlob(images);
+    setImgData(images); // 이미지를 수정하면서 삭제했을 때 같은 인덱스를 삭제해야하기 때문에 여기도 넣어줌
+  }, []);
+
   return (
     <>
       <TopNavUpload
         buttonText='업로드'
-        buttonDisabled={!textAreaValid}
+        buttonDisabled={!possibleUpload}
         onClick={handleSubmit}
         {...props}
       />
@@ -207,7 +220,7 @@ export default function PostEditPage({ ...props }) {
             placeholder='게시글 입력하기...'
             cols='40'
             ref={textAreaRef}
-            onChange={handleTextAreaValid}
+            onChange={handleTextAreaValidCheck}
           />
           {!!imgBlob.length && (
             <UploadedImgListWrap>
