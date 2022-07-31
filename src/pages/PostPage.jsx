@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import TopNavBasic from '../components/common/nav/TopNavBasic';
 import PostItem from '../components/post/PostItem';
 import CommentAddBox from '../components/post/CommentAddBox';
 import CommentItem from '../components/post/CommentItem';
-import { axiosGetPostComments } from '../apis/postApi';
+import { axiosGetPostComments, axiosGetPostDetail } from '../apis/postApi';
 
 const PostItemWrap = styled.main`
   margin: 20px 16px 24px;
@@ -21,20 +21,32 @@ const CommentListWrap = styled.section`
   }
 `;
 export default function PostPage({ location, match, ...props }) {
+  const [postId] = useState(match.params.post_id);
+
+  const [post, setPost] = useState();
   const [comments, setComments] = useState([]);
 
   useEffect(() => {
-    const { post_id } = match.params;
-    axiosGetPostComments(post_id).then(({ comments }) => {
+    axiosGetPostDetail(postId).then(({ post }) => {
+      setPost(post);
+    });
+
+    axiosGetPostComments(postId).then(({ comments }) => {
       setComments(comments);
     });
   }, []);
+
+  useEffect(() => {
+    axiosGetPostDetail(postId).then(({ post }) => {
+      setPost(post);
+    });
+  }, [comments]);
 
   return (
     <>
       <TopNavBasic viewMore {...props} />
       <PostItemWrap>
-        <PostItem post={location.state.post} />
+        {post && <PostItem post={post} />}
         <CommentListWrap>
           {comments.map((comment) => (
             <CommentItem
