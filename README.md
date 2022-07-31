@@ -193,13 +193,14 @@ axios": "^0.27.2"
 ### 🔗 [2) 프로필 및 검색](https://github.com/soon-my-room/soon_my_room/wiki/%F0%9F%8F%A1%F0%9F%A6%AB-%EA%B8%B0%EB%8A%A5-%EC%83%81%EC%84%B8-%EC%84%A4%EB%AA%85#-%EA%B2%80%EC%83%89)
 |프로필 수정하기|상대방 프로필|팔로우 및 팔로잉|검색
 |:-:|:-:|:-:|:-:|
-|![profile-update](https://user-images.githubusercontent.com/78894678/181936664-bbb5b1ed-6027-407f-831f-37f9c5eaba70.gif)|![profile-otherprofile](https://user-images.githubusercontent.com/78894678/181930890-881a3391-1c0e-4ac9-95c0-6af9a8432987.gif)|![profile-follower:follwing](https://user-images.githubusercontent.com/78894678/181936683-645be980-5a58-45e1-9705-1741ddc5b0a5.gif)|![search](https://user-images.githubusercontent.com/78894678/181929084-5d3b756e-14a8-4958-81e5-d28311bdd052.gif)|
+|![profile-update](https://user-images.githubusercontent.com/78894678/181936664-bbb5b1ed-6027-407f-831f-37f9c5eaba70.gif)|![profile-otherprofile](https://user-images.githubusercontent.com/78894678/181930890-881a3391-1c0e-4ac9-95c0-6af9a8432987.gif)|![profile-follower:follwing](https://user-images.githubusercontent.com/78894678/181936683-645be980-5a58-45e1-9705-1741ddc5b0a5.gif)|![search](https://user-images.githubusercontent.com/78894678/182036932-803afb93-80f9-4517-9c1f-a65fd506cc52.gif)|
 |프로필 수정 페이지에서 <br> 사진, 이름, 소개를 수정할 수 있습니다.|상대방 프로필을 정보를 <br>확인할 수 있습니다|프로필 페이지에서 팔로워 및 팔로잉한 <br>다른 계정을 확인할 수 있습니다|다른 사용자들의 계정을 <br> 검색할 수 있습니다|
 
 ### 🔗 [3) 게시글](https://github.com/soon-my-room/soon_my_room/wiki/%F0%9F%8F%A1%F0%9F%A6%AB-%EA%B8%B0%EB%8A%A5-%EC%83%81%EC%84%B8-%EC%84%A4%EB%AA%85#-%EA%B2%8C%EC%8B%9C%EA%B8%80)
 |게시글 작성|게시글 상세|게시글 수정|게시글 삭제|
 |:-:|:-:|:-:|:-:|
-|![post-create(2)](https://user-images.githubusercontent.com/78894678/181934201-469b3670-542f-49a1-af5f-db3b5c07dea3.gif)|![post-detail(comment)](https://user-images.githubusercontent.com/78894678/181933588-1ed59782-f33d-4e58-95df-fae65dab5460.gif)|![post-delete](https://user-images.githubusercontent.com/78894678/181933632-f24c597d-b71e-43e8-b64b-56533b664d5c.gif)|![post-delete](https://user-images.githubusercontent.com/78894678/181933632-f24c597d-b71e-43e8-b64b-56533b664d5c.gif)|
+|![post-create(3)](https://user-images.githubusercontent.com/78894678/182036916-15b38237-29ef-486a-b2a4-200e6a063083.gif)
+|![post-detail(comment)](https://user-images.githubusercontent.com/78894678/181933588-1ed59782-f33d-4e58-95df-fae65dab5460.gif)|![post-update](https://user-images.githubusercontent.com/78894678/182036921-a2d7453b-1626-4a24-81ac-4841620f7b29.gif)|![post-delete](https://user-images.githubusercontent.com/78894678/181933632-f24c597d-b71e-43e8-b64b-56533b664d5c.gif)|
 |사진을 등록하고, 글을 입력하여 <br> 게시글을 등록할 수 있습니다.|게시글 상세 화면에서 <br>댓글을 작성할 수 있습니다.|게시글을 수정할 수 있습니다.|게시글을 삭제할 수 있습니다.|
 
 ### 🔗 [4) 상품](https://github.com/soon-my-room/soon_my_room/wiki/%F0%9F%8F%A1%F0%9F%A6%AB-%EA%B8%B0%EB%8A%A5-%EC%83%81%EC%84%B8-%EC%84%A4%EB%AA%85#-%EC%83%81%ED%92%88)
@@ -211,7 +212,7 @@ axios": "^0.27.2"
 ### 🔗 [5) 댓글 및 좋아요](https://github.com/soon-my-room/soon_my_room/wiki/%F0%9F%8F%A1%F0%9F%A6%AB-%EA%B8%B0%EB%8A%A5-%EC%83%81%EC%84%B8-%EC%84%A4%EB%AA%85#-%EB%8C%93%EA%B8%80)
 |댓글 등록|댓글 삭제|좋아요 누르기|
 |:-:|:-:|:-:|
-|![comment-create](https://user-images.githubusercontent.com/78894678/181933709-b68e7be2-5fc7-41e2-8ace-defdd22bd685.gif)|![comment-delete](https://user-images.githubusercontent.com/78894678/181933716-408ed50d-862a-4992-a88a-3ba10e12c5d7.gif)|![like](https://user-images.githubusercontent.com/78894678/181933802-8f9ba32d-b68b-43e1-95c8-dab69823c00b.gif)|
+|![comment-create(2)](https://user-images.githubusercontent.com/78894678/182036913-29adca03-ac8d-4c35-9d2e-fe6308557226.gif)|![comment-delete](https://user-images.githubusercontent.com/78894678/181933716-408ed50d-862a-4992-a88a-3ba10e12c5d7.gif)|![like](https://user-images.githubusercontent.com/78894678/181933802-8f9ba32d-b68b-43e1-95c8-dab69823c00b.gif)|
 |댓글을 등록할 수 있습니다.|자신이 작성한 댓글을 삭제할 수 있습니다.|게시글에 좋아요 버튼을 클릭할 수 있습니다.|
 
 
