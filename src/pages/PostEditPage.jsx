@@ -25,16 +25,20 @@ const TextArea = styled.textarea`
   color: var(--paragraph-text-color);
   height: 280px;
   cursor: text;
+
   &::placeholder {
     color: var(--border-gray);
   }
+
   &::-webkit-scrollbar {
     width: 10px;
   }
+
   &::-webkit-scrollbar-track {
     background-color: var(--border-gray);
     border-radius: 10px;
   }
+
   &::-webkit-scrollbar-thumb {
     background-color: var(--main-color);
     border-radius: 10px;
@@ -42,7 +46,7 @@ const TextArea = styled.textarea`
 `;
 
 //이미지 업로드 시 뜨는 프리뷰 창 ol > li > img, button
-const UploadedImgListWrap = styled.ol`
+const UploadedImgList = styled.ol`
   margin-top: 16px;
   white-space: nowrap;
   overflow-y: hidden;
@@ -52,7 +56,7 @@ const UploadedImgListWrap = styled.ol`
   }
 `;
 
-const UploadedImgList = styled.li`
+const UploadedImgWrap = styled.li`
   display: inline-block;
   position: relative;
   margin-right: 8px;
@@ -100,32 +104,27 @@ export default function PostEditPage({ ...props }) {
   };
 
   const handleImgUpload = async (e) => {
-    const files = e.target.files[0];
+    const files = e.target.files;
     const maxValue = 10 * 1024 * 1024;
 
-    //파일 3장까지만 받도록 처리.
-    if (imgBlob.length > 2) {
-      // setImgBlob(imgBlob.slice(0, 3));
-      alert('3개 이하의 파일을 업로드 하세요.');
-      return;
-    }
+    for (const file of files) {
+      //파일 타입, 사이즈 유효성 체크 후 데이터 state와 프리뷰용 blob state에 넣어주기.
+      if (file.size > maxValue) {
+        e.target.value = null;
+        alert('파일의 용량이 10MB를 초과했습니다.');
+        return;
+      }
 
-    //파일 타입, 사이즈 유효성 체크 후 데이터 state와 프리뷰용 blob state에 넣어주기.
-    if (files.type === '') {
-      e.target.value = null;
-      alert('이미지 파일만 업로드가 가능합니다.');
-      return;
-    }
+      //파일 3장까지만 받도록 처리.
+      if (imgBlob.length > 2) {
+        // setImgBlob(imgBlob.slice(0, 3));
+        alert('3개 이하의 파일을 업로드 하세요.');
+        return;
+      }
 
-    if (files.size > maxValue) {
-      e.target.value = null;
-      alert('파일의 용량이 10MB를 초과했습니다.');
-      return;
+      setImgData((prev) => [...prev, file]);
+      setImgBlob((prev) => [...prev, URL.createObjectURL(file)]);
     }
-
-    setImgData([...imgData, files]);
-    setImgBlob([...imgBlob, URL.createObjectURL(files)]);
-    e.target.value = '';
 
     if (textAreaRef.current.value) {
       setPossibleUpload(true);
@@ -223,9 +222,9 @@ export default function PostEditPage({ ...props }) {
             onChange={handleTextAreaValidCheck}
           />
           {!!imgBlob.length && (
-            <UploadedImgListWrap>
+            <UploadedImgList>
               {imgBlob.map((image, index) => (
-                <UploadedImgList key={index}>
+                <UploadedImgWrap key={index}>
                   <UploadedImg
                     style={
                       imgBlob.length === 1
@@ -242,9 +241,9 @@ export default function PostEditPage({ ...props }) {
                   >
                     <img src={deleteBtnImg} alt='이미지 삭제 버튼' />
                   </ImgDeleteBtn>
-                </UploadedImgList>
+                </UploadedImgWrap>
               ))}
-            </UploadedImgListWrap>
+            </UploadedImgList>
           )}
         </form>
         <label htmlFor='imgUpload' title='이미지 파일 업로드'>
