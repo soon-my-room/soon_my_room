@@ -7,13 +7,12 @@ import JoinPage from './pages/JoinPage';
 import FeedPage from './pages/FeedPage';
 import FollowPage from './pages/FollowPage';
 import ProfileEditPage from './pages/ProfileEditPage';
-import PostAddPage from './pages/PostAddPage';
 import PostPage from './pages/PostPage';
 import SearchPage from './pages/SearchPage';
 import ProfilePage from './pages/ProfilePage';
 import PrivateRoute from './utils/route/PrivateRoute';
 import ProductPage from './pages/ProductPage';
-import PostEditPage from './pages/PostEditPage';
+import PostUploadPage from './pages/PostUploadPage';
 
 function App() {
   return (
@@ -35,11 +34,8 @@ function App() {
         <PrivateRoute path={['/product/add', '/product/edit']}>
           <ProductPage />
         </PrivateRoute>
-        <PrivateRoute path='/post/add' exact>
-          <PostAddPage />
-        </PrivateRoute>
-        <PrivateRoute path='/post/edit' exact>
-          <PostEditPage />
+        <PrivateRoute path={['/post/add', '/post/edit']} exact>
+          <PostUploadPage />
         </PrivateRoute>
         <Route path='/post/:post_id' exact component={PostPage} />
         <Route path='/search' exact component={SearchPage} />
