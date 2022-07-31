@@ -27,15 +27,28 @@ const NavContainer = styled.div`
   z-index: 1;
 `;
 
+const Title = styled.h1`
+  margin: 13px 0px 13px 16px;
+  text-align: left;
+  color: var(--main-title-color);
+  font-family: 'Spoqa Han Sans Neo';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 22px;
+`;
+
 export default function FeedPage(props) {
   const [followingFeedList, setFollowingFeedList] = useState([]);
+  const [isRefresh, setIsRefresh] = useState(false);
   useEffect(() => {
     axiosGetFollowingFeedList().then(setFollowingFeedList);
-  }, []);
+  }, [isRefresh]);
 
   return (
     <HomeContainer>
       <NavContainer>
+        <Title onClick={() => setIsRefresh(!isRefresh)}>금방내방 피드</Title>
         <TopNavHome />
       </NavContainer>
       {followingFeedList.length ? (
