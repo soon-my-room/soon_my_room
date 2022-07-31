@@ -196,11 +196,11 @@ axios": "^0.27.2"
 |![profile-update](https://user-images.githubusercontent.com/78894678/181936664-bbb5b1ed-6027-407f-831f-37f9c5eaba70.gif)|![profile-otherprofile](https://user-images.githubusercontent.com/78894678/181930890-881a3391-1c0e-4ac9-95c0-6af9a8432987.gif)|![profile-follower:follwing](https://user-images.githubusercontent.com/78894678/181936683-645be980-5a58-45e1-9705-1741ddc5b0a5.gif)|![search](https://user-images.githubusercontent.com/78894678/182036932-803afb93-80f9-4517-9c1f-a65fd506cc52.gif)|
 |프로필 수정 페이지에서 <br> 사진, 이름, 소개를 수정할 수 있습니다.|상대방 프로필을 정보를 <br>확인할 수 있습니다|프로필 페이지에서 팔로워 및 팔로잉한 <br>다른 계정을 확인할 수 있습니다|다른 사용자들의 계정을 <br> 검색할 수 있습니다|
 
+
 ### 🔗 [3) 게시글](https://github.com/soon-my-room/soon_my_room/wiki/%F0%9F%8F%A1%F0%9F%A6%AB-%EA%B8%B0%EB%8A%A5-%EC%83%81%EC%84%B8-%EC%84%A4%EB%AA%85#-%EA%B2%8C%EC%8B%9C%EA%B8%80)
 |게시글 작성|게시글 상세|게시글 수정|게시글 삭제|
 |:-:|:-:|:-:|:-:|
-|![post-create(3)](https://user-images.githubusercontent.com/78894678/182036916-15b38237-29ef-486a-b2a4-200e6a063083.gif)
-|![post-detail(comment)](https://user-images.githubusercontent.com/78894678/181933588-1ed59782-f33d-4e58-95df-fae65dab5460.gif)|![post-update](https://user-images.githubusercontent.com/78894678/182036921-a2d7453b-1626-4a24-81ac-4841620f7b29.gif)|![post-delete](https://user-images.githubusercontent.com/78894678/181933632-f24c597d-b71e-43e8-b64b-56533b664d5c.gif)|
+|![post-create(3)](https://user-images.githubusercontent.com/78894678/182036916-15b38237-29ef-486a-b2a4-200e6a063083.gif)|![post-detail(comment)](https://user-images.githubusercontent.com/78894678/181933588-1ed59782-f33d-4e58-95df-fae65dab5460.gif)|![post-update(2)](https://user-images.githubusercontent.com/78894678/182037278-9874e3c6-55eb-4cc7-a5d6-4de04c61ca1c.gif)|![post-delete](https://user-images.githubusercontent.com/78894678/181933632-f24c597d-b71e-43e8-b64b-56533b664d5c.gif)|
 |사진을 등록하고, 글을 입력하여 <br> 게시글을 등록할 수 있습니다.|게시글 상세 화면에서 <br>댓글을 작성할 수 있습니다.|게시글을 수정할 수 있습니다.|게시글을 삭제할 수 있습니다.|
 
 ### 🔗 [4) 상품](https://github.com/soon-my-room/soon_my_room/wiki/%F0%9F%8F%A1%F0%9F%A6%AB-%EA%B8%B0%EB%8A%A5-%EC%83%81%EC%84%B8-%EC%84%A4%EB%AA%85#-%EC%83%81%ED%92%88)
