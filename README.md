@@ -40,7 +40,7 @@
 - Back-End: 제공된 API 사용
 - 서비스 배포 환경: 🔗 [vercel](soon-my-room.vercel.app)
 - 버전 관리 및 이슈: [GitHub-Wiki](https://github.com/soon-my-room/soon_my_room/wiki) | [GitHub-Issues](https://github.com/soon-my-room/soon_my_room/issues)
-- Github-Flow
+- Git-Flow
 
 ```
 react-router-dom": "^5.2.0"
