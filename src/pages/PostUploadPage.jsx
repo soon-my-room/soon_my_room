@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
-import TopNavUpload from '../components/common/nav/TopNavUpload';
+import TopNavBasic from '../components/common/nav/TopNavBasic';
 import UserProfile from '../components/profileImg/UserProfileImg';
 import defaultImg from '../assets/symbol-logo-gray.png';
 import uploadFile from '../assets/upload-file.svg';
@@ -8,6 +8,11 @@ import deleteBtnImg from '../assets/icon/x.svg';
 import { getUserInfo } from '../utils/userInfo';
 import { axiosImageSave } from '../apis/imageApi';
 import { axiosEditPost, axiosWritePost } from '../apis/postApi';
+import Button from '../components/common/button/Button';
+
+const PostUploadWrap = styled.div`
+  position: relative;
+`;
 
 const FormAreaWrap = styled.section`
   margin: 20px 16px 0;
@@ -89,6 +94,12 @@ const HiddenUploadFileInput = styled.input`
   display: none;
 `;
 
+const UploadFormButton = styled(Button)`
+  position: absolute;
+  top: 7px;
+  right: 15px;
+`;
+
 export default function PostEditPage({ ...props }) {
   const [imgBlob, setImgBlob] = useState([]);
   const [imgData, setImgData] = useState([]);
@@ -146,7 +157,9 @@ export default function PostEditPage({ ...props }) {
     e.target.src = defaultImg;
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
     let imageUrlList = [];
 
     // 새롭게 등록된 이미지를 처리하는 로직
@@ -219,13 +232,8 @@ export default function PostEditPage({ ...props }) {
   }, []);
 
   return (
-    <>
-      <TopNavUpload
-        buttonText='업로드'
-        buttonDisabled={!possibleUpload}
-        onClick={handleSubmit}
-        {...props}
-      />
+    <PostUploadWrap>
+      <TopNavBasic {...props} />
       <FormAreaWrap>
         <form>
           <AuthorProfile
@@ -263,6 +271,13 @@ export default function PostEditPage({ ...props }) {
               ))}
             </UploadedImgList>
           )}
+          <UploadFormButton
+            small
+            disabled={!possibleUpload}
+            onClick={handleSubmit}
+          >
+            업로드
+          </UploadFormButton>
         </form>
         <label htmlFor='imgUpload' title='이미지 파일 업로드'>
           <UploadFileImage src={uploadFile} alt='이미지 파일 업로드' />
@@ -275,6 +290,6 @@ export default function PostEditPage({ ...props }) {
           onChange={handleImgUpload}
         />
       </FormAreaWrap>
-    </>
+    </PostUploadWrap>
   );
 }
