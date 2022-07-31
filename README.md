@@ -185,9 +185,9 @@ axios": "^0.27.2"
 ## 6. 구현 기능 🛠
 
 ### 🔗 [1) 홈](https://github.com/soon-my-room/soon_my_room/wiki/%F0%9F%8F%A1%F0%9F%A6%AB-%EA%B8%B0%EB%8A%A5-%EC%83%81%EC%84%B8-%EC%84%A4%EB%AA%85#-%ED%99%88)
-|Splash|로그인|회원가입|금방내방 피드|
+|Splash|회원가입|로그인|금방내방 피드|
 |:-:|:-:|:-:|:-:|
-|![splash](https://user-images.githubusercontent.com/78894678/181926052-8bba5a3d-63ab-40f3-84c0-2044599e4020.gif)|![login](https://user-images.githubusercontent.com/78894678/181926062-d85bedfb-4f34-4da2-8a8d-8d68cb1c876d.gif)|![signup](https://user-images.githubusercontent.com/78894678/181926058-0481bcf7-060e-4de4-8e6c-ca7cdad9a81b.gif)|![feedpage](https://user-images.githubusercontent.com/78894678/181927276-343beb5b-35f2-430a-9380-b71bf456f8e0.gif)|
+|![splash](https://user-images.githubusercontent.com/78894678/181926052-8bba5a3d-63ab-40f3-84c0-2044599e4020.gif)|![signup](https://user-images.githubusercontent.com/78894678/181926058-0481bcf7-060e-4de4-8e6c-ca7cdad9a81b.gif)|![login](https://user-images.githubusercontent.com/78894678/181926062-d85bedfb-4f34-4da2-8a8d-8d68cb1c876d.gif)|![feedpage](https://user-images.githubusercontent.com/78894678/181927276-343beb5b-35f2-430a-9380-b71bf456f8e0.gif)|
 |서비스 접속시 <br>보이는 화면입니다.|이메일과 비밀번호를 입력하여<br> 회원가입할 수 있습니다.|이메일과 비밀번호를 입력하여<br> 로그인할 수 있습니다.|팔로우한 사용자들의 게시물을 <br> 확인할 수 있습니다.|
 
 ### 🔗 [2) 프로필 및 검색](https://github.com/soon-my-room/soon_my_room/wiki/%F0%9F%8F%A1%F0%9F%A6%AB-%EA%B8%B0%EB%8A%A5-%EC%83%81%EC%84%B8-%EC%84%A4%EB%AA%85#-%EA%B2%80%EC%83%89)
