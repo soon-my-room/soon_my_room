@@ -60,7 +60,7 @@ export default function ProductOnSales({
       <ProductContainer onClick={handleProductClick}>
         <ItemImage src={src} />
         <ItemName>{name}</ItemName>
-        <ItemPrice>{price}원</ItemPrice>
+        <ItemPrice>{price.toLocaleString('ko-KR')}원</ItemPrice>
       </ProductContainer>
     </>
   );
