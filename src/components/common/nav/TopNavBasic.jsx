@@ -50,24 +50,24 @@ export default function TopNavBasic({ title, viewMore, history }) {
   const [isLogoutModal, setIsLogoutModal] = useState(false);
   const profileModalRef = useRef();
 
-  function hendleOpenModal(e) {
+  function handleOpenModal(e) {
     setIsProfileModal(!isProfileModal);
     if (e.target === profileModalRef.current) {
       setIsProfileModal(true);
     }
   }
 
-  function userTokenDelete() {
+  function handleUserTokenDelete() {
     localStorage.clear();
     setIsLogoutModal(false);
     window.location.replace('/');
   }
 
-  function onCloseClick() {
+  function handleCloseClick() {
     setIsLogoutModal(false);
   }
 
-  function onLoginout(e) {
+  function handleLogOut(e) {
     e.stopPropagation();
     setIsProfileModal(false);
     setIsLogoutModal(!isLogoutModal);
@@ -78,23 +78,23 @@ export default function TopNavBasic({ title, viewMore, history }) {
       <Navigation>
         <BackButton type='button' onClick={() => history.goBack()} />
         {title && <Title>{title}</Title>}
-        {viewMore && <OpenModal onClick={hendleOpenModal} />}
+        {viewMore && <OpenModal onClick={handleOpenModal} />}
       </Navigation>
       {isProfileModal && (
-        <ModalContainer useRef={profileModalRef} onClick={hendleOpenModal}>
+        <ModalContainer useRef={profileModalRef} onClick={handleOpenModal}>
           <ModalList
             children='설정 및 개인정보'
             onClick={() => history.push('/profile')}
           />
-          <ModalList children='로그아웃' onClick={onLoginout} />
+          <ModalList children='로그아웃' onClick={handleLogOut} />
         </ModalContainer>
       )}
       {isLogoutModal && (
         <AlertModal
           title='로그아웃하시겠어요?'
           submitText='로그아웃'
-          onCloseClick={onCloseClick}
-          onSubmitText={userTokenDelete}
+          onCloseClick={handleCloseClick}
+          onSubmitClick={handleUserTokenDelete}
         />
       )}
     </>
