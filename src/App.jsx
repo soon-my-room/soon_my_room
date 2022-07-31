@@ -38,7 +38,9 @@ function App() {
           <PostUploadPage />
         </PrivateRoute>
         <Route path='/post/:post_id' exact component={PostPage} />
-        <Route path='/search' exact component={SearchPage} />
+        <PrivateRoute path='/search' exact>
+          <SearchPage />
+        </PrivateRoute>
         <Route path='/profile/:userId' exact component={ProfilePage} />
         <PrivateRoute path='/profile' exact>
           <ProfilePage />
