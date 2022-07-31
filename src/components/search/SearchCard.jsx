@@ -45,7 +45,7 @@ export default function SearchCard({ keyword, ...props }) {
 
     for (let i = 0; i < excludeMatchingWordArr.length * 2 - 1; i++) {
       if (i % 2 === 1) {
-        coloredWordArr.push(<ColoredWord>{keyword}</ColoredWord>);
+        coloredWordArr.push(<ColoredWord key={i}>{keyword}</ColoredWord>);
         continue;
       }
 
@@ -62,10 +62,14 @@ export default function SearchCard({ keyword, ...props }) {
           <UserProfileImg src={profileImageCheck(props.src)} size='medium' />
           <UserInfo>
             <UserName>
-              {changeColorMatchingWord(props.username).map((word) => word)}
+              {changeColorMatchingWord(props.username, keyword).map(
+                (word) => word,
+              )}
             </UserName>
             <UserId>
-              {changeColorMatchingWord(props.accountname).map((word) => word)}
+              {changeColorMatchingWord(props.accountname, keyword).map(
+                (word) => word,
+              )}
             </UserId>
           </UserInfo>
         </CardContainer>
