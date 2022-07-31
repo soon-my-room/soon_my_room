@@ -31,8 +31,20 @@ const SearchInput = styled.input`
 
 export default function SearchPage(props) {
   const [keyword, setKeyword] = useState('');
-  const searchRef = useRef();
   const [searchData, setSearchData] = useState([]);
+
+  const handleSearchInputChange = (e) => {
+    const searchValue = e.target.value;
+    if (!searchValue) {
+      setSearchData([]);
+      return;
+    }
+
+    axiosGetSearchResult(searchValue).then((result) => {
+      setSearchData(result);
+      setKeyword(searchValue);
+    });
+  };
 
   return (
     <>
@@ -41,15 +53,10 @@ export default function SearchPage(props) {
         <SearchInput
           type='text'
           placeholder='계정 검색'
-          onChange={() => {
-            const searchValue = searchRef.current.value;
-            setKeyword(searchValue);
-            axiosGetSearchResult(keyword).then(setSearchData);
-          }}
-          ref={searchRef}
+          onChange={handleSearchInputChange}
         />
       </Container>
-      <SearchCardList searchData={searchData} />
+      <SearchCardList keyword={keyword} searchData={searchData} />
       <BottomNavMenu type='feed' />
     </>
   );

@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import UserProfileImg from '../profileImg/UserProfileImg';
 import { Link } from 'react-router-dom';
+import { profileImageCheck } from '../../utils/defaultImage';
 
 const CardWrapper = styled.li``;
 
@@ -31,15 +32,41 @@ const UserId = styled.strong`
   color: var(--subtitle-text);
 `;
 
-export default function SearchCard(props) {
+const ColoredWord = styled.mark`
+  background-color: transparent;
+  color: #f26e22;
+`;
+
+export default function SearchCard({ keyword, ...props }) {
+  function changeColorMatchingWord(word, keyword) {
+    const excludeMatchingWordArr = word.split(keyword);
+    const coloredWordArr = [];
+    let k = 0;
+
+    for (let i = 0; i < excludeMatchingWordArr.length * 2 - 1; i++) {
+      if (i % 2 === 1) {
+        coloredWordArr.push(<ColoredWord>{keyword}</ColoredWord>);
+        continue;
+      }
+
+      coloredWordArr.push(excludeMatchingWordArr[i + k--]);
+    }
+
+    return coloredWordArr;
+  }
+
   return (
     <CardWrapper>
       <Link to={`/profile/${props.accountname}`}>
         <CardContainer>
-          <UserProfileImg src={props.src} size='medium' />
+          <UserProfileImg src={profileImageCheck(props.src)} size='medium' />
           <UserInfo>
-            <UserName>{props.username}</UserName>
-            <UserId>@ {props.accountname}</UserId>
+            <UserName>
+              {changeColorMatchingWord(props.username).map((word) => word)}
+            </UserName>
+            <UserId>
+              {changeColorMatchingWord(props.accountname).map((word) => word)}
+            </UserId>
           </UserInfo>
         </CardContainer>
       </Link>
