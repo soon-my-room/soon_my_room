@@ -321,23 +321,24 @@ axiosInstanceWithToken.interceptors.request.use((request) => {
 
 ## 8. 레슨런 및 고생담, 스페셜 포인트
 
-### 1) 기술적 측면
+### 1) 기술적 측면 
 
 - React 사용법
 - fetch와 axios를 이용한 API통신
 - Git flow 브랜치 전략
 - 깃 커밋 메시지 컨벤션
 
-### 2) 팀원 간 깃헙으로 커뮤니케이션 하는데에 어려움.
+### 2) 팀원 간 깃헙으로 커뮤니케이션 하는데에 어려움 
 
 - 커밋 단위를 작게 가져가기.
 - 이슈와 풀리퀘에 상세한 설명 달기.
 - 필요한 경우 주석 달기.
-- 로켓으로 머지 사인 날리기🚀
+- 로켓으로 머지 사인 날리기 🚀
 
-### 3) 기술적인 부분을 더 겪어본 팀원과 덜 겪어본 팀원과 커뮤니케이션이 어려웠던 이유.
+### 3) 기술적인 부분을 더 겪어본 팀원과 덜 겪어본 팀원과 커뮤니케이션이 어려웠던 이유
 
-- 고생한 것을 쉽게 끝내버릴까봐 기다려주는 팀원, 단서가 될만한 한마디를 들으려면 어떻게 질문해야하는지부터가 막막한 팀원.
+- 고생한 것을 쉽게 끝내버릴까봐 기다려주는 팀원 🤔
+- 단서가 될만한 한마디를 들으려면 어떻게 질문해야하는지부터가 막막한 팀원 😯
 - 데일리스크럼을 통한 상황공유가 첫번째 해결책. 그 외에 코드 설명하는 영상을 찍어서 다시 볼 수 있게끔 해주거나 막연한 질문을 받아적어서 이해해보려는 노력 등이 오갔다.
 
 ### 4) 게시글 작성 기능의 수렁
@@ -346,34 +347,37 @@ axiosInstanceWithToken.interceptors.request.use((request) => {
   - `URL.createObjectURL`로는 프리뷰 이미지 만들고, `readAsDataURL`로는 파일 읽고, `formData`에 읽은 파일들 append하고, `formData`에 들어간 배열 요소들을 연결하여 하나의 문자열로 API에 전송.
   - 가장 어려웠던 점 : 질문 후 힌트 코드를 서너번 받았음에도 내 코드에 적용을 못했고 어디서부터 다시 이해해야할지 막막했다.
   - 레슨런: 번아웃이 가깝게 왔지만 끝까지 붙잡고 완벽하진 않아도 작동하게 만든 것은 성공. 더 끈질기게 질문하진 못해서 시간이 많이 소요된 것은 아쉬운 점. 팀프로젝트인만큼 속도 또한 퀄리티 요소로 생각해야했다.
+  <div align='center'>
+  <img src='https://user-images.githubusercontent.com/87015026/182064553-b5513531-4cf5-418c-ab83-95d27112d594.png' width='500'/>
+  </div>
   
-  ![Untitled](https://user-images.githubusercontent.com/87015026/182064553-b5513531-4cf5-418c-ab83-95d27112d594.png)
-
-- 레슨런: 반은 성공이고 반은 실패. 번아웃이 가깝게 왔지만 끝까지 붙잡고 완벽하진 않아도 작동하게 만든 것은 성공. 더 끈질기게 질문하진 못해서 시간이 많이 소요된 것은 실패. 팀프로젝트인만큼 속도 또한 퀄리티 요소로 생각해야했다.
-
-![Untitled](https://user-images.githubusercontent.com/87015026/182064553-b5513531-4cf5-418c-ab83-95d27112d594.png)
-
 ### 5) 스페셜포인트
 
 - 배터디룸
   - 팀원분 집에서 같이 지내며 프로젝트를 진행, 온전히 프로그래밍에만 집중할 수 있는 뜻깊은 경험.
-  - 언제든지 방문해서 함께 코딩 가능한 공간.
-
-![image](https://user-images.githubusercontent.com/87015026/182065943-268cfa09-2b69-4688-a8c3-aa5667be32e2.png)
+  - 언제든지 방문해서 함께 코딩 가능한 공간.  
+  <br/>
+  <div align='center'>
+  <img src='https://user-images.githubusercontent.com/87015026/182065943-268cfa09-2b69-4688-a8c3-aa5667be32e2.png' width='500'/>
+  </div>
 
 - 밤샘 줌
   - 줌 시간 무제한 결제.
   - 빠른 의사결정.
-  - 원격 제어를 통한 페어프로그래밍.
-
-![Untitled (1)](https://user-images.githubusercontent.com/87015026/182064854-a436fa05-f2ee-4fbd-88f0-5a23aa2f188f.png)
-
+  - 원격 제어를 통한 페어프로그래밍.  
+  <br/>
+  <div align='center'>
+  <img src='https://user-images.githubusercontent.com/87015026/182064854-a436fa05-f2ee-4fbd-88f0-5a23aa2f188f.png' width='500'/>
+  </div>
+  
 - 구글 스프레드 시트와 데일리 스크럼
   - 아침 9시 30분에 오늘 진행할 일과 도움 청할 일을 간단히 공유.
   - 구글 스프레드 시트를 이용하여 참여도 활성화.
-
-![Untitled (2)](https://user-images.githubusercontent.com/87015026/182064879-fcd2a3f5-2c9c-4cf9-beaa-a5054604e37f.png)
-![Untitled (3)](https://user-images.githubusercontent.com/87015026/182064865-e1745d00-a6eb-4669-9fc0-d1ebfae7d6f5.png)
+  <br/>
+  <div align='center'>
+  <img src='https://user-images.githubusercontent.com/87015026/182064865-e1745d00-a6eb-4669-9fc0-d1ebfae7d6f5.png' width='500'/>
+  <img src='https://user-images.githubusercontent.com/87015026/182064879-fcd2a3f5-2c9c-4cf9-beaa-a5054604e37f.png' width='500'/>
+  </div>
 
 <!-- ## 6. 개발 이슈 💡 -->
 
