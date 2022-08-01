@@ -303,7 +303,7 @@ export const axiosInstanceWithToken = axios.create({
 });
 ```
 
-그리고 axios의 인터셉터를 이용해서 request 보내기 이전에 토큰정보가 있는지 확인하고 토큰정보가 존재하면 요청을 보낼 수 있도록 했습니다.
+그리고 axios의 인터셉터를 이용해서 request 보내기 이전에 토큰정보가 있는지 확인하고 토큰정보가 존재하면 요청을 보낼 수 있도록 개발을 했습니다.
 
 ```js
 axiosInstanceWithToken.interceptors.request.use((request) => {
@@ -318,6 +318,20 @@ axiosInstanceWithToken.interceptors.request.use((request) => {
   return request;
 });
 ```
+
+axios api는 apis 폴더에 따로 분리해서 작성하고 axios를 사용하는곳에서는 사용할 모듈을 import하여 사용할 수 있도록 만들었습니다. 
+```js
+export const axiosGetPostDetail = async (postId) => {
+  try {
+    const { data } = await axiosInstanceWithToken.get(`/post/${postId}`);
+    return data;
+  } catch (error) {
+    console.error('axiosGetPostDetail error', error);
+  }
+};
+```
+
+
 
 ## 8. 레슨런 및 고생담, 스페셜 포인트
 
