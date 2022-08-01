@@ -214,7 +214,110 @@ axios": "^0.27.2"
 |![comment-create(2)](https://user-images.githubusercontent.com/78894678/182036913-29adca03-ac8d-4c35-9d2e-fe6308557226.gif)|![comment-delete(3)](https://user-images.githubusercontent.com/78894678/182058908-c8e5f893-d8d7-4966-abb5-fc5d9208e6e3.gif)|![like](https://user-images.githubusercontent.com/78894678/181933802-8f9ba32d-b68b-43e1-95c8-dab69823c00b.gif)|
 |댓글을 등록할 수 있습니다.|자신이 작성한 댓글을 삭제할 수 있습니다.|게시글에 좋아요 버튼을 클릭할 수 있습니다.|
 
-## 7. 레슨런 및 고생담, 스페셜 포인트
+## 7. 핵심 코드
+
+### 1) Private Route
+
+기존에 페이지마다 useEffect를 이용해서 유저 정보를 확인했는데 이러한 중복코드가 발생해서 커스텀 라우터를 개발했습니다.   
+
+```js
+useEffect(() => {
+	 const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+	 const token = userInfo?.token;
+
+	  if (!token) {
+	    props.history.push('/login');
+	    return;
+	  }
+}, []);
+```
+
+페이지에 들어올 때 유저정보가 존재하지않다면 로그인 화면으로 보낼 수 있도록 구현했습니다.
+
+```js
+export default function PrivateRoute({ children, ...rest }) {
+  const userInfo = getUserInfo();
+
+  return (
+    <Route
+      {...rest}
+      render={(props) =>
+        userInfo ? (
+          React.cloneElement(children, { ...props })
+        ) : (
+          <Redirect
+            to={{
+              pathname: '/login',
+              state: { from: props.location },
+            }}
+          />
+        )
+      }
+    />
+  );
+}
+```
+
+커스텀 라우터를 사용할 때는 아래와 같이 사용할 수 있습니다.
+
+```js
+<PrivateRoute path='/profile' exact>
+		<ProfilePage />
+</PrivateRoute>
+```
+
+### 2) API
+
+기존에 Fetch를 이용해서 API 통신을 했는데, 중복된 코드가 너무 많이 생긴다고 생각했습니다.  
+
+```js
+async function handlePostDeleteRequest(token) {
+    const url = 'https://mandarin.api.weniv.co.kr';
+    const reqPath = `/post/${id}`;
+    try {
+      const res = await fetch(url + reqPath, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-type': 'application/json',
+        },
+      });
+      const resData = await res.json();
+      return resData;
+    } catch (err) {
+      console.error('error');
+    }
+  }
+```
+
+그래서 axios를 도입하고, axios instance 만들어서 url과 header를 저장했습니다. 
+
+```js
+export const axiosInstanceWithToken = axios.create({
+  baseURL: API_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+```
+
+그리고 axios의 인터셉터를 이용해서 request 보내기 이전에 토큰정보가 있는지 확인하고 토큰정보가 존재하면 요청을 보낼 수 있도록 했습니다. 
+
+```js
+axiosInstanceWithToken.interceptors.request.use((request) => {
+  // axiosInstanceWithToken에서 토큰이 존재하지 않으면 서버에 request를 보내지 않습니다.
+  const { token } = getUserInfo();
+  if (!token) {
+    throw new Error('토큰이 없습니다. 다시 로그인해주세요.');
+  }
+
+  // 토큰이 존재하면 headers에 토큰을 넣어서 서버에 request를 보냅니다.
+  request.headers.Authorization = `Bearer ${token}`;
+  return request;
+});
+```
+
+## 8. 레슨런 및 고생담, 스페셜 포인트
 ### 1) 기술적 측면
 - React 사용법
 - fetch와 axios를 이용한 API통신
@@ -236,6 +339,7 @@ axios": "^0.27.2"
   - 가장 어려웠던 점 : 질문 후 힌트 코드를 서너번 받았음에도 내 코드에 적용을 못했고 어디서부터 다시 이해해야할지 막막했다.
   - URL.createObjectURL로는 프리뷰 이미지 만들고, readAsDataURL로는 파일 읽고, formData에 읽은 파일들 append하고, formData에 들어간 배열 요소들을 연결하여 하나의 문자열로 API에 전송.
   - 레슨런: 반은 성공이고 반은 실패. 번아웃이 가깝게 왔지만 끝까지 붙잡고 완벽하진 않아도 작동하게 만든 것은 성공. 더 끈질기게 질문하진 못해서 시간이 많이 소요된 것은 실패. 팀프로젝트인만큼 속도 또한 퀄리티 요소로 생각해야했다.
+  - 
   ![Untitled](https://user-images.githubusercontent.com/87015026/182064553-b5513531-4cf5-418c-ab83-95d27112d594.png)
 
 
