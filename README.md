@@ -339,7 +339,7 @@ axiosInstanceWithToken.interceptors.request.use((request) => {
   - 가장 어려웠던 점 : 질문 후 힌트 코드를 서너번 받았음에도 내 코드에 적용을 못했고 어디서부터 다시 이해해야할지 막막했다.
   - URL.createObjectURL로는 프리뷰 이미지 만들고, readAsDataURL로는 파일 읽고, formData에 읽은 파일들 append하고, formData에 들어간 배열 요소들을 연결하여 하나의 문자열로 API에 전송.
   - 레슨런: 반은 성공이고 반은 실패. 번아웃이 가깝게 왔지만 끝까지 붙잡고 완벽하진 않아도 작동하게 만든 것은 성공. 더 끈질기게 질문하진 못해서 시간이 많이 소요된 것은 실패. 팀프로젝트인만큼 속도 또한 퀄리티 요소로 생각해야했다.
-  - 
+  
   ![Untitled](https://user-images.githubusercontent.com/87015026/182064553-b5513531-4cf5-418c-ab83-95d27112d594.png)
 
 
@@ -347,19 +347,22 @@ axiosInstanceWithToken.interceptors.request.use((request) => {
   - 기훈스테이 
     - 팀원 기훈님네 숙식 제공. 같은 시간에 자서 같은 시간에 일어나서 작업하기.
     - 다른 팀원분들 방문으로 단체 페어프로그래밍 관람, 정보교류.
+
+  ![image](https://user-images.githubusercontent.com/87015026/182065943-268cfa09-2b69-4688-a8c3-aa5667be32e2.png)
+
   - 밤샘 줌
     - 줌 시간 무제한 결제.
     - 빠른 의사결정.
     - 원격 제어를 통한 페어프로그래밍.
     
-    ![Untitled (1)](https://user-images.githubusercontent.com/87015026/182064854-a436fa05-f2ee-4fbd-88f0-5a23aa2f188f.png)
+  ![Untitled (1)](https://user-images.githubusercontent.com/87015026/182064854-a436fa05-f2ee-4fbd-88f0-5a23aa2f188f.png)
 
   - 구글 스프레드 시트와 데일리 스크럼
     - 아침 9시 30분에 오늘 진행할 일과 도움 청할 일을 간단히 공유.
     - 구글 스프레드 시트에서 기록함으로써 시간 단축.
    
-    ![Untitled (2)](https://user-images.githubusercontent.com/87015026/182064879-fcd2a3f5-2c9c-4cf9-beaa-a5054604e37f.png)
-    ![Untitled (3)](https://user-images.githubusercontent.com/87015026/182064865-e1745d00-a6eb-4669-9fc0-d1ebfae7d6f5.png)
+  ![Untitled (2)](https://user-images.githubusercontent.com/87015026/182064879-fcd2a3f5-2c9c-4cf9-beaa-a5054604e37f.png)
+  ![Untitled (3)](https://user-images.githubusercontent.com/87015026/182064865-e1745d00-a6eb-4669-9fc0-d1ebfae7d6f5.png)
 
 
 
