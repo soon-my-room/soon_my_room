@@ -344,9 +344,9 @@ axiosInstanceWithToken.interceptors.request.use((request) => {
 
 
 ### 5) 스페셜포인트
-  - 기훈스테이 
+  - 배터디룸
     - 팀원 기훈님네 숙식 제공. 같은 시간에 자서 같은 시간에 일어나서 작업하기.
-    - 다른 팀원분들 방문으로 단체 페어프로그래밍 관람, 정보교류.
+    - 언제든지 방문해서 함께 코딩 가능한 공간.
 
   ![image](https://user-images.githubusercontent.com/87015026/182065943-268cfa09-2b69-4688-a8c3-aa5667be32e2.png)
 
