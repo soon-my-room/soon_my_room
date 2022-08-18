@@ -1,10 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { axiosGetPostComments, axiosGetPostDetail } from '../apis/postApi';
 import TopNavBasic from '../components/common/nav/TopNavBasic';
-import PostItem from '../components/post/PostItem';
 import CommentAddBox from '../components/post/CommentAddBox';
 import CommentItem from '../components/post/CommentItem';
-import { axiosGetPostComments, axiosGetPostDetail } from '../apis/postApi';
+import PostItem from '../components/post/PostItem';
 
 const PostItemWrap = styled.main`
   margin: 20px 16px 24px;

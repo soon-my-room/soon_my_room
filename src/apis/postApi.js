@@ -100,3 +100,14 @@ export const axiosRemoveComment = async (postId, commentId) => {
     console.error('axiosRemoveComment error', error);
   }
 };
+
+export const axiosGetUserPost = async (userId) => {
+  try {
+    const { data } = await axiosInstanceWithToken.get(
+      `/post/${userId}/userpost/?limit=${parseInt(20)}`,
+    );
+    return data;
+  } catch (error) {
+    console.error('axiosUserPostGet error', error);
+  }
+};
