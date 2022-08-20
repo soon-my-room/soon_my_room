@@ -11,6 +11,7 @@ import { ReactComponent as More } from '../../assets/icon/s-icon-more-vertical.s
 import {
   axiosPostLikeResquester,
   axiosPostUnLikeResquester,
+  axiosGetUserPost,
 } from '../../apis/postApi';
 
 const PostWrap = styled.li`
@@ -104,7 +105,7 @@ const MoreSvg = styled(More)`
   cursor: pointer;
 `;
 
-export default function PostItem({ post, userPostGet }) {
+export default function PostItem({ post, setPosts }) {
   const {
     author,
     commentCount,
@@ -187,7 +188,9 @@ export default function PostItem({ post, userPostGet }) {
     const deleteReq = postDeleteRequester(token);
     deleteReq.then(() => {
       setIsModalAlert(!isModalAlert);
-      userPostGet();
+      axiosGetUserPost(author.accountname).then(({ post }) => {
+        setPosts(post);
+      });
     });
   }
 

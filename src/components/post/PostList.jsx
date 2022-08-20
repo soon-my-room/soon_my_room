@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import PostViewChangeNav from '../common/nav/PostViewChangeNav';
 import PostItem from './PostItem';
 import multiImage from '../../assets/icon/iccon-img-layers.svg';
+import { axiosGetUserPost } from '../../apis/postApi';
 
 const PostItemUl = styled.ul`
   margin: 16px 16px 50px;
@@ -21,7 +22,6 @@ const PostItemUl = styled.ul`
       margin-bottom: 75px;
     `};
   img {
-    width: 100%;
     aspect-ratio: 1;
   }
 `;
@@ -38,30 +38,13 @@ const MultiImgLi = styled.li`
   }
 `;
 
-export default function PostList({ userId, ...props }) {
+export default function PostList({ userId }) {
   const [posts, setPosts] = useState([]);
 
-  async function userPostGet() {
-    const userInfo = JSON.parse(localStorage.getItem('userInfo')).user;
-    const url = 'https://mandarin.api.weniv.co.kr';
-    const reqPath = `/post/${userId}/userpost/?limit=${parseInt(20)}`;
-    try {
-      const res = await fetch(url + reqPath, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${userInfo.token}`,
-          'Content-type': 'application/json',
-        },
-      });
-      const postData = await res.json();
-      setPosts(postData.post);
-    } catch (err) {
-      console.error('error');
-    }
-  }
-
   useEffect(() => {
-    userPostGet();
+    axiosGetUserPost(userId).then(({ post }) => {
+      setPosts(post);
+    });
   }, []);
 
   const [isPostView, setIsPostView] = useState(true);
@@ -120,7 +103,7 @@ export default function PostList({ userId, ...props }) {
         {isPostView ? (
           <>
             {posts.map((post) => (
-              <PostItem key={post.id} post={post} userPostGet={userPostGet} />
+              <PostItem key={post.id} post={post} setPosts={setPosts} />
             ))}
           </>
         ) : (
