@@ -10,6 +10,11 @@
 
 - URL: https://soon-my-room.vercel.app/
 
+**[계정]**
+
+- 🧑🏻‍💻 id: myroom02@naver.com
+- 🔐 password: myroom
+
 <!-- 이미지 -->
 
 ![금방내방 메인](https://user-images.githubusercontent.com/87015026/182022661-9cc66df3-3f9a-4358-a12b-a887723e47ee.png)
@@ -167,7 +172,6 @@ axios": "^0.27.2"
 - axios 모듈화, 커스텀 라우터 개발
 - 상단 네브바 컴포넌트, 판매중인 상품 컴포넌트, 팝업 모달 컴포넌트
 - 회원가입 페이지, 프로필 페이지, 프로필 수정 페이지, 팔로잉/팔로우 페이지, 상품등록 페이지, 상품수정 페이지, 게시글 업로드 페이지
-- (그의 손길이 안 닿은 곳이 없다)
 
 ### [👩🏻‍💻전서희](https://github.com/SeoHee3478)
 
