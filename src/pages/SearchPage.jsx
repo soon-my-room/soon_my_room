@@ -4,6 +4,8 @@ import TopNavSearch from '../components/common/nav/TopNavSearch';
 import SearchCardList from '../components/search/SearchCardList';
 import styled from 'styled-components';
 import { axiosGetSearchResult } from '../apis/searchApi';
+import { useDebounce } from '../hooks/useDebounce';
+import { useEffect } from 'react';
 
 const Container = styled.nav`
   display: flex;
@@ -29,22 +31,31 @@ const SearchInput = styled.input`
   padding-left: 16px;
 `;
 
+const DEBOUNCE_DELAY = 500;
+
 export default function SearchPage(props) {
   const [keyword, setKeyword] = useState('');
   const [searchData, setSearchData] = useState([]);
+  const debounceValue = useDebounce(keyword, DEBOUNCE_DELAY);
 
-  const handleSearchInputChange = (e) => {
+  const handleChangeSearchInput = (e) => {
     const searchValue = e.target.value;
     if (!searchValue) {
       setSearchData([]);
       return;
     }
 
-    axiosGetSearchResult(searchValue).then((result) => {
-      setSearchData(result);
-      setKeyword(searchValue);
-    });
+    setKeyword(searchValue);
   };
+
+  useEffect(() => {
+    if (debounceValue) {
+      axiosGetSearchResult(debounceValue).then((result) => {
+        setSearchData(result);
+        setKeyword(debounceValue);
+      });
+    }
+  }, [debounceValue]);
 
   return (
     <>
@@ -53,7 +64,7 @@ export default function SearchPage(props) {
         <SearchInput
           type='text'
           placeholder='계정 검색'
-          onChange={handleSearchInputChange}
+          onChange={handleChangeSearchInput}
         />
       </Container>
       <SearchCardList keyword={keyword} searchData={searchData} />
