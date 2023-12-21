@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import ProfileDataCard from './ProfileDataCard';
 import { API_URL } from '../../apis';
+import { convertBaseUrlOfServerResponse } from '../../utils/convert';
 
 const ProfileWrap = styled.section`
   display: flex;
@@ -23,7 +24,7 @@ export default function ProfileContainer({ userId, ...props }) {
         },
       });
       const resData = await res.json();
-      return resData;
+      return convertBaseUrlOfServerResponse(resData);
     } catch (err) {
       console.error(err);
     }

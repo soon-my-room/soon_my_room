@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { getUserInfo } from '../utils/userInfo';
+import { convertBaseUrlOfServerResponse } from '../utils/convert';
 
 export const API_URL = 'https://api.mandarin.weniv.co.kr';
 
@@ -28,3 +29,11 @@ axiosInstanceWithToken.interceptors.request.use((request) => {
   request.headers.Authorization = `Bearer ${token}`;
   return request;
 });
+
+axiosInstanceWithToken.interceptors.response.use(
+  (response) => {
+    response.data = convertBaseUrlOfServerResponse(response.data);
+    return response;
+  },
+  (error) => Promise.reject(error),
+);
