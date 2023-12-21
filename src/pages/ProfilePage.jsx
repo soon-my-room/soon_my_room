@@ -85,12 +85,11 @@ export default function ProfilePage(props) {
   }, [showProductListOnSalesModal]);
 
   function handleViewWebsiteProductClick() {
-    let requestUrl = 'http://';
-    if (!selectedProduct.link.includes('http')) {
-      requestUrl += selectedProduct.link;
-    }
+    const productLink = !selectedProduct.link.includes('http')
+      ? `http://${selectedProduct.link}`
+      : selectedProduct.link;
 
-    window.open(requestUrl, '_blank', 'noopener,noreferrer');
+    window.open(productLink, '_blank', 'noopener,noreferrer');
   }
 
   function handleCloseClick() {
