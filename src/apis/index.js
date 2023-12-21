@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { getUserInfo } from '../utils/userInfo';
 
-export const API_URL = 'https://mandarin.api.weniv.co.kr';
+export const API_URL = 'https://api.mandarin.weniv.co.kr';
 
 export const axiosInstance = axios.create({
   baseURL: API_URL,

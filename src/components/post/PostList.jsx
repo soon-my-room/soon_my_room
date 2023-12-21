@@ -5,6 +5,7 @@ import PostViewChangeNav from '../common/nav/PostViewChangeNav';
 import PostItem from './PostItem';
 import multiImage from '../../assets/icon/iccon-img-layers.svg';
 import { axiosGetUserPost } from '../../apis/postApi';
+import { API_URL } from '../../apis';
 
 const PostItemUl = styled.ul`
   margin: 16px 16px 50px;
@@ -53,9 +54,8 @@ export default function PostList({ userId }) {
   }
 
   function postAlbumViewCheck(posts) {
-    const URL = 'https://mandarin.api.weniv.co.kr';
     return posts.map((post, index) => {
-      if (!post.image || !post.image.includes(URL)) {
+      if (!post.image || !post.image.includes(API_URL)) {
         return false;
       } else if (post.image.includes(',')) {
         return (
