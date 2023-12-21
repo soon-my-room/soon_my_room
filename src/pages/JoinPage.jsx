@@ -5,6 +5,7 @@ import LoginTitle from '../components/login/LoginTitle';
 import LongButton from '../components/common/button/LongButton';
 import InputBox from '../components/common/input/InputBox';
 import ErrorMessageBox from '../components/common/input/ErrorMessageBox';
+import { API_URL } from '../apis';
 
 const Form = styled.form`
   width: 322px;
@@ -36,7 +37,6 @@ export default function JoinPage(props) {
   };
 
   const emailValidCheck = async () => {
-    const url = 'https://mandarin.api.weniv.co.kr';
     const reqPath = '/user/emailvalid';
     const reqData = {
       user: {
@@ -44,7 +44,7 @@ export default function JoinPage(props) {
       },
     };
     try {
-      const res = await fetch(url + reqPath, {
+      const res = await fetch(API_URL + reqPath, {
         method: 'POST',
         headers: {
           'Content-type': 'application/json',

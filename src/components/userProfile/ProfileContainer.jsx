@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import ProfileDataCard from './ProfileDataCard';
+import { API_URL } from '../../apis';
+import { convertBaseUrlOfServerResponse } from '../../utils/convert';
 
 const ProfileWrap = styled.section`
   display: flex;
@@ -12,10 +14,9 @@ const ProfileWrap = styled.section`
 export default function ProfileContainer({ userId, ...props }) {
   const [userData, setUserData] = useState();
   async function GetUserProfileData(userId, token) {
-    const url = 'https://mandarin.api.weniv.co.kr';
     const reqPath = `/profile/${userId}`;
     try {
-      const res = await fetch(url + reqPath, {
+      const res = await fetch(API_URL + reqPath, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -23,7 +24,7 @@ export default function ProfileContainer({ userId, ...props }) {
         },
       });
       const resData = await res.json();
-      return resData;
+      return convertBaseUrlOfServerResponse(resData);
     } catch (err) {
       console.error(err);
     }

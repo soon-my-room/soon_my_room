@@ -13,6 +13,7 @@ import {
   axiosPostUnLikeResquester,
   axiosGetUserPost,
 } from '../../apis/postApi';
+import { API_URL } from '../../apis';
 
 const PostWrap = styled.li`
   display: flex;
@@ -139,11 +140,9 @@ export default function PostItem({ post, setPosts }) {
   }
 
   function postListViewCheck(image) {
-    const URL = 'https://mandarin.api.weniv.co.kr';
-
     if (!image) {
       return false;
-    } else if (!image.includes(URL)) {
+    } else if (!image.includes(API_URL)) {
       return <PostImg src='' alt='이미지 파일을 불러올 수 없습니다.' />;
     } else {
       return (
@@ -197,10 +196,9 @@ export default function PostItem({ post, setPosts }) {
   const handlCloseClick = () => setIsModalAlert(!isModalAlert);
 
   async function postDeleteRequester(token) {
-    const url = 'https://mandarin.api.weniv.co.kr';
     const reqPath = `/post/${id}`;
     try {
-      const res = await fetch(url + reqPath, {
+      const res = await fetch(API_URL + reqPath, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,

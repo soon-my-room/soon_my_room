@@ -5,6 +5,7 @@ import LongButton from '../components/common/button/LongButton';
 import InputBox from '../components/common/input/InputBox';
 import ErrorMessageBox from '../components/common/input/ErrorMessageBox';
 import EmailSignUp from '../components/email/EmailSignUp';
+import { API_URL } from '../apis';
 
 const LoginForm = styled.form`
   width: 322px;
@@ -58,7 +59,6 @@ export default function LoginPage(props) {
   async function hendleLoginSubmit(e) {
     e.preventDefault();
 
-    const url = 'https://mandarin.api.weniv.co.kr';
     const reqPath = '/user/login';
     const userData = {
       user: {
@@ -67,7 +67,7 @@ export default function LoginPage(props) {
       },
     };
     try {
-      const res = await fetch(url + reqPath, {
+      const res = await fetch(API_URL + reqPath, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
