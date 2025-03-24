@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  frontend-client-dev:
+    build:
+      context: .
+      args:
+        - NODE_ENV=development
+    image: frontend-client:dev
+    container_name: frontend-client-dev
+    ports:
+      - '3000:3000'
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - .:/app
+      - /app/node_modules
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
