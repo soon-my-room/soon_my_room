@@ -3,7 +3,7 @@ import { axiosInstanceWithToken } from './index';
 export const axiosGetSearchResult = async (keyword) => {
   try {
     const { data } = await axiosInstanceWithToken.get(
-      `/user/searchuser/?keyword=${keyword}`,
+      `/user/searchuser?keyword=${keyword}`,
     );
     return data;
   } catch (error) {
