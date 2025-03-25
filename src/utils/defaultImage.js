@@ -6,7 +6,7 @@ export function profileImageCheck(src) {
     return DEFAULT_IMAGE_URL;
   }
 
-  const baseImageUrl = `${API_URL}/Ellipse.png`;
+  const baseImageUrl = `https://i.imgur.com/8VVO2fs.jpeg`;
   const [, url] = src.split(API_URL);
 
   if (!src.includes(API_URL) || src === baseImageUrl || url === '/undefined') {

@@ -2,7 +2,7 @@ import axios from 'axios';
 import { getUserInfo } from '../utils/userInfo';
 import { convertBaseUrlOfServerResponse } from '../utils/convert';
 
-export const API_URL = 'https://api.mandarin.weniv.co.kr';
+export const API_URL = 'https://soon-my-room.kihoonbae.store/api';
 
 export const axiosInstance = axios.create({
   baseURL: API_URL,
