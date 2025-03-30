@@ -34,8 +34,8 @@ export default function ProfilePage(props) {
 
   const handleRemoveProduct = async () => {
     try {
-      const { data } = await axiosRemoveProduct(selectedProduct.id);
-      if (data.status === '200') {
+      const response = await axiosRemoveProduct(selectedProduct.id);
+      if (response.status === 200) {
         setIsModalAlert(false);
         setShowProductListOnSalesModal(false);
         setProductListOnSalesData((prev) =>
