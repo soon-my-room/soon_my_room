@@ -190,7 +190,7 @@ export default function PostEditPage({ ...props }) {
           convertImageUrlArrayToString,
         );
 
-        resultPost = post;
+        resultPost = post[0];
       } else {
         const { id } = props.location.state.post;
         const { post } = await axiosEditPost(
@@ -199,7 +199,7 @@ export default function PostEditPage({ ...props }) {
           convertImageUrlArrayToString,
         );
 
-        resultPost = post;
+        resultPost = post[0];
       }
 
       if (resultPost) {

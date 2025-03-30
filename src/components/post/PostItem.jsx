@@ -142,8 +142,6 @@ export default function PostItem({ post, setPosts }) {
   function postListViewCheck(image) {
     if (!image) {
       return false;
-    } else if (!image.includes(API_URL)) {
-      return <PostImg src='' alt='이미지 파일을 불러올 수 없습니다.' />;
     } else {
       return (
         <PostImages>

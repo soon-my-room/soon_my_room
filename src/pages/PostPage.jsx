@@ -31,7 +31,7 @@ export default function PostPage({ location, match, ...props }) {
       setPost(post);
     });
 
-    axiosGetPostComments(postId).then(({ comments }) => {
+    axiosGetPostComments(postId).then(({ comments = [] }) => {
       setComments(comments);
     });
   }, []);
@@ -46,7 +46,7 @@ export default function PostPage({ location, match, ...props }) {
     <>
       <TopNavBasic viewMore {...props} />
       <PostItemWrap>
-        {post && <PostItem post={post} />}
+        {post && <PostItem post={post[0]} />}
         <CommentListWrap>
           {comments.map((comment) => (
             <CommentItem
