@@ -41,7 +41,7 @@
 **[개발 환경]**
 
 - Front-End: React, React-router, Hooks, Styled-components
-- Back-End: 제공된 API 사용
+- Back-End: [Backend-github](https://github.com/qorlgns1/soon_my_room_api)
 - 서비스 배포 환경: 🔗 [vercel](https://soon-my-room.vercel.app/)
 - 버전 관리 및 이슈: [GitHub-Wiki](https://github.com/soon-my-room/soon_my_room/wiki) | [GitHub-Issues](https://github.com/soon-my-room/soon_my_room/issues)
 - Git-Flow

@@ -104,7 +104,7 @@ export const axiosRemoveComment = async (postId, commentId) => {
 export const axiosGetUserPost = async (userId) => {
   try {
     const { data } = await axiosInstanceWithToken.get(
-      `/post/${userId}/userpost/?limit=${parseInt(20)}`,
+      `/post/${userId}/userpost?limit=${parseInt(20)}`,
     );
     return data;
   } catch (error) {
