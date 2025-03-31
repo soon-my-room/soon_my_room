@@ -190,7 +190,11 @@ export default function PostEditPage({ ...props }) {
           convertImageUrlArrayToString,
         );
 
-        resultPost = post[0];
+        if (Array.isArray(post) && post.length > 0) {
+          resultPost = post[0];
+        } else {
+          throw new Error('API response does not contain any posts');
+        }
       } else {
         const { id } = props.location.state.post;
         const { post } = await axiosEditPost(
