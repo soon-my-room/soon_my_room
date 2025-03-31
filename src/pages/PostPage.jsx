@@ -46,7 +46,7 @@ export default function PostPage({ location, match, ...props }) {
     <>
       <TopNavBasic viewMore {...props} />
       <PostItemWrap>
-        {post && <PostItem post={post[0]} />}
+        {Array.isArray(post) && post.length > 0 && <PostItem post={post[0]} />}
         <CommentListWrap>
           {comments.map((comment) => (
             <CommentItem
