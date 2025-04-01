@@ -42,6 +42,9 @@ axiosInstanceWithToken.interceptors.response.use(
       localStorage.clear();
       // 로그인 페이지로 리다이렉트합니다.
       window.location.href = '/login';
+
+      // 리디렉션 후 오류 전파 중단
+      return new Promise(() => {});
     }
 
     return Promise.reject(error);
