@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { getUserInfo } from '../utils/userInfo';
-import { convertBaseUrlOfServerResponse } from '../utils/convert';
 
 export const API_URL = 'https://soon-my-room.kihoonbae.store/api';
 
@@ -31,9 +30,20 @@ axiosInstanceWithToken.interceptors.request.use((request) => {
 });
 
 axiosInstanceWithToken.interceptors.response.use(
-  (response) => {
-    response.data = convertBaseUrlOfServerResponse(response.data);
-    return response;
+  (response) => response,
+  (error) => {
+    const { status } = error.response;
+    // 403 Forbidden 에러를 처리합니다.
+    if (status === 403) {
+      // 유저에게 다시 로그인하라고 알립니다.
+      alert('로그인 정보가 만료되었습니다. 다시 로그인해주세요.');
+
+      // 토큰이 만료되었거나 잘못된 경우
+      localStorage.clear();
+      // 로그인 페이지로 리다이렉트합니다.
+      window.location.href = '/login';
+    }
+
+    return Promise.reject(error);
   },
-  (error) => Promise.reject(error),
 );
