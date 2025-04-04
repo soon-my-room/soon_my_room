@@ -260,12 +260,14 @@ export default function PrivateRoute({ children, ...rest }) {
         userInfo ? (
           React.cloneElement(children, { ...props })
         ) : (
+          {% raw %}
           <Redirect
             to={{
               pathname: '/login',
               state: { from: props.location },
             }}
           />
+          {% endraw %}
         )
       }
     />
