@@ -196,7 +196,6 @@ export default function ProfileEditPage(props) {
       try {
         const userInfo = getUserInfo();
         const updateUserInfo = { ...userInfo, ...profileEditResult.data.user };
-        setUserInfo(updateUserInfo);
         setCurrentUser(updateUserInfo);
       } catch (err) {
         console.error(err);
