@@ -5,6 +5,8 @@ import AlertModal from '../modal/AlertModal';
 import ModalContainer from '../modal/ModalContainer';
 import iconArrowLeft from '../../../assets/icon/icon-arrow-left.svg';
 import iconMore from '../../../assets/icon/icon-more-vertical.svg';
+import { clearAll } from '../../../apis/tokenStorage';
+import { axiosLogout } from '../../../apis/profileApi';
 
 const Navigation = styled.nav`
   padding: 12px 12px 12px 16px;
@@ -57,10 +59,15 @@ export default function TopNavBasic({ title, viewMore, history }) {
     }
   }
 
-  function handleUserTokenDelete() {
-    localStorage.clear();
-    setIsLogoutModal(false);
-    window.location.replace('/');
+  async function handleUserTokenDelete() {
+    try {
+      await axiosLogout();
+    } catch (err) {
+      console.error(err);
+    } finally {
+      clearAll(); // 메모리에서 모든 인증 데이터 제거
+      window.location.replace('/');
+    }
   }
 
   function handleCloseClick() {

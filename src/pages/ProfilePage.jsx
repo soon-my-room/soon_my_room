@@ -100,7 +100,7 @@ export default function ProfilePage(props) {
     isLoding && (
       <>
         <TopNavBasic viewMore {...props} />
-        <ProfileContainer userId={props.match.params.userId} />
+        <ProfileContainer />
         <ProductListOnSalesWrap
           title='판매 중인 상품'
           products={productListOnSalesData}

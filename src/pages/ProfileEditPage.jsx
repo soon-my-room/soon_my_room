@@ -11,6 +11,7 @@ import {
   axiosUserIdValidCheck,
 } from '../apis/profileApi';
 import { axiosImageSave } from '../apis/imageApi';
+import { setCurrentUser } from '../apis/tokenStorage';
 
 const ProfileEditWrap = styled.div`
   position: relative;
@@ -192,20 +193,14 @@ export default function ProfileEditPage(props) {
     const profileEditResult = await axiosProfileInfoEdit(editUserInfo);
 
     if (profileEditResult.status === 200) {
-      const userInfo = getUserInfo();
-      const updateUserInfo = {
-        ...userInfo,
-        accountname: profileEditResult.data.user.accountname,
-        image: profileEditResult.data.user.image,
-        intro: profileEditResult.data.user.intro,
-        username: profileEditResult.data.user.username,
-      };
-
-      localStorage.setItem('userInfo1', JSON.stringify(updateUserInfo));
-      localStorage.setItem(
-        'userInfo',
-        JSON.stringify({ user: updateUserInfo }),
-      ); // 나중에 안정화 되면 삭제해야함
+      try {
+        const userInfo = getUserInfo();
+        const updateUserInfo = { ...userInfo, ...profileEditResult.data.user };
+        setUserInfo(updateUserInfo);
+        setCurrentUser(updateUserInfo);
+      } catch (err) {
+        console.error(err);
+      }
 
       props.history.push('/profile');
     } else {
