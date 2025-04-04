@@ -77,6 +77,7 @@ axios": "^0.27.2"
 │   └── index.html
 └── 📁 src
     ├── 📁 apis
+    │   ├── endpoints.js
     │   ├── feedApi.js
     │   ├── followApi.js
     │   ├── imageApi.js
@@ -84,7 +85,8 @@ axios": "^0.27.2"
     │   ├── postApi.js
     │   ├── productApi.js
     │   ├── profileApi.js
-    │   └── searchApi.js
+    │   ├── searchApi.js
+    │   └── tokenStorage.js
     ├── 📁 components
     │   ├── 📁 common
     │   │   ├── 📁 button
@@ -172,6 +174,11 @@ axios": "^0.27.2"
 - axios 모듈화, 커스텀 라우터 개발
 - 상단 네브바 컴포넌트, 판매중인 상품 컴포넌트, 팝업 모달 컴포넌트
 - 회원가입 페이지, 프로필 페이지, 프로필 수정 페이지, 팔로잉/팔로우 페이지, 상품등록 페이지, 상품수정 페이지, 게시글 업로드 페이지
+- 토큰 관리 및 인증 리팩토링
+  - `tokenStorage.js`를 추가하여 메모리 기반의 토큰 관리 구현
+  - `axiosInstanceWithToken`의 `request interceptor`에서 토큰 자동 삽입
+  - `axiosRefreshToken()`을 통해 Refresh Token으로 Access Token 자동 갱신
+  - `axiosLogout()`을 통해 로그아웃 처리 개선
 
 ### [👩🏻‍💻전서희](https://github.com/SeoHee3478)
 
@@ -397,6 +404,40 @@ export const axiosGetPostDetail = async (postId) => {
   <img src='https://user-images.githubusercontent.com/87015026/182064865-e1745d00-a6eb-4669-9fc0-d1ebfae7d6f5.png' width='500'/>
   <img src='https://user-images.githubusercontent.com/87015026/182064879-fcd2a3f5-2c9c-4cf9-beaa-a5054604e37f.png' width='500'/>
   </div>
+
+### 6) 변경 사항 및 개선점
+
+1. **토큰 관리 개선 (AccessToken & RefreshToken 적용)**
+
+   - `localStorage` 기반에서 메모리 기반(`tokenStorage.js`)으로 변경
+   - `getAccessToken()`, `setAccessToken()` 활용하여 Access Token 저장
+   - `axiosRefreshToken()`을 이용해 Refresh Token으로 Access Token 자동 갱신
+
+2. **Access Token 사용 방식 변경**
+
+   - `axiosInstanceWithToken`의 `request interceptor`에서 토큰을 자동으로 삽입
+
+3. **Refresh Token을 활용한 자동 로그인 유지**
+
+   - `PrivateRoute.jsx`에서 페이지 진입 시 `axiosRefreshToken()` 호출
+   - Access Token이 없거나 만료된 경우 Refresh Token을 이용해 자동 로그인 유지
+   - Refresh Token도 쿠키를 통해 관리 (`withCredentials: true` 옵션 적용)
+
+4. **로그아웃 처리 개선**
+
+   - `axiosLogout()` 호출 시 서버에 로그아웃 요청 전송
+   - `clearAll()`을 적용하여 메모리에서 Access Token 및 사용자 정보 삭제
+
+5. **기존 localStorage 의존 코드 제거 및 최적화**
+   - `getUserInfo()`, `ProfileContainer`, `ProfileEditPage` 등에서 localStorage 접근 코드 삭제
+   - `setCurrentUser()`를 활용해 메모리에서 사용자 정보 관리
+
+### 기대 효과
+
+- **보안 강화:** Access Token은 메모리에서만 관리하고, Refresh Token은 쿠키를 통해 서버에서 관리
+- **자동 로그인 유지:** Access Token이 만료되어도 Refresh Token을 활용해 로그인 유지 가능
+- **로딩 속도 개선:** 불필요한 localStorage 접근 제거로 성능 최적화
+- **API 호출 일관성 유지:** 모든 요청에서 자동으로 Access Token이 포함됨
 
 <!-- ## 6. 개발 이슈 💡 -->
 
