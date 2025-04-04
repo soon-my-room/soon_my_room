@@ -14,6 +14,8 @@ import {
   axiosGetUserPost,
 } from '../../apis/postApi';
 import { API_URL } from '../../apis';
+import { getAccessToken } from '../../apis/tokenStorage';
+import { getUserInfo } from '../../utils/userInfo';
 
 const PostWrap = styled.li`
   display: flex;
@@ -125,9 +127,8 @@ export default function PostItem({ post, setPosts }) {
   const [isLogin, setIsLogin] = useState(false);
   const [isModalAlert, setIsModalAlert] = useState(false);
   const modalRef = useRef();
-  const { token, accountname } = JSON.parse(
-    localStorage.getItem('userInfo'),
-  ).user;
+  const token = getAccessToken();
+  const { accountname } = getUserInfo();
 
   const history = useHistory();
 

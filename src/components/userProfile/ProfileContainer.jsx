@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import ProfileDataCard from './ProfileDataCard';
+import { getUserInfo } from '../../utils/userInfo';
+import { getAccessToken } from '../../apis/tokenStorage';
 import { API_URL } from '../../apis';
-import { convertBaseUrlOfServerResponse } from '../../utils/convert';
 
 const ProfileWrap = styled.section`
   display: flex;
@@ -11,7 +12,7 @@ const ProfileWrap = styled.section`
   padding: 30px 0 26px;
 `;
 
-export default function ProfileContainer({ userId, ...props }) {
+export default function ProfileContainer(props) {
   const [userData, setUserData] = useState();
   async function GetUserProfileData(userId, token) {
     const reqPath = `/profile/${userId}`;
@@ -23,26 +24,24 @@ export default function ProfileContainer({ userId, ...props }) {
           'Content-Type': 'application/json',
         },
       });
-      const resData = await res.json();
-      return convertBaseUrlOfServerResponse(resData);
+      return res.json();
     } catch (err) {
       console.error(err);
     }
   }
 
   useEffect(() => {
-    const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    const userInfo = getUserInfo();
+    const token = getAccessToken();
+
     if (!userInfo) {
       console.log('로그인 정보가 없습니다.');
       props.history.push('/login');
-      return;
     }
 
-    const { token } = userInfo.user;
+    const userId = userInfo.accountname;
     const UserProfileData = GetUserProfileData(userId, token);
-    UserProfileData.then((userData) => {
-      setUserData(userData);
-    });
+    UserProfileData.then(setUserData);
   }, []);
 
   return (

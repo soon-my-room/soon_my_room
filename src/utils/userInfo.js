@@ -1,10 +1,8 @@
-function getLocalStorageUserInfo() {
-  return JSON.parse(localStorage.getItem('userInfo1'));
-}
+import { getCurrentUser } from '../apis/tokenStorage';
 
 export function getUserInfo() {
   try {
-    const user = getLocalStorageUserInfo();
+    const user = getCurrentUser();
     if (!user) {
       throw new Error('유저정보가 없습니다.');
     }

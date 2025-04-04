@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import logoImg from '../assets/full-logo-01.svg';
 import LoginCard from '../components/login/LoginCard';
 import Splash from '../components/splash/Splash';
+import { getUserInfo } from '../utils/userInfo';
 
 const LoginContainer = styled.main`
   height: 100vh;
@@ -23,7 +24,7 @@ export default function LoginHomePage(props) {
   const [isLoginToken, setIsLoginToken] = useState(false);
 
   useEffect(() => {
-    const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    const userInfo = getUserInfo();
     if (userInfo?.user.token) {
       setTimeout(() => {
         props.history.push('/feed');

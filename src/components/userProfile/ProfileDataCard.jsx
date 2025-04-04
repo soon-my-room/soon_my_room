@@ -6,6 +6,7 @@ import UserProfileImg from '../profileImg/UserProfileImg';
 import share from '../../assets/icon/icon-share.svg';
 import messageCircle from '../../assets/icon/icon-comment.svg';
 import { axiosRequestFollow, axioxRemoveFollow } from '../../apis/followApi';
+import { getUserInfo } from '../../utils/userInfo';
 
 const ProfileFollowWrap = styled.div`
   width: 100%;
@@ -92,8 +93,7 @@ export default function ProfileDataCard(props) {
     followerCount,
     followingCount,
   } = props?.userData.profile;
-  const myAccount = JSON.parse(localStorage.getItem('userInfo')).user
-    .accountname;
+  const myAccount = getUserInfo().accountname;
   const [isfollowState, setIsfollowState] = useState(isfollow);
   const [userFollowerCount, setUserFollowerCount] = useState(followerCount);
 

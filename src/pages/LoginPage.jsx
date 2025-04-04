@@ -6,6 +6,8 @@ import InputBox from '../components/common/input/InputBox';
 import ErrorMessageBox from '../components/common/input/ErrorMessageBox';
 import EmailSignUp from '../components/email/EmailSignUp';
 import { API_URL } from '../apis';
+import { setAccessToken, setCurrentUser } from '../apis/tokenStorage';
+import ENDPOINTS from '../apis/endpoints';
 
 const LoginForm = styled.form`
   width: 322px;
@@ -59,7 +61,7 @@ export default function LoginPage(props) {
   async function hendleLoginSubmit(e) {
     e.preventDefault();
 
-    const reqPath = '/user/login';
+    const reqPath = ENDPOINTS.USER.LOGIN;
     const userData = {
       user: {
         email: userEmailRef.current.value,
@@ -73,17 +75,17 @@ export default function LoginPage(props) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(userData),
+        credentials: 'include', // 쿠키를 받기 위해 필요
       });
       const resData = await res.json();
-      if (resData.message === '이메일 또는 비밀번호가 일치하지 않습니다.') {
+
+      if (resData.detail === '이메일 또는 비밀번호가 일치하지 않습니다.') {
         setErrorMessage('*이메일 또는 비밀번호가 일치하지 않습니다.');
       } else {
-        localStorage.setItem('userInfo', JSON.stringify(resData));
-
-        // userInfo객체의 구조가 userInfo: { user: { ...정보 }} 로 되어있어서 리팩토링하기위해 추가로 userInfo1 설정
-        // 나중에 리팩토링이 끝나면 userInfo1을 userInfo로 바꿀 예정입니다.
-        const { user } = resData;
-        localStorage.setItem('userInfo1', JSON.stringify(user));
+        // Access Token과 사용자 정보를 메모리에 저장
+        const { token, ...userWithoutToken } = resData.user;
+        setAccessToken(token);
+        setCurrentUser(userWithoutToken);
 
         props.history.push('/feed');
       }

@@ -1,3 +1,4 @@
+import ENDPOINTS from './endpoints';
 import { axiosInstance, axiosInstanceWithToken } from './index';
 
 export const axiosUserIdValidCheck = async (userId) => {
@@ -20,7 +21,7 @@ export const axiosUserIdValidCheck = async (userId) => {
 export const axiosJoin = async (userInfo) => {
   try {
     const { data } = await axiosInstance.post(
-      `/user`,
+      ENDPOINTS.USER.JOIN,
       JSON.stringify({
         user: userInfo,
       }),
@@ -38,4 +39,18 @@ export const axiosProfileInfoEdit = async (userInfo) => {
   } catch (error) {
     console.error('axiosProfileInfoEdit error', error);
   }
+};
+
+export const axiosRefreshToken = async () => {
+  return axiosInstance.post(
+    ENDPOINTS.USER.REFRESH,
+    {},
+    {
+      withCredentials: true,
+    },
+  );
+};
+
+export const axiosLogout = async () => {
+  return axiosInstanceWithToken.post(ENDPOINTS.USER.LOGOUT, {});
 };

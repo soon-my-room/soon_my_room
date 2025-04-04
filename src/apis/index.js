@@ -1,5 +1,11 @@
 import axios from 'axios';
-import { getUserInfo } from '../utils/userInfo';
+import {
+  getAccessToken,
+  setAccessToken,
+  clearAll,
+  setCurrentUser,
+} from './tokenStorage';
+import { axiosRefreshToken } from './profileApi';
 
 export const API_URL = 'https://soon-my-room.kihoonbae.store/api';
 
@@ -15,13 +21,33 @@ export const axiosInstanceWithToken = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  withCredentials: true, // 쿠키를 요청에 포함
 });
 
-axiosInstanceWithToken.interceptors.request.use((request) => {
-  // axiosInstanceWithToken에서 토큰이 존재하지 않으면 서버에 request를 보내지 않습니다.
-  const { token } = getUserInfo();
+axiosInstanceWithToken.interceptors.request.use(async (request) => {
+  // 메모리에서 토큰을 가져옵니다
+  const token = getAccessToken();
   if (!token) {
-    throw new Error('토큰이 없습니다. 다시 로그인해주세요.');
+    try {
+      // Refresh Token으로 새 Access Token 요청 (쿠키는 자동으로 포함됨)
+      const response = await axiosRefreshToken();
+
+      const { user } = response.data;
+
+      // 새 Access Token 저장
+      if (user && user.token) {
+        // 메모리에 새 토큰 저장
+        setAccessToken(user.token);
+        request.headers.Authorization = `Bearer ${user.token}`;
+        setCurrentUser(user);
+
+        return request;
+      }
+    } catch (error) {
+      // Refresh Token 요청 실패 시 로그인 페이지로 리다이렉트
+      clearAll();
+      window.location.href = '/login';
+    }
   }
 
   // 토큰이 존재하면 headers에 토큰을 넣어서 서버에 request를 보냅니다.
